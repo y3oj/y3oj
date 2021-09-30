@@ -2,10 +2,16 @@ import yaml
 from os import path
 from flask import Flask
 
-from y3oj.utils import Container
+from y3oj.utils import Container, dirname
 
 
 class ConfigNode(Container):
+    def merge(self, another):
+        data = {}
+        data.update(self.__dict__)
+        data.update(another.__dict__)
+        return ConfigNode(data)
+
     def __setitem__(self, name, val):
         if isinstance(val, dict):
             val = ConfigNode(val)
@@ -18,13 +24,15 @@ class ConfigNode(Container):
 
 def loadConfig(dir=None):
     if dir is None:
-        current = path.dirname(path.abspath(__file__))
-        dir = path.abspath(path.join(current, '../config.yml'))
+        dir = path.abspath(path.join(dirname, '../config.yml'))
     with open(dir, 'r+', encoding='utf8') as file:
         config = file.read()
     data = yaml.load(config, Loader=yaml.FullLoader)
     return ConfigNode(data)
 
 
-app = Flask(__name__)
-config = loadConfig()
+app = Flask(__name__,
+            static_folder=path.join(dirname, 'static'),
+            static_url_path='/assets')
+config = loadConfig(path.join(dirname, 'config.sample.yml')).merge(
+    loadConfig(path.join(dirname, 'config.yml')))

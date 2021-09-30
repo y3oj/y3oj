@@ -13,4 +13,8 @@ def render_markdown(source):
 
 
 def render_template(path, **data):
-    return flask.render_template(path, config=y3oj.config, **data)
+    def assets(uri):
+        return '/assets' + uri
+
+    render = flask.render_template
+    return render(path, assets=assets, config=y3oj.config, **data)
