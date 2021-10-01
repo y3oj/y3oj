@@ -1,4 +1,5 @@
-__all__ = ['app', 'config']
+__all__ = ['app']
 
-from .main import *
+from .main import app
+from .modules import *
 from .routes import *
