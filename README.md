@@ -8,11 +8,12 @@ It's (maybe) the first simple, light-weight and highly maintainable online judge
 
 ### Deploy
 
-* clone 本仓库到本地目录 `.`
 * 复制 `./config.sample.yml` 到 `./config.yml` 并填写配置
 * 从 [`y3oj/demo-data`](//github.com/y3oj/demo-data) 从下载示例数据到 `./data` 目录
-* 构建 `./y3oj-frontend` 目录下的静态文件，或从 [`y3oj/static-prebuild`](//github.com/y3oj/static-prebuild) 从下载示例数据到 `./static` 目录
-* ```python
-  pip install -r requirements.txt
-	python run.py
-	```
+* 运行以下代码
+
+```shell
+pip install -r requirements.txt
+python build-frontend.py
+python run.py
+```
