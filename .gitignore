@@ -1,5 +1,7 @@
-/static
+/tmp
 /config.yml
+/thirdparty-host
+/y3oj/static
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

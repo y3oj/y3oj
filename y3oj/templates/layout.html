@@ -6,12 +6,7 @@
     <meta name="renderer" content="webkit"/>
     <meta name="force-rendering" content="webkit"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"
-      integrity="sha384-cLRrMq39HOZdvE0j6yBojO4+1PrHfB7a9l5qLcmRm/fiWXYY+CndJPmyu5FV/9Tw"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="{{ assets('/lib/mdui/css/mdui.min.css') }}"/>
     <link rel="stylesheet" href="{{ assets('/style.min.css') }}"/>
 		{% if title %}
     <title>{{ title }} - {{ config.name }}</title>
@@ -23,10 +18,6 @@
 		{% block container %}
 		{% endblock %}
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"
-      integrity="sha384-gCMZcshYKOGRX9r6wbDrvF+TcCCswSHFucUzUPwka+Gr+uHgjlYvkABr95TCOz3A"
-      crossorigin="anonymous"
-    ></script>
+    <script src="{{ assets('/lib/mdui/js/mdui.min.js') }}"></script>
   </body>
 </html>

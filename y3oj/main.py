@@ -31,8 +31,6 @@ def loadConfig(dir=None):
     return ConfigNode(data)
 
 
-app = Flask(__name__,
-            static_folder=path.join(dirname, 'static'),
-            static_url_path='/assets')
+app = Flask(__name__, static_url_path='/assets')
 config = loadConfig(path.join(dirname, 'config.sample.yml')).merge(
     loadConfig(path.join(dirname, 'config.yml')))

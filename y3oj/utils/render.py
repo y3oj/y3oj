@@ -1,10 +1,9 @@
-import flask
-import markdown2
-
 import y3oj
+import flask
 
 
 def render_markdown(source):
+    import markdown2
     if isinstance(source, list):
         return map(render_markdown, source)
     elif not isinstance(source, str):
