@@ -3,7 +3,7 @@ import time
 import requests
 from argparse import ArgumentParser
 from os import path, system as exec
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -58,10 +58,11 @@ def build(source_dir, target_dir, forced=False, logger=logger):
     packages = yaml.load(readFile(path.join(source_dir, 'package.yml')),
                          Loader=yaml.FullLoader)
     for name, desc in packages.items():
-        logger(f'installing package {name}...')
         if path.exists(path.join(target_dir, 'lib', name)) and not forced:
-            logger(f'package {name} has been installed, skipped.')
+            logger(f'package {name} has been installed, ' + Fore.GREEN +
+                   'skipped' + Fore.RESET + '.')
             continue
+        logger(f'installing package {name}...')
         installPackage(name, thirdparty_host, path.join(target_dir, 'lib'),
                        temp_dir, **desc)
         logger(f'installed package {name}.')
