@@ -8,7 +8,9 @@ It's (maybe) the first simple, light-weight and highly maintainable online judge
 
 ### Online Judge?
 
-在线评测系统（英语：Online Judge，缩写 OJ）是一种在算法竞赛竞赛中用来测试参赛程序的在线系统，也可以用于平时练习。许多OJ网站会自发组织一些竞赛。此外，OJ网站通常会设立用户排名，以用户的提交答案通过数多少或某个题目执行时间快慢为排名依据。（[维基百科](https://zh.wikipedia.org/wiki/%E5%9C%A8%E7%BA%BF%E8%AF%84%E6%B5%8B%E7%B3%BB%E7%BB%9F)）
+在线评测系统（Online Judge，缩写 OJ）是一种在算法竞赛竞赛中用来测试参赛程序的在线系统，也可以用于平时练习。许多 OJ 网站会自发组织一些竞赛。此外，OJ 网站通常会设立用户排名，以用户的提交答案通过数多少或某个题目执行时间快慢为排名依据。（来源：[维基百科](https://zh.wikipedia.org/wiki/%E5%9C%A8%E7%BA%BF%E8%AF%84%E6%B5%8B%E7%B3%BB%E7%BB%9F)）
+
+该项目从传统 OJ 的设计出发，针对中学信息技术学科课业教学进行优化：如支持在 Python 中进行文件读取、引入第三方库等操作；同时原生支持交互式测评，并提供了一套 testlib API。
 
 ### Deploy
 
