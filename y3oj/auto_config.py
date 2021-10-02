@@ -4,16 +4,16 @@ from os import path
 from y3oj.utils import Container, dirname
 
 
-class ConfigNode(Container):
+class AppConfig(Container):
     def merge(self, another):
         data = {}
         data.update(self.__dict__)
         data.update(another.__dict__)
-        return ConfigNode(data)
+        return AppConfig(data)
 
     def __setitem__(self, name, val):
         if isinstance(val, dict):
-            val = ConfigNode(val)
+            val = AppConfig(val)
         return self.__dict__.__setitem__(name, val)
 
     def __init__(self, data):
@@ -27,7 +27,7 @@ def loadConfig(dir=None):
     with open(dir, 'r+', encoding='utf8') as file:
         config = file.read()
     data = yaml.load(config, Loader=yaml.FullLoader)
-    return ConfigNode(data)
+    return AppConfig(data)
 
 
 config = loadConfig(path.join(dirname, 'config.sample.yml')).merge(

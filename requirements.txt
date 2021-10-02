@@ -5,3 +5,5 @@ markdown2>=2.4.1
 requests>=2.20.0
 watchdog>=2.1.5
 colorama>=0.4.4
+SQLAlchemy>=0.8.0
+Flask-SQLAlchemy>=2.5.1

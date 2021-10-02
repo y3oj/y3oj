@@ -1,4 +1,4 @@
-import y3oj
+import re
 import flask
 
 
@@ -11,9 +11,26 @@ def render_markdown(source):
     return markdown2.markdown(source)
 
 
+def render_markdown_blocks(source):
+    from y3oj.utils import Container
+    marked = render_markdown(source)
+    blocks = []
+    for line in re.split(r'<h1.*?>', marked):
+        splited = line.split(r'</h1>')
+        if len(splited) == 1:
+            splited.insert(0, '')
+        blocks.append(Container({
+            'title': splited[0],
+            'content': splited[1],
+        }))
+    return blocks
+
+
 def render_template(path, **data):
+    from y3oj import config
+
     def assets(uri):
         return '/assets' + uri
 
     render = flask.render_template
-    return render(path, assets=assets, config=y3oj.config, **data)
+    return render(path, assets=assets, config=config, **data)
