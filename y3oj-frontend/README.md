@@ -1,4 +1,4 @@
-# y3oj-frontend
+# y³oj Frontend
 
 ### Dependence
 
