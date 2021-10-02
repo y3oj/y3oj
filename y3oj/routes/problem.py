@@ -11,5 +11,5 @@ def list_problem():
 
 @app.route('/problem/<id>')
 def get_problem(id):
-    problem = db.session.query(Problem).filter_by(id=id)[0]
+    problem = db.session.query(Problem).filter_by(id=id).first()
     return render_template('problem/problem.html', problem=problem)

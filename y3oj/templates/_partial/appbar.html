@@ -28,7 +28,19 @@
       </svg>
     </a>
 
-    <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">more_vert</i></a>
+    {% if current_user.is_authenticated %}
+      <button class="mdui-btn" mdui-menu="{target: '#example-attr'}">{{ current_user.id }}</button>
+      <ul class="mdui-menu" id="example-attr">
+        <li class="mdui-menu-item">
+          <a href="/user/{{ current_user.id }}" class="mdui-ripple">个人主页</a>
+        </li>
+        <li class="mdui-menu-item">
+          <a href="/logout" class="mdui-ripple">注销</a>
+        </li>
+      </ul>
+    {% else %}
+      <button onclick="location.replace('/login')" class="mdui-btn">登录</button>
+    {% endif %}
   </div>
 
   {% if tab_links %}

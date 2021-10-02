@@ -1,5 +1,24 @@
 {% set title = "主页" %}
 {% extends "layout.html" %}
+
 {% block container %}
-<h1>Hello, World!</h1>
+  <!-- <div class="mdui-card-header">
+    <img class="mdui-card-header-avatar" src="https://gravatar.cdn.menci.xyz/avatar/f06d64b4dc6a92b3d79aea541b84fa20?size=325&default=404"/>
+    <div class="mdui-card-header-title">memset0</div>
+    <div class="mdui-card-header-subtitle">有时候，我会察觉到自己一无所有。本以为装满了幸福的口袋，其实空空如也。</div>
+  </div> -->
+	<div class="mdui-card">
+		<div class="mdui-card-media">
+			<img src="https://memset0.cn/background.png"/>
+			<div class="mdui-card-media-covered">
+				<div class="mdui-card-primary">
+					<div class="mdui-card-primary-title">y³ Online Judge</div>
+				</div>
+			</div>
+		</div>
+		<div class="mdui-card-actions">
+			<a href="https://github.com/y3oj" target="_blank" class="mdui-btn mdui-ripple">View Github</a>
+			<a href="https://memset0.cn" target="_blank" class="mdui-btn mdui-ripple">Author's Blog</a>
+		</div>
+	</div>
 {% endblock %}

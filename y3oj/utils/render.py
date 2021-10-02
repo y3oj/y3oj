@@ -1,5 +1,13 @@
 import re
 import flask
+from urllib.parse import urlparse, urljoin
+
+
+def is_safe_url(host, target):
+    ref_url = urlparse(host)
+    test_url = urlparse(urljoin(host, target))
+    return test_url.scheme in ('http', 'https') and \
+        ref_url.netloc == test_url.netloc
 
 
 def render_markdown(source):

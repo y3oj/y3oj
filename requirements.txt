@@ -7,3 +7,6 @@ watchdog>=2.1.5
 colorama>=0.4.4
 SQLAlchemy>=0.8.0
 Flask-SQLAlchemy>=2.5.1
+Flask_WTF>=0.15.1
+WTForms>=2.3.3
+flask-login>=0.5.0
