@@ -37,6 +37,6 @@ python run.py
 * 构建：`python ./build-frontend.py [--force]`。使用 `--force` 强制重新下载第三方包。
 * Watch Mode：`python ./build-frontend.py --watch [--force]`。检测 `./y3oj-frontend` 的文件更改并自动重建。
 
-#### 评测服务 `y3oj=judger`
+#### 评测服务 `y3oj-judger`
 
 咕咕咕。
