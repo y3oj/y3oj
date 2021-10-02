@@ -46,7 +46,7 @@
   {% if tab_links %}
     <div class="mdui-tab mdui-tab-centered mdui-color-theme" mdui-tab>
       {% for name, href in tab_links.items() %}
-        <a href="{{ href }}" class="mdui-ripple mdui-ripple-white mdui-tab-active">{{ name }}</a>
+        <a href="{{ href }}" class="mdui-ripple mdui-ripple-white {{ 'mdui-tab-active' if name.endswith('!') }}">{{ name.replace('!', '') }}</a>
       {% endfor %}
     </div>
   {% endif %}
