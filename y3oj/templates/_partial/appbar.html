@@ -3,8 +3,9 @@
     <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
     <a href="javascript:;" class="mdui-typo-headline">
       {% if config.icon %}
-      <img src="{{ config.icon }}" />
-      {% endif %} {{ config.name }}
+        <img src="{{ config.icon }}" />
+      {% endif %}
+      {{ config.name }}
     </a>
 
     <a href="javascript:;" class="mdui-typo-title">{{ title }}</a>
@@ -29,4 +30,12 @@
 
     <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">more_vert</i></a>
   </div>
+
+  {% if tab_links %}
+    <div class="mdui-tab mdui-tab-centered mdui-color-theme" mdui-tab>
+      {% for name, href in tab_links.items() %}
+        <a href="{{ href }}" class="mdui-ripple mdui-ripple-white mdui-tab-active">{{ name }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>

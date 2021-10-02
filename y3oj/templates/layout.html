@@ -16,7 +16,7 @@
     <title>{{ config.name }}</title>
     {% endif %}
   </head>
-  <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-theme-layout-auto">
+  <body class="mdui-drawer-body-left mdui-appbar-with-toolbar {{ 'mdui-appbar-with-tab' if tab_links }} mdui-theme-primary-indigo mdui-theme-accent-pink mdui-theme-layout-auto">
     {% include './_partial/drawer.html' %}
     {% include './_partial/appbar.html' %}
 
