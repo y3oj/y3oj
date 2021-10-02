@@ -1,12 +1,11 @@
 import json
 
 from y3oj import db, config as app_config
-from y3oj.utils import render_markdown_blocks
 
 
 class Problem(db.Model):
     id = db.Column(db.String(30), unique=True)
-    rank = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Unicode(60))
     _config = db.Column(db.Unicode(app_config.database.max_json_length))
     _content = db.Column(db.Unicode(app_config.database.max_json_length))
@@ -16,8 +15,9 @@ class Problem(db.Model):
         return json.loads(self._config)
 
     @config.setter
-    def config(self, jsondata):
-        self._config = json.dumps(jsondata)
+    def config(self, data):
+        print(data)
+        self._config = json.dumps(data)
 
     @property
     def content(self):
@@ -25,14 +25,12 @@ class Problem(db.Model):
 
     @content.setter
     def content(self, data):
-        if data.startsWith('{') or data.startsWith('['):  # json data
-            self._content = json.dumps(data)
-        else:
-            self._content = render_markdown_blocks(data)
+        print(data)
+        self._content = json.dumps(data)
 
-    def __init__(self, id='', rank=0, title='', content=[], config={}):
+    def __init__(self, id='', key=0, title='', content=[], config={}):
         self.id = id
-        self.rank = rank
+        self.key = key
         self.title = title
         self.config = config
         self.content = content

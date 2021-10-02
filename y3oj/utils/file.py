@@ -34,6 +34,9 @@ def writeBinaryFile(dir, content):
     with open(dir, 'wb+') as file:
         return file.write(content)
 
+def listDir(dir):
+    dir = path.abspath(dir)
+    return map(lambda basename: path.join(dir, basename), os.listdir(dir))
 
 def download(url, dir, **args):
     from requests import get

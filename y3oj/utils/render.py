@@ -19,10 +19,14 @@ def render_markdown_blocks(source):
         splited = line.split(r'</h1>')
         if len(splited) == 1:
             splited.insert(0, '')
-        blocks.append(Container({
-            'title': splited[0],
-            'content': splited[1],
-        }))
+        title = splited[0].strip()
+        content = splited[1].strip()
+        if not title and not content:
+            continue
+        blocks.append({
+            'title': title,
+            'content': content,
+        })
     return blocks
 
 

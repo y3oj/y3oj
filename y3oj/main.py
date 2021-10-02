@@ -14,8 +14,7 @@ app = Flask(__name__, static_url_path='/assets')
 # database
 database_uri = config.database.uri
 if database_uri == 'default:///sqlite':
-    database_uri = 'sqlite:///' + path.join(dirname, 'data', 'database',
-                                            'main.db')
+    database_uri = 'sqlite:///' + path.join(dirname, 'data', 'main.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
