@@ -1,0 +1,27 @@
+@screen-xs-max: 599.9px;
+@screen-xs-max-landscape: 959.9px;
+
+@screen-sm-min: 600px;
+@screen-sm-max: 1023.9px;
+
+@screen-md-min: 1024px;
+@screen-md-max: 1439.9px;
+
+@screen-lg-min: 1440px;
+@screen-lg-max: 1919.9px;
+
+@screen-xl-min: 1920px;
+
+.mdui-drawer {
+	top: 0 !important;
+	background-color: white;
+}
+
+.mdui-appbar-fixed {
+
+	@media (min-width: @screen-md-min) {
+		.mdui-drawer-body-left & {
+			left: 240px;
+		}
+	}
+}

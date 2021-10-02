@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
-    <meta name="renderer" content="webkit"/>
-    <meta name="force-rendering" content="webkit"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <link rel="stylesheet" href="{{ assets('/lib/mdui/css/mdui.min.css') }}"/>
-    <link rel="stylesheet" href="{{ assets('/style.min.css') }}"/>
-		{% if title %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="stylesheet" href="{{ assets('/lib/mdui/css/mdui.min.css') }}" />
+    <link rel="stylesheet" href="{{ assets('/style.min.css') }}" />
+    {% if title %}
     <title>{{ title }} - {{ config.name }}</title>
-		{% else %}
+    {% else %}
     <title>{{ config.name }}</title>
-		{% endif %}
+    {% endif %}
   </head>
-  <body>
-		{% block container %}
-		{% endblock %}
+  <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-theme-layout-auto">
+    {% include './_partial/drawer.html' %} {% include './_partial/appbar.html' %} {% block container %} {% endblock %}
 
     <script src="{{ assets('/lib/mdui/js/mdui.min.js') }}"></script>
   </body>
