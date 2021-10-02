@@ -16,7 +16,6 @@ class Problem(db.Model):
 
     @config.setter
     def config(self, data):
-        print(data)
         self._config = json.dumps(data)
 
     @property
@@ -25,7 +24,6 @@ class Problem(db.Model):
 
     @content.setter
     def content(self, data):
-        print(data)
         self._content = json.dumps(data)
 
     def __init__(self, id='', key=0, title='', content=[], config={}):

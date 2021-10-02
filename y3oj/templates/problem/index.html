@@ -1,0 +1,25 @@
+{% set title = "题目列表" %}
+{% extends "layout.html" %}
+{% block container %}
+	<div class="mdui-table-fluid" id="problems">
+    <table class="mdui-table">
+      <thead>
+        <tr>
+          <th class="y3oj-problem-table-id mdui-table-col-numeric">题号</th>
+          <th>标题</th>
+          <!-- <th class="mdui-table-col-numeric">通过</th> -->
+          <!-- <th class="mdui-table-col-numeric">提交</th> -->
+          <!-- <th class="mdui-table-col-numeric">AC%</th> -->
+        </tr>
+      </thead>
+      <tbody>
+				{% for problem in problems %}
+					<tr>
+						<td data-key="{{ problem.key }}">{{ problem.id }}</td>
+						<td><a href="/problem/{{ problem.id }}">{{ problem.title }}</a></td>
+					</tr>
+				{% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

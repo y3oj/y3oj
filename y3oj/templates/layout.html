@@ -8,14 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <link rel="stylesheet" href="{{ assets('/lib/mdui/css/mdui.min.css') }}" />
     <link rel="stylesheet" href="{{ assets('/style.min.css') }}" />
-    {% if title %}
+    {% if title and subtitle %}
+    <title>{{ title }} - {{ subtitle }} - {{ config.name }}</title>
+    {% elif title %}
     <title>{{ title }} - {{ config.name }}</title>
     {% else %}
     <title>{{ config.name }}</title>
     {% endif %}
   </head>
   <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-theme-layout-auto">
-    {% include './_partial/drawer.html' %} {% include './_partial/appbar.html' %} {% block container %} {% endblock %}
+    {% include './_partial/drawer.html' %}
+    {% include './_partial/appbar.html' %}
+
+    <div class="mdui-container" style="margin-top: 30px; margin-bottom: 30px">
+      {% block container %}
+      {% endblock %}
+    </div>
 
     <script src="{{ assets('/lib/mdui/js/mdui.min.js') }}"></script>
   </body>

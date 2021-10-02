@@ -1,0 +1,13 @@
+{% set title = problem.title %}
+{% set subtitle = '题目' %}
+{% extends "layout.html" %}
+{% block container %}
+  {% for card in problem.content %}
+    <div class="mdui-card y3oj-problem-content">
+      <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">{{ card.title }}</div>
+      </div>
+      <div class="mdui-card-content mdui-typo">{{ card.content | safe }}</div>
+    </div>
+  {% endfor %}
+{% endblock %}

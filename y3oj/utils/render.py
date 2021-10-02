@@ -8,7 +8,12 @@ def render_markdown(source):
         return map(render_markdown, source)
     elif not isinstance(source, str):
         raise TypeError('[y3oj] markdown source should be string')
-    return markdown2.markdown(source)
+    return markdown2.markdown(source,
+                              extras=[
+                                  'code-friendly', 'fenced-code-blocks',
+                                  'header-ids', 'nofollow', 'strike', 'tables',
+                                  'task_list'
+                              ])
 
 
 def render_markdown_blocks(source):
