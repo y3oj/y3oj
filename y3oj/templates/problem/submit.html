@@ -1,9 +1,9 @@
 {% set title = problem.title %}
-{% set subtitle = '题目' %}
+{% set subtitle = '提交' %}
 {% set tab_links = {
   '题目': '/problem/' + problem.id,
   '提交!': '/problem/' + problem.id + '/submit',
-  '提交记录': '/problem/' + problem.id + '/submissions',
+  '提交记录': '/problem/' + problem.id + '/submission',
   '统计': '/problem/' + problem.id + '/statistics',
 } %}
 {% extends "layout.html" %}

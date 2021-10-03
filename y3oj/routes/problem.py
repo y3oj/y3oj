@@ -1,13 +1,13 @@
 import json
-from flask import request, redirect, url_for
 from flask_wtf import FlaskForm
 from flask_login import login_required
+from flask import g, request, redirect, url_for
 from wtforms import TextField, TextAreaField, SubmitField
 
 from y3oj import app, db
-from y3oj.models import Problem
 from y3oj.utils import render_template
-from y3oj.routes.decorater import submit_authority_required
+from y3oj.models import Problem, Submission
+from y3oj.routes.decorater import problem_checker, submit_authority_required
 
 
 @app.route('/problem')
@@ -17,9 +17,9 @@ def list_problem():
 
 
 @app.route('/problem/<id>')
+@problem_checker
 def get_problem(id):
-    problem = db.session.query(Problem).filter_by(id=id).first()
-    return render_template('problem/problem.html', problem=problem)
+    return render_template('problem/problem.html', problem=g.problem)
 
 
 class ProblemSubmitForm(FlaskForm):
@@ -30,13 +30,22 @@ class ProblemSubmitForm(FlaskForm):
 @app.route('/problem/<id>/submit', methods=['GET', 'POST'])
 @submit_authority_required
 @login_required
+@problem_checker
 def submit_problem(id):
     form = ProblemSubmitForm()
-    problem = db.session.query(Problem).filter_by(id=id).first()
     if form.validate_on_submit():
         code = request.form['code'] \
             .replace('\r\n', '\n') \
             .replace('\r', '\n')
         print('submit code:', json.dumps({'code': code}))
         return redirect(url_for('get_problem', id=id))
-    return render_template('problem/submit.html', problem=problem, form=form)
+    return render_template('problem/submit.html', problem=g.problem, form=form)
+
+
+@app.route('/problem/<id>/submission')
+@problem_checker
+def problem_submission(id):
+    submissions = db.session.query(Submission).filter_by(problem=id).all()
+    return render_template('problem/submission.html',
+                           problem=g.problem,
+                           submissions=submissions)

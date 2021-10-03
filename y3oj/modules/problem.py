@@ -1,10 +1,15 @@
-from y3oj.utils.render import render_markdown_blocks
 import yaml
 from os import path
 
 from y3oj import db
 from y3oj.models import Problem
 from y3oj.utils import dirname, listDir, readFile, render_markdown_blocks
+from y3oj.utils.render import render_markdown_blocks
+
+
+def getProblemById(id):
+    res = db.session.query(Problem).filter_by(id=id).all()
+    return res[0] if len(res) else None
 
 
 def loadFromLocal():

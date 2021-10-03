@@ -20,10 +20,13 @@
     {% include './_partial/drawer.html' %}
     {% include './_partial/appbar.html' %}
 
-    <div class="mdui-container" style="margin-top: 30px; margin-bottom: 30px">
-      {% block container %}
-      {% endblock %}
-    </div>
+    {% block body %}
+      <div class="mdui-container" style="margin-top: 30px; margin-bottom: 30px">
+        {% block container %}
+          <h1>No Content</h1>
+        {% endblock %}
+      </div>
+    {% endblock %}
 
     <script src="{{ assets('/lib/mdui/js/mdui.min.js') }}"></script>
     {% block script %}

@@ -1,0 +1,14 @@
+{% set title = problem.title %}
+{% set subtitle = '提交记录' %}
+{% set tab_links = {
+  '题目': '/problem/' + problem.id,
+  '提交': '/problem/' + problem.id + '/submit',
+  '提交记录!': '/problem/' + problem.id + '/submission',
+  '统计': '/problem/' + problem.id + '/statistics',
+} %}
+{% from '_macro/submission.html' import submissions_macro %}
+{% extends "layout.html" %}
+
+{% block body %}
+  {{ submissions_macro(submissions) }}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% macro submission_status_macro(status) %}
+	{% set status_name = status.split(': ')[0] %}
+	{% if status_name == 'Accepted' %}
+		<span class="mdui-text-color-green"><i class="mdui-icon material-icons">check</i> Accepted</span>
+  {% else %}
+    <span>Unknown</span>
+	{% endif %}
+{% endmacro %}
+
+{% macro submission_macro(submission) %}
+<tr>
+  <td data-id="{{ submission.id }}">{{ submission.id }}</td>
+  <td data-problem="{{ submission.problem.id }}"><a href="/problem/{{ submission.problem.id }}">{{ submission.problem.title }}</a></td>
+  <td data-user="{{ submission.user.key }}"><a href="/user/{{ submission.user.id }}">{{ submission.user.name }}</a></td>
+  <td><a href="/submission/{{ submission.id }}">{{ submission_status_macro(submission.status) }}</a></td>
+  <td>{{ submission.details.time_cost }}</td>
+  <td>{{ submission.details.memory_cost }}</td>
+</tr>
+{% endmacro %}
+
+{% macro submissions_macro(submissions) %}
+<div class="mdui-table-fluid y3oj-submission-table" id="submissions">
+  <table class="mdui-table">
+    <thead>
+      <tr>
+        <th class="mdui-table-col-numeric">#</th>
+        <th>题目</th>
+        <th>用户</th>
+        <th>状态</th>
+        <th class="mdui-table-col-numeric">时间</th>
+        <th class="mdui-table-col-numeric">内存</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for submission in submissions %}
+        {{ submission_macro(submission) }}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
