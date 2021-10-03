@@ -7,6 +7,8 @@ name: OJ
 database:
   uri: default:///sqlite
   max_json_length: 2000
+  max_code_length: 5000
+  max_details_length: 5000
 
 frontend:
   thirdparty_host: https://cdn.jsdelivr.net/gh/y3oj/static-files-host
