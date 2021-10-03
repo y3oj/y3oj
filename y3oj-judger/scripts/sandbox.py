@@ -5,9 +5,10 @@ This is the sandbox for y3oj project.
 I don't know if it is dangerous,
 so DON'T use it in product envirment.
 If you can hack this sandbox,
-please submit a issue [here](https://github.com/y3oj/y3oj/issues).
+please submit a issue here:
+    https://github.com/y3oj/y3oj/issues
 Thank you most sincerely.
-                               2021.10 @memset0
+                       2021.10 @memset0
 '''
 
 from os import path
