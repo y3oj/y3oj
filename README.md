@@ -14,9 +14,10 @@ It's (maybe) the first simple, light-weight and highly maintainable online judge
 
 ### Deploy
 
+* 安装 **Python 3.8 或以上版本**。
 * 复制 `./config.sample.yml` 到 `./config.yml` 并填写配置
 * 从 [`y3oj/demo-data`](//github.com/y3oj/demo-data) 从下载示例数据到 `./data` 目录
-* 运行以下代码
+* 运行
 
 ```shell
 pip install -r requirements.txt
