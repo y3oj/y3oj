@@ -33,7 +33,7 @@ def login():
         flash('Logged in successfully.')
         next = request.args.get('next')
         if not is_safe_url(request.host_url, next):
-            return abort(400)
+            return abort(400, 'Permission denied.')
         return redirect(next or url_for('index'))
 
     return render_template('login.html', form=form)
