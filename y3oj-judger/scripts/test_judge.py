@@ -1,11 +1,13 @@
 import testlib
 from os import path
+from sys import stderr
 from testlib import Random
 
 
 def judge(task):
     def logger(*args):
-        print('[judge{}]'.format(task.id), *args)
+        stderr.write(' '.join(map(str, ['[judge{}]'.format(task.id), *args])) +
+                     '\n')
 
     logger('start')
     logger(task)
