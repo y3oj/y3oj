@@ -101,6 +101,8 @@ class OutputPipe(object):
 class Config:
     def __init__(self):
         self.problem_name = 'noname'
+        self.sandbox_path = path.abspath(
+            path.join(path.dirname(__file__), 'sandbox.py'))
         self.solution_path = path.abspath(
             path.join(path.dirname(__file__), 'sol.py'))
 
@@ -139,10 +141,11 @@ def register_judger(judger, tasks=[]):
 def run_task(judger, task_id):
     res = None
     task = Task(task_id=task_id, testlib_config=config)
-    ps = subprocess.Popen(['python', config.solution_path],
-                          stdin=subprocess.PIPE,
-                          stdout=subprocess.PIPE,
-                          stderr=None)
+    ps = subprocess.Popen(
+        ['python', config.sandbox_path, config.solution_path],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=None)
     task.stdin = InputPipe(ps.stdin)
     task.stdout = OutputPipe(ps.stdout)
     res = judger(task)
@@ -158,7 +161,6 @@ def run(tasks=None):
         try:
             data = run_task(judgers[task], task_id=task)
             res.append(data)
-        except Exception as e:
-            res.append(dict(status='Runtime Error', message=str(e)))
-            raise e
+        except BaseException as e:
+            res.append(dict(status='Runtime Error', message=str(repr(e))))
     print('[SUCCESS]', json.dumps(res))
