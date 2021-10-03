@@ -26,12 +26,12 @@ class Problem(db.Model):
     def content(self, data):
         self._content = json.dumps(data)
 
-    def __init__(self, id, key, title, content, config):
-        self.id = id or ''
-        self.key = key or 0
-        self.title = title or ''
-        self.config = config or []
-        self.content = content or {}
+    def __init__(self, id, key, title, content=[], config={}):
+        self.id = id
+        self.key = key
+        self.title = title
+        self.content = content
+        self.config = config
 
     def __repr__(self):
         return '<Problem %s>' % self.id

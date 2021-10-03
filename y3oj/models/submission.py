@@ -19,12 +19,12 @@ class Submission(db.Model):
     def config(self, data):
         self._details = json.dumps(data)
 
-    def __init__(self, user, problem, code, status, details):
-        self.user = user or 0
-        self.problem = problem or ''
-        self.code = code or ''
-        self.status = status or 'Waiting...'
-        self.details = details or []
+    def __init__(self, user, problem, code, status='Waiting', details=[]):
+        self.user = user
+        self.problem = problem
+        self.code = code
+        self.status = status
+        self.details = details
 
     def __repr__(self):
         return '<Problem %s>' % self.id

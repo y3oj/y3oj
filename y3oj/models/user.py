@@ -18,12 +18,12 @@ class UserMixin(UserMixinBase):
                     authority=self.authority)
 
     def __init__(self, id, key, nickname, password, settings, authority):
-        self.id = id or ''
-        self.key = key or 0
-        self.nickname = nickname or ''
-        self.password = password or ''
-        self.settings = settings or {}
-        self.authority = authority or 0
+        self.id = id
+        self.key = key
+        self.nickname = nickname
+        self.password = password
+        self.settings = settings
+        self.authority = authority
 
 
 class AnonymousUserMixin(AnonymousUserMixinBase):
@@ -56,12 +56,12 @@ class User(db.Model):
                          authority=self.authority)
 
     def __init__(self, id, key, nickname, password, settings, authority):
-        self.id = id or ''
-        self.key = key or 0
-        self.nickname = nickname or ''
-        self.password = password or ''
-        self.settings = settings or {}
-        self.authority = authority or 0
+        self.id = id
+        self.key = key
+        self.nickname = nickname
+        self.password = password
+        self.settings = settings
+        self.authority = authority
 
     def __repr__(self):
         return '<User %s>' % self.id
