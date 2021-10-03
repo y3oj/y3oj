@@ -5,7 +5,7 @@ This is the sandbox for y3oj project.
 I don't know if it is dangerous,
 so DON'T use it in product envirment.
 If you can hack this sandbox,
-please submit a issue here:
+please submit an issue here:
     https://github.com/y3oj/y3oj/issues
 Thank you most sincerely.
                        2021.10 @memset0
