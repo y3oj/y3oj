@@ -1,10 +1,10 @@
-# y³oj
+<h1 align="center">y³oj</h1>
 
-> **DEVELOPING...**
-
-It's (maybe) the first simple, light-weight and highly maintainable online judge system for secondary education.
-
-一个简单、轻量化、易于部署的、为中学信息技术学科课业教学设计的 Online Judge 系统。
+<p align="center">
+  It's (maybe) the first simple, light-weight and highly maintainable online judge system for secondary education.
+  <br>
+  一个简单、轻量化、易于部署的、为中学信息技术学科课业教学设计的 Online Judge 系统。
+</p>
 
 ### Online Judge?
 
@@ -17,7 +17,7 @@ It's (maybe) the first simple, light-weight and highly maintainable online judge
 * 安装 **Python 3.8+**、**NodeJS 12+**，包管理库 pip、npm，命令行工具 wget、cmake。
 * 复制 `./config.sample.yml` 到 `./config.yml` 并填写配置。**警告：务必填写 `secret_key` 为随机秘钥**。
 * 从 [`y3oj/demo-data`](//github.com/y3oj/demo-data) 从下载示例数据到 `./data` 目录
-* 评测端必须运行在 linux 环境下，请先配置 [@t123yh/**simple-sandbox**](https://github.com/t123yh/simple-sandbox) 所需的系统环境。
+* 评测端必须运行在 linux 环境下，请先配置 [@t123yh/simple-sandbox](https://github.com/t123yh/simple-sandbox) 所需的系统环境。
 
 ```bash
 # 网页端
