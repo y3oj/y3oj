@@ -22,3 +22,5 @@ frontend:
 
 judger:
   port: 5834
+  remote_host: localhost
+  sandbox_rootfs: ./sandbox-rootfs/root.x86_64

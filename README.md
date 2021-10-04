@@ -53,6 +53,8 @@ mkdir -p /path/to/sandbox-rootfs  # `/path/to/sandbox-rootfs/root.x86_64` should
 sudo tar -zxvf sandbox-rootfs.tar -C /path/to/sandbox-rootfs  # remember `sudo`
 cd /path/to/sandbox-rootfs
 mount ./root.x86_64/ ./root.x86_64/ --bind
+mkdir -p /sandbox/working
+groupadd --gid 725 y3oj && useradd --uid 725 --gid y3oj --shell /bin/bash --create-home y3oj
 sudo ./root.x86_64/usr/bin/arch-chroot ./root.x86_64/
 echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 pacman -Syy

@@ -3,7 +3,7 @@ const ws = require('ws');
 const config = require('./config');
 const queue = require('./queue');
 
-async function init_ws_server(config) {
+async function initWebsocketServer(config) {
 	return new Promise((resolve) => {
 		const wss = new WebSocketServer({ port: config.judger.port });
 
@@ -14,7 +14,7 @@ async function init_ws_server(config) {
 }
 
 async function main() {
-	ws = await init_ws_server(config);
+	ws = await initWebsocketServer(config);
 
 	ws.on('message', function on_message(msg) {
 		json = JSON.parse(msg);
