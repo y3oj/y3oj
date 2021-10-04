@@ -48,10 +48,6 @@ class Submission(db.Model):
                  code,
                  status='Waiting...',
                  details=dict(time_cost=0, memory_cost=0, result=[])):
-        print(
-            user,
-            problem,
-        )
         self.user = user
         self.problem = problem
         self.code = code

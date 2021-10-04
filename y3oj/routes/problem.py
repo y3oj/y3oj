@@ -45,7 +45,11 @@ def submit_problem(id):
 @app.route('/problem/<id>/submission')
 @problem_checker
 def problem_submission(id):
-    submissions = db.session.query(Submission).filter_by(problem=id).order_by(Submission.id.desc()).all()
+    submissions = db.session \
+        .query(Submission) \
+        .filter_by(problem=id) \
+        .order_by(Submission.id.desc()) \
+        .all()
     return render_template('problem/submission.html',
                            problem=g.problem,
-                           submissions=map(to_mixin,submissions))
+                           submissions=map(to_mixin, submissions))

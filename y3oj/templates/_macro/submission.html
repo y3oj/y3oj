@@ -1,7 +1,9 @@
 {% macro submission_status_macro(status) %}
 	{% set status_name = status.split(': ')[0] %}
 	{% if status_name == 'Accepted' %}
-		<span class="mdui-text-color-green"><i class="mdui-icon material-icons">check</i> Accepted</span>
+		<span class="y3oj-submission-status mdui-text-color-green"><i class="mdui-icon material-icons">check</i> {{ status }}</span>
+	{% elif status_name == 'Waiting...' %}
+		<span class="y3oj-submission-status mdui-text-color-grey"><i class="mdui-icon material-icons">hourglass_empty</i> {{ status }}</span>
   {% else %}
     <span>Unknown</span>
 	{% endif %}
@@ -11,10 +13,10 @@
 <tr>
   <td data-id="{{ submission.id }}">{{ submission.id }}</td>
   <td data-problem="{{ submission.problem.id }}"><a href="/problem/{{ submission.problem.id }}">{{ submission.problem.title }}</a></td>
-  <td data-user="{{ submission.user.key }}"><a href="/user/{{ submission.user.id }}">{{ submission.user.id }}</a></td>
+  <td data-user="{{ submission.user.key }}"><a target="_blank" href="/user/{{ submission.user.id }}">{{ submission.user.id }}</a></td>
   <td><a href="/submission/{{ submission.id }}">{{ submission_status_macro(submission.status) }}</a></td>
-  <td>{{ submission.details.time_cost }}</td>
-  <td>{{ submission.details.memory_cost }}</td>
+  <td>{{ submission.details.time_cost }} ms</td>
+  <td>{{ submission.details.memory_cost }} MiB</td>
 </tr>
 {% endmacro %}
 
