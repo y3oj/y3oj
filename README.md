@@ -22,22 +22,43 @@
 
 ## Deploy
 
+#### 准备工作
+
 * 安装 **Python 3.8+**、**NodeJS 12+**，包管理库 pip、npm，命令行工具 wget、cmake。
 * 复制 `./config.sample.yml` 到 `./config.yml` 并填写配置。**警告：务必填写 `secret_key` 为随机秘钥**。
-* 从 [`y3oj/demo-data`](//github.com/y3oj/demo-data) 从下载示例数据到 `./data` 目录
-* 评测端必须运行在 linux 环境下，请先配置 [@t123yh/simple-sandbox](https://github.com/t123yh/simple-sandbox) 所需的系统环境。
+* 从 [@y3oj/demo-data](//github.com/y3oj/demo-data) 从下载示例数据到 `./data` 目录。
+* 评测端必须运行在 linux 环境下，请配置 [@t123yh/simple-sandbox](https://github.com/t123yh/simple-sandbox) 所需的系统环境。
+
+#### 网页端
 
 ```bash
-# 网页端
 pip install -r requirements.txt
 python build-frontend.py
 python run.py
-# 评测端
-wget -c https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/archlinux-bootstrap-2021.10.01-x86_64.tar.gz sandbox-chroot.tar.gz -O sandbox-chroot.tar.gz
-sudo tar -zxvf sandbox-chroot.tar.gz -C {{config.judger.sandbox_chroot}}  # remember *sudo* && replace {{...}} with your configure
+```
+
+#### 评测端
+
+```bash
 git clone https://github.com/t123yh/simple-sandbox.git  # repo mirror: https://e.coding.net/memset0/y3oj/simple-sandbox.git
 cd simple-sandbox && CXX=clang++-9 yarn install && yarn run build && cd ..
 npm install
+```
+
+#### Sandbox
+
+```bash
+wget -c https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/archlinux-bootstrap-2021.10.01-x86_64.tar.gz -O sandbox-rootfs.tar.gz
+mkdir -p /path/to/sandbox-rootfs  # `/path/to/sandbox-rootfs/root.x86_64` should be `config.judger.sandbox_rootfs`
+sudo tar -zxvf sandbox-rootfs.tar -C /path/to/sandbox-rootfs  # remember `sudo`
+cd /path/to/sandbox-rootfs
+mount ./root.x86_64/ ./root.x86_64/ --bind
+sudo ./root.x86_64/usr/bin/arch-chroot ./root.x86_64/
+echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+pacman -Syy
+pacman-key --init && pacman-key --populate archlinux
+pacman -S python3 python-pip --noconfirm
+pip install flask numpy matplotlib pandas flask_wtf requests pyyaml flask_login --index-url https://pypi.douban.com/simple
 ```
 
 ## Usage
