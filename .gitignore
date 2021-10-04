@@ -3,8 +3,13 @@
 /config.yml
 /thirdparty-host
 /simple-sandbox
-/sandbox-chroot.tar.gz
+/sandbox-rootfs.tar
+/sandbox-rootfs.tar.gz
 /y3oj/static
+/y3oj-docker/requirements.txt
+/y3oj-docker/tmp*
+/y3oj-docker/*.tar
+/y3oj-docker/*.tar.gz
 
 
 
