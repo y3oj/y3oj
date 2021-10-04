@@ -1,5 +1,6 @@
 import random
 from os import path
+from colorama import Fore, Style
 
 
 def test_globals():
@@ -29,17 +30,28 @@ def test_write_file():
         file.write('hacked.')
 
 
+def test_os_system():
+    import os
+    os.system('echo hacked.')
+
+
+def test_os_popen():
+    from os import popen
+    popen('echo hacked.')
+
+
 tasks = [
     test_globals, test_read_file, test_read_file_outside_workdir,
-    test_write_file
+    test_write_file, test_os_system, test_os_popen
 ]
 
 print('Hello, World!', random.random())
 
 for task in tasks:
-    print('[y3oj-sandbox-test]', task)
+    prefix = Fore.CYAN + Style.BRIGHT + '[y3oj-sandbox-test]' + Style.RESET_ALL
+    print(prefix, str(task))
     try:
         task()
-        print('[y3oj-sandbox-test]', 'success!')
+        print(prefix, Fore.GREEN + 'success!' + Style.RESET_ALL)
     except BaseException as e:
-        print('[y3oj-sandbox-test]', 'error:', e)
+        print(prefix, Fore.RED + 'error' + Style.RESET_ALL + ':', e)

@@ -1,15 +1,18 @@
 #-*- coding: utf-8 -*-
-'''
-**require Python version >= 3.8**
-This is the sandbox for y3oj project.
-I don't know if it is dangerous,
-so DON'T use it in product envirment.
-If you can hack this sandbox,
-please submit an issue here:
-    https://github.com/y3oj/y3oj/issues
-Thank you most sincerely.
-                       2021.10 @memset0
-'''
+
+#############################################
+#                                           #
+#    **require Python version >= 3.8**      #
+#  This is the sandbox for y3oj project.    #
+#  I don't know if it is dangerous.         #
+#  DON'T use it in product envirment.       #
+#  If you have hacked this sandbox,         #
+#  please submit an issue here:             #
+#      https://github.com/y3oj/y3oj/issues  #
+#  Thank you most sincerely.                #
+#                         2021.10 @memset0  #
+#                                           #
+#############################################
 
 from os import path
 from sys import stderr
@@ -31,14 +34,41 @@ def register_audithook():
     from sys import addaudithook
 
     def block_mischief(event, arg):
+        def raiseError(name):
+            errors = {
+                'event_type_error':
+                (TypeError, 'Type of `event` should be `str`.'),
+                'dangerous_syscall':
+                (EnvironmentError, 'Dangerous syscall is forbidden.'),
+                'file_read_forbidden':
+                (IOError, 'File read outside workdir is forbidden.'),
+                'file_write_forbidden':
+                (IOError, 'File write operation is forbidden.'),
+                'file_opened_exceeed': (IOError,
+                                        'Too many opened file handles.'),
+            }
+            assert name in errors
+            stderr.write('[y3oj-sandbox] audit: [{}] {}\n'.format(
+                event, str(arg)))
+            raise errors[name][0]('[y3oj-sandbox] ' + errors[name][1])
+
+        file_opened_count = 0
+
+        # stderr.write('\taudit:{} {}\n'.format(event, str(arg)))
         if type(event) != str:
-            raise TypeError('[sandbox] Type of `event` should be `str`.')
-        if event == 'open' and arg[1] != 'r':
-            stderr.write('\taudit:{} {}\n'.format(event, str(arg)))
-            raise IOError('[sandbox] File write operation is forbidden.')
+            raiseError('event_type_error')
         if event.split('.')[0] in ['subprocess', 'shutil', 'winreg']:
-            stderr.write('\taudit:{} {}\n'.format(event, str(arg)))
-            raise IOError('[sandbox] Dangerous syscall is forbidden.')
+            raiseError('dangerous_syscall')
+        if event.split('.')[0] == 'os' and event.split('.')[1] not in [
+                'listdir'
+        ]:
+            raiseError('dangerous_syscall')
+        if event.split('.')[0] == 'ctypes' and event.split('.')[1] not in [
+                'dlopen', 'dlsym'
+        ]:
+            raiseError('dangerous_syscall')
+        if event == 'open' and arg[1] != 'r' and arg[1] != 'rb':
+            raiseError('file_write_forbidden')
         if event == 'open':
             realpath = path.abspath(arg[0])
             workdir = path.abspath(path.dirname(__file__))
@@ -46,9 +76,11 @@ def register_audithook():
                 realpath.endswith('.py') or \
                 realpath.endswith('.pyc') or \
                 path.dirname(realpath).startswith(workdir):
+                file_opened_count += 1
+                if file_opened_count >= 1000:
+                    raiseError('file_opened_exceeed')
                 return
-            stderr.write('\taudit:{} {}\n'.format(event, str(arg)))
-            raise IOError('[sandbox] File read outside workdir is forbidden.')
+            raiseError('file_read_forbidden')
 
     addaudithook(block_mischief)
     del (block_mischief)
