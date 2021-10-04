@@ -2,6 +2,8 @@
 /data
 /config.yml
 /thirdparty-host
+/simple-sandbox
+/sandbox-chroot.tar.gz
 /y3oj/static
 
 

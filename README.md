@@ -14,16 +14,21 @@ It's (maybe) the first simple, light-weight and highly maintainable online judge
 
 ### Deploy
 
-* 安装 **Python 3.8+**、**NodeJS 12+** 及包管理库 pip、npm。
-* 复制 `./config.sample.yml` 到 `./config.yml` 并填写配置
+* 安装 **Python 3.8+**、**NodeJS 12+** ，包管理库 pip、npm，命令行工具 wget。
+* 复制 `./config.sample.yml` 到 `./config.yml` 并填写配置。**警告：务必填写 `secret_key` 为随机秘钥**。
 * 从 [`y3oj/demo-data`](//github.com/y3oj/demo-data) 从下载示例数据到 `./data` 目录
-* 运行
+* 评测端必须运行在 linux 环境下，请先按照 [@t123yh/simple-sandbox] 的教程配置好系统环境。
 
 ```shell
-npm install
+# 网页端
 pip install -r requirements.txt
 python build-frontend.py
 python run.py
+# 评测端
+wget -c https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/archlinux-bootstrap-2021.10.01-x86_64.tar.gz sandbox-chroot.tar.gz -O sandbox-chroot.tar.gz
+sudo tar -zxvf sandbox-chroot.tar.gz -C {{config.judger.sandbox_chroot}}  # remember *sudo* && replace {{...}} with your configure
+git clone https://github.com/t123yh/simple-sandbox.git  # repo mirror: https://e.coding.net/memset0/y3oj/simple-sandbox.git
+npm install
 ```
 
 ### Usage
