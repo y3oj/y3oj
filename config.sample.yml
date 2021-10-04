@@ -10,6 +10,15 @@ database:
   max_code_length: 5000
   max_details_length: 5000
 
+problem:
+  defaults:
+    time_limit: 1000
+    memory_limit: 128
+    judge: 'testlib-multi'
+
 frontend:
   thirdparty_host: https://cdn.jsdelivr.net/gh/y3oj/static-files-host
   # thirdparty_host: https://raw.githubusercontent.com/y3oj/static-files-host/main
+
+judger:
+  port: 5834

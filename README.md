@@ -14,12 +14,13 @@ It's (maybe) the first simple, light-weight and highly maintainable online judge
 
 ### Deploy
 
-* 安装 **Python 3.8 或以上版本**。
+* 安装 **Python 3.8+**、**NodeJS 12+** 及包管理库 pip、npm。
 * 复制 `./config.sample.yml` 到 `./config.yml` 并填写配置
 * 从 [`y3oj/demo-data`](//github.com/y3oj/demo-data) 从下载示例数据到 `./data` 目录
 * 运行
 
 ```shell
+npm install
 pip install -r requirements.txt
 python build-frontend.py
 python run.py

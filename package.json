@@ -1,0 +1,26 @@
+{
+  "name": "y3oj",
+  "version": "1.0.0",
+  "description": "(maybe the first) simple, light-weight and highly maintainable online judge system for secondary education",
+  "scripts": {
+    "start-judge": "node y3oj-judger/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/y3oj/y3oj.git"
+  },
+  "author": "memset0",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/y3oj/y3oj/issues"
+  },
+  "homepage": "https://github.com/y3oj/y3oj#readme",
+  "devDependencies": {
+    "less": "^4.1.2"
+  },
+  "dependencies": {
+    "rimraf": "^3.0.2",
+    "ws": "^8.2.3",
+    "yaml": "^1.10.2"
+  }
+}
