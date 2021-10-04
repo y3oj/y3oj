@@ -7,12 +7,12 @@ from y3oj.utils import dirname, listDir, readFile, render_markdown_blocks
 from y3oj.utils.render import render_markdown_blocks
 
 
-def getProblemById(id):
+def get_problem(id):
     res = db.session.query(Problem).filter_by(id=id).all()
     return res[0] if len(res) else None
 
 
-def loadFromLocal():
+def load_problems():
     folders = filter(path.isdir, listDir(path.join(dirname, 'data',
                                                    'problem')))
     db.session.query(Problem).delete()

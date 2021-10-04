@@ -1,3 +1,11 @@
+def to_mixin(target):
+    return target.get_mixin()
+
+
+def to_model(target):
+    return target.get_model()
+
+
 class Container(object):
     def __init__(self, *args, **kwargs):
         for arg in args:

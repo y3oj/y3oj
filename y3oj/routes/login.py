@@ -7,7 +7,7 @@ from flask import request, flash, abort, redirect, url_for
 
 from y3oj import app
 from y3oj.utils import render_template, is_safe_url
-from y3oj.modules.user import getUserById
+from y3oj.modules.user import get_user
 
 
 class LoginForm(FlaskForm):
@@ -25,7 +25,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        user = getUserById(username).get_mixin()
+        user = get_user(username).get_mixin()
         if password != user.password:
             return render_template('login.html', form=form, error='用户名与密码不匹配')
 
