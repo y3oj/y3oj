@@ -1,0 +1,7 @@
+{% set title = '提交记录 #' + str(submission.id) %}
+{% from '_macro/submission.html' import submissions_macro %}
+{% extends "layout.html" %}
+
+{% block container %}
+  {{ submissions_macro([submission]) }}
+{% endblock %}
