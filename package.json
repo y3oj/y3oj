@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "(maybe the first) simple, light-weight and highly maintainable online judge system for secondary education",
   "scripts": {
-    "start-judge": "node y3oj-judger/main.js"
+    "judge-start": "node y3oj-judger/main.js",
+    "judge-test": "node y3oj-judger/test_judger.js"
   },
   "repository": {
     "type": "git",

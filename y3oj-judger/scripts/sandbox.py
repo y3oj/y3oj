@@ -40,12 +40,10 @@ def register_audithook():
                 (TypeError, 'Type of `event` should be `str`.'),
                 'dangerous_syscall':
                 (EnvironmentError, 'Dangerous syscall is forbidden.'),
-                'file_read_forbidden':
-                (IOError, 'File read outside workdir is forbidden.'),
-                'file_write_forbidden':
-                (IOError, 'File write operation is forbidden.'),
-                'file_opened_exceeed': (IOError,
-                                        'Too many opened file handles.'),
+                'file_io_forbidden':
+                (IOError, 'File I/O outside workdir is forbidden.'),
+                'opened_file_exceeded':
+                (IOError, 'Too many opened file handles.'),
             }
             assert name in errors
             stderr.write('[y3oj-sandbox] audit: [{}] {}\n'.format(
@@ -67,8 +65,6 @@ def register_audithook():
                 'dlopen', 'dlsym'
         ]:
             raiseError('dangerous_syscall')
-        if event == 'open' and arg[1] != 'r' and arg[1] != 'rb':
-            raiseError('file_write_forbidden')
         if event == 'open':
             realpath = path.abspath(arg[0])
             workdir = path.abspath(path.dirname(__file__))
@@ -78,9 +74,9 @@ def register_audithook():
                 path.dirname(realpath).startswith(workdir):
                 file_opened_count += 1
                 if file_opened_count >= 1000:
-                    raiseError('file_opened_exceeed')
+                    raiseError('opened_file_exceeded')
                 return
-            raiseError('file_read_forbidden')
+            raiseError('file_io_forbidden')
 
     addaudithook(block_mischief)
     del (block_mischief)

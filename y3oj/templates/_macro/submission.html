@@ -15,8 +15,8 @@
   <td data-problem="{{ submission.problem.id }}"><a href="/problem/{{ submission.problem.id }}">{{ submission.problem.title }}</a></td>
   <td data-user="{{ submission.user.key }}"><a target="_blank" href="/user/{{ submission.user.id }}">{{ submission.user.id }}</a></td>
   <td><a href="/submission/{{ submission.id }}">{{ submission_status_macro(submission.status) }}</a></td>
-  <td>{{ submission.details.time_cost }} ms</td>
-  <td>{{ submission.details.memory_cost }} MiB</td>
+  <td>{{ submission.time }} ms</td>
+  <td>{{ submission.memory }} MiB</td>
 </tr>
 {% endmacro %}
 

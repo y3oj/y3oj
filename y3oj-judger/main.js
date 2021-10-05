@@ -25,4 +25,11 @@ async function main() {
 	});
 }
 
+const terminationHandler = () => {
+	process.exit(1);
+};
+
+process.on('SIGTERM', terminationHandler);
+process.on('SIGINT', terminationHandler);
+
 main();

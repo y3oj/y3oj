@@ -2,10 +2,10 @@
 /data
 /config.yml
 /thirdparty-host
-/simple-sandbox
 /sandbox-rootfs.tar
 /sandbox-rootfs.tar.gz
 /y3oj/static
+/y3oj-judger/simple-sandbox
 /y3oj-docker/requirements.txt
 /y3oj-docker/tmp*
 /y3oj-docker/*.tar

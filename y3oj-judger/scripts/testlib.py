@@ -162,5 +162,5 @@ def run(tasks=None):
             data = run_task(judgers[task], task_id=task)
             res.append(data)
         except BaseException as e:
-            res.append(dict(status='Runtime Error', message=str(repr(e))))
+            res.append(dict(status='RuntimeError', message=str(repr(e))))
     print('[SUCCESS]', json.dumps(res))

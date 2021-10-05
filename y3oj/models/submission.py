@@ -6,12 +6,15 @@ from y3oj.modules.user import get_user_by_key
 
 
 class SubmissionMixin(object):
-    def __init__(self, id, user, problem, code, status, details):
+    def __init__(self, id, user, problem, code, status, time, memory,
+                 details):
         self.id = id
         self.user = get_user_by_key(user)
         self.problem = get_problem(problem)
         self.code = code
         self.status = status
+        self.time = time
+        self.memory = memory
         self.details = details
         print('[submission-mixin]', self.user, self.problem)
 
@@ -22,6 +25,8 @@ class Submission(db.Model):
     problem = db.Column(db.String(30))
     code = db.Column(db.Unicode(app_config.database.max_code_length))
     status = db.Column(db.String(30))
+    time = db.Column(db.Integer)
+    memory = db.Column(db.Integer)
     _details = db.Column(db.Unicode(app_config.database.max_details_length))
 
     # __mapper_args__ = {'order_by': id.desc()}  # deprecated
@@ -40,6 +45,8 @@ class Submission(db.Model):
                                problem=self.problem,
                                code=self.code,
                                status=self.status,
+                               time=self.time,
+                               memory=self.memory,
                                details=self.details)
 
     def __init__(self,
@@ -47,11 +54,15 @@ class Submission(db.Model):
                  problem,
                  code,
                  status='Waiting...',
-                 details=dict(time_cost=0, memory_cost=0, result=[])):
+                 time=0.0,
+                 memory=0.0,
+                 details=[]):
         self.user = user
         self.problem = problem
         self.code = code
         self.status = status
+        self.time = time
+        self.memory = memory
         self.details = details
 
     def __repr__(self):

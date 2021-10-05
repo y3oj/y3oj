@@ -40,9 +40,12 @@ python run.py
 #### 评测端
 
 ```bash
+cd y3oj-judger
 git clone https://github.com/t123yh/simple-sandbox.git  # repo mirror: https://e.coding.net/memset0/y3oj/simple-sandbox.git
 cd simple-sandbox && CXX=clang++-9 yarn install && yarn run build && cd ..
 npm install
+npm run judge-test  # run test
+npm run judge-start
 ```
 
 #### Sandbox
