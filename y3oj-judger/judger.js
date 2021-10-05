@@ -100,7 +100,7 @@ async function runInSandbox(parameters, options) {
 			user: sandbox.getUidAndGidInSandbox(dir.chroot, "y3oj"),
 			cgroup: "asdf",
 		};
-		console.log(sandbox_options);
+		// console.log(sandbox_options);
 
 		const sandboxed_process = sandbox.startSandbox(sandbox_options);
 		const sandbox_result = await sandboxed_process.waitForStop();
@@ -210,7 +210,7 @@ async function run(task) {
 	}
 
 	compressResult(result);
-	console.log(result);
+	// console.log(result);
 	return result;
 }
 

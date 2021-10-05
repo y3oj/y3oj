@@ -1,0 +1,5 @@
+key: 1
+title: 'A + B Problem'
+judge: testlib-multi
+time_limit: 1000
+memory_limit: 16

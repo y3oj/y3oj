@@ -90,4 +90,4 @@ pip install flask numpy matplotlib pandas flask_wtf requests pyyaml flask_login 
 使用 [NodeJS] 开发，沙盒由 [@t123yh/simple-sandbox](https://github.com/t123yh/simple-sandbox) 提供。
 
 * 启动：`node y3oj-judger/main.js`
-* 测试：`node y3oj-judger/test_judger.js`
+* 测试：`node y3oj-judger/test/main.js`

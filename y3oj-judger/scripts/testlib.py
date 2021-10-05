@@ -3,8 +3,9 @@ import random
 import subprocess
 from os import path
 
-encoding = 'gbk'
-
+ac = 'Accepted'
+wa = 'WrongAnswer'
+pipe_encoding = 'gbk'
 
 class Random:
     def _randint(self, a, b):
@@ -49,7 +50,7 @@ class OutputPipeError(Exception):
 
 class InputPipe(object):
     def _send(self, string):
-        self.pipe.write(string.encode(encoding))
+        self.pipe.write(string.encode(pipe_encoding))
         self.pipe.flush()
 
     def send(self, text, end='\n'):
@@ -63,7 +64,7 @@ class InputPipe(object):
 
 class OutputPipe(object):
     def _recv(self):
-        self.cache += self.pipe.read1().decode(encoding)
+        self.cache += self.pipe.read1().decode(pipe_encoding)
 
     def _reset_cache(self):
         self.cache = ''
@@ -162,5 +163,5 @@ def run(tasks=None):
             data = run_task(judgers[task], task_id=task)
             res.append(data)
         except BaseException as e:
-            res.append(dict(status='RuntimeError', message=str(repr(e))))
+            res.append(dict(status='SystemError', message=str(repr(e))))
     print('[SUCCESS]', json.dumps(res))
