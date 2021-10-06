@@ -9,6 +9,22 @@ class UserMixin(UserMixinBase):
     def displayName(self):
         return self.nickname or self.id
 
+    @property
+    def has_submit_authority(self):
+        return self.authority >= 2
+
+    @property
+    def has_manage_authority(self):
+        return self.authority >= 3
+
+    @property
+    def has_admin_authority(self):
+        return self.authority >= 4
+
+    @property
+    def has_root_authority(self):
+        return self.authority >= 5
+
     def get_model(self):
         return User(id=self.id,
                     key=self.key,
@@ -16,6 +32,9 @@ class UserMixin(UserMixinBase):
                     password=self.password,
                     settings=self.settings,
                     authority=self.authority)
+    
+    def __eq__(self, other):
+        return self.key == other.key
 
     def __init__(self, id, key, nickname, password, settings, authority):
         self.id = id
