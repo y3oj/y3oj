@@ -1,27 +1,30 @@
 const ws = require('ws');
+const chalk = require('chalk');
 
 const config = require('./config');
 const queue = require('./queue');
 
-async function initWebsocketServer(config) {
-	return new Promise((resolve) => {
-		const wss = new WebSocketServer({ port: config.judger.port });
-
-		wss.on('connection', function connection(ws) {
-			resolve(ws);
-		});
-	});
+const logger = function () {
+	console.log(chalk.cyanBright('[y3oj-judger]'), ...arguments);
 }
 
+
 async function main() {
-	ws = await initWebsocketServer(config);
+	const wss = new ws.WebSocketServer({ port: config.judger.port });
+	logger('ws server is created at :' + config.judger.port);
 
-	ws.on('message', function on_message(msg) {
-		json = JSON.parse(msg);
+	wss.on('connection', function connection(ws) {
+		logger('connected!');
 
-		if (msg.type == 'submit') {
-			ws.send(JSON.stringify(await queue.push(msg.data)));
-		}
+		ws.on('message', async (msg) => {
+			json = JSON.parse(msg);
+			logger(`message TYPE=${msg.type}`);
+
+			if (msg.type == 'submit') {
+				const result = await queue.push(msg.data);
+				ws.send(JSON.stringify(result));
+			}
+		});
 	});
 }
 
