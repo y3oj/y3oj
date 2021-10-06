@@ -32,7 +32,7 @@ class UserMixin(UserMixinBase):
                     password=self.password,
                     settings=self.settings,
                     authority=self.authority)
-    
+
     def __eq__(self, other):
         return self.key == other.key
 
