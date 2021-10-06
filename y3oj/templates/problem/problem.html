@@ -9,12 +9,30 @@
 {% extends "layout.html" %}
 
 {% block container %}
-  {% for card in problem.content %}
-    <div class="mdui-card y3oj-problem-content">
-      <div class="mdui-card-primary">
-        <div class="mdui-card-primary-title">{{ card.title }}</div>
+  <div class="mdui-col-xs-12 mdui-col-sm-9">
+    {% for card in problem.content %}
+      <div class="mdui-card y3oj-problem-content">
+        <div class="mdui-card-primary">
+          <div class="mdui-card-primary-title">{{ card.title }}</div>
+        </div>
+        <div class="mdui-card-content mdui-typo">{{ card.content | safe }}</div>
       </div>
-      <div class="mdui-card-content mdui-typo">{{ card.content | safe }}</div>
+    {% endfor %}
+  </div>
+  <div class="mdui-col-xs-12 mdui-col-sm-3">
+    <div class="mdui-card y3oj-problem-details">
+      <div class="mdui-card-content">
+        <div class="mdui-row-xs-2 mdui-text-center">
+          <div class="mdui-col mdui-p-a-0">
+            <h3>时间限制</h3>
+            {{ str(problem.config.time_limit) + ' ms' }}
+          </div>
+          <div class="mdui-col mdui-p-a-0">
+            <h3>空间限制</h3>
+            {{ str(problem.config.memory_limit) + ' MiB' }}
+          </div>
+        </div>
+      </div>
     </div>
-  {% endfor %}
+  </div>
 {% endblock %}

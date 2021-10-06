@@ -2,33 +2,33 @@
 {% extends "layout.html" %}
 
 {% block container %}
-	<div class="mdui-card">
-		<div class="mdui-card-content">
-			<form method="POST">
-				{{ form.csrf_token }}
-				
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					{{ form.username.label(class='mdui-textfield-label') }} 
-					{{ form.username(class='mdui-textfield-input') }}
-				</div>
+  <div class="mdui-card">
+    <div class="mdui-card-content">
+      <form method="POST">
+        {{ form.csrf_token }}
 
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					{{ form.password.label(class='mdui-textfield-label') }} 
-					{{ form.password(class='mdui-textfield-input') }}
-				</div>
+        <div class="mdui-textfield mdui-textfield-floating-label">
+          {{ form.username.label(class='mdui-textfield-label') }}
+          {{ form.username(class='mdui-textfield-input') }}
+        </div>
 
-				{{ form.submit(class='mdui-btn mdui-btn-raised mdui-color-theme-accent') }}
-			</form>
-		</div>
-	</div>
+        <div class="mdui-textfield mdui-textfield-floating-label">
+          {{ form.password.label(class='mdui-textfield-label') }}
+          {{ form.password(class='mdui-textfield-input') }}
+        </div>
+
+        {{ form.submit(class='mdui-btn mdui-btn-raised mdui-color-theme-accent') }}
+      </form>
+    </div>
+  </div>
 {% endblock %}
 
 {% block script %}
-	{% if error %}
-		<script>
-			mdui.snackbar({
-				message: '登录失败：' + '{{ error }}',
-			});
-		</script>
-	{% endif %}
+  {% if error %}
+    <script>
+      mdui.snackbar({
+        message: '登录失败：' + '{{ error }}'
+      });
+    </script>
+  {% endif %}
 {% endblock %}

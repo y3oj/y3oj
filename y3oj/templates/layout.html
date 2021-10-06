@@ -19,7 +19,6 @@
   <body class="mdui-drawer-body-left mdui-appbar-with-toolbar {{ 'mdui-appbar-with-tab' if tab_links }} mdui-theme-primary-indigo mdui-theme-accent-pink mdui-theme-layout-auto">
     {% include './_partial/drawer.html' %}
     {% include './_partial/appbar.html' %}
-
     {% block body %}
       <div class="mdui-container" style="margin-top: 30px; margin-bottom: 30px">
         {% block container %}
@@ -27,7 +26,6 @@
         {% endblock %}
       </div>
     {% endblock %}
-
     <script src="{{ assets('/lib/mdui/js/mdui.min.js') }}"></script>
     {% block script %}
     {% endblock %}

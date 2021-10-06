@@ -12,7 +12,11 @@ class Problem(db.Model):
 
     @property
     def config(self):
-        return json.loads(self._config)
+        res = json.loads(self._config)
+        for key in app_config.problem.defaults.__dict__:
+            if key not in res:
+                res[key] = app_config.problem.defaults.__dict__[key]
+        return res
 
     @config.setter
     def config(self, data):
