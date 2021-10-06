@@ -1,8 +1,14 @@
-__all__ = ['app', 'login_manager', 'db', 'config']
+from flask import Flask
 
-from ._config import config
-from ._app import app
-from ._db import db
+__all__ = ['app', 'config', 'db', 'judger', 'login_manager']
+
+from .autoload.config import config
+
+app = Flask(__name__, static_url_path='/assets')
+app.secret_key = config.secret_key
+
+from .autoload.db import db
+from .autoload.judger import judger
 from .models import *
-from ._login_manager import login_manager
+from .autoload.login_manager import login_manager
 from .routes import *
