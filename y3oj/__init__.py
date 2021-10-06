@@ -1,7 +1,8 @@
 from flask import Flask
 
-__all__ = ['app', 'config', 'db', 'judger', 'login_manager']
+__all__ = ['app', 'config', 'db', 'judger', 'logger', 'login_manager']
 
+from .autoload.logger import logger
 from .autoload.config import config
 
 app = Flask(__name__, static_url_path='/assets')
