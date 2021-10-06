@@ -54,8 +54,8 @@ class Submission(db.Model):
                  problem,
                  code,
                  status='Waiting...',
-                 time=0.0,
-                 memory=0.0,
+                 time=0,
+                 memory=0,
                  details=[]):
         self.user = user
         self.problem = problem
