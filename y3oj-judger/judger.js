@@ -41,10 +41,14 @@ function compressResult(result) {
 		if (detail.time == result.time) { delete detail.time; }
 		if (detail.memory == result.memory) { delete detail.memory; }
 	}
+	if (result.time == 0) delete result.time;
+	if (result.memory == 0) delete result.memory;
 	return result;
 }
 
 function decompressResult(result) {
+	if (!result.time) result.time = 0;
+	if (!result.memory) result.memory = 0;
 	for (const detail of result.details) {
 		if (!detail.status) { detail.status = result.status; }
 		if (!detail.time) { detail.time = result.time; }
@@ -104,7 +108,6 @@ async function runInSandbox(parameters, options) {
 
 		const sandboxed_process = sandbox.startSandbox(sandbox_options);
 		const sandbox_result = await sandboxed_process.waitForStop();
-
 		result.time = (sandbox_result.time / 1000 / 1000).toFixed(0);       // ms
 		result.memory = (sandbox_result.memory / 1024 / 1024).toFixed(0);   // MiB
 
@@ -114,15 +117,17 @@ async function runInSandbox(parameters, options) {
 				'Unknown' : (sandbox_result.status === 5 ?
 					'Cancelled' :
 					'OutputLimitExceeded'));
-		} else if (sandbox_result.status === 2) {
-			result.status = 'TimeLimitExceeded';
-		} else if (sandbox_result.status === 3) {
-			result.status = 'MemoryLimitExceeded';
-		} else if (sandbox_result.status === 4) {
-			result.status = 'RuntimeError';
+		} else if (sandbox_result.status >= 2 && sandbox_result.status <= 4) {
+			result.time = result.memory = 0;
+			switch (sandbox_result.status) {
+				case 2: { result.status = 'TimeLimitExceeded'; break; }
+				case 3: { result.status = 'MemoryLimitExceeded'; break; }
+				case 4: { result.status = 'RuntimeError'; break; }
+			}
 		} else {
 			result.details = await options.parser();
 			result.status = 'Accepted';
+
 			for (const detail of result.details) {
 				if (detail.status && detail.status != 'Accepted' && result.status == 'Accepted') {
 					result.status = detail.status;

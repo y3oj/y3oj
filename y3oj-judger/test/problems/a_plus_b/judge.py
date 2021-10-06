@@ -6,7 +6,7 @@ from testlib import Random
 
 def judge(task):
     def logger(*args):
-        stderr.write(' '.join(map(str, ['[judge{}]'.format(task.id), *args])) +
+        stderr.write(' '.join(map(str, ['[judge #]'.format(task.id), *args])) +
                      '\n')
 
     logger('start')
@@ -15,7 +15,7 @@ def judge(task):
     a = gen.randint(1, 10000)
     b = gen.randint(1, 10000)
     logger('send', a, b)
-    task.send('{} {}'.format(a, b))
+    task.send_line('{} {}'.format(a, b))
     c = task.recv_int()
     logger('recv', c)
 

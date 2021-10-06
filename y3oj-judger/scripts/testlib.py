@@ -7,6 +7,7 @@ ac = 'Accepted'
 wa = 'WrongAnswer'
 pipe_encoding = 'gbk'
 
+
 class Random:
     def _randint(self, a, b):
         return random.randint(a, b)
@@ -53,7 +54,10 @@ class InputPipe(object):
         self.pipe.write(string.encode(pipe_encoding))
         self.pipe.flush()
 
-    def send(self, text, end='\n'):
+    def send(self, text):
+        self._send(text)
+
+    def send_line(self, text, end='\n'):
         self._send(text + end)
 
     def __init__(self, pipe):
