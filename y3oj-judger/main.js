@@ -16,8 +16,8 @@ async function main() {
 	wss.on('connection', function connection(ws) {
 		logger('connected!');
 
-		ws.on('message', async (msg) => {
-			json = JSON.parse(msg);
+		ws.on('message', async (plaintext) => {
+			const msg = JSON.parse(plaintext);
 			logger(`message TYPE=${msg.type}`);
 
 			if (msg.type == 'submit') {

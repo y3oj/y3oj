@@ -4,6 +4,9 @@ from colorama import Fore, Style
 
 class Logger:
     class SubLogger:
+        def debug(self, *args):
+            self.logger.debug(*args, module=self.prefix)
+
         def info(self, *args):
             self.logger.info(*args, module=self.prefix)
 
@@ -21,12 +24,15 @@ class Logger:
         level = kwargs['level']
         prefix = self.level_color[level] + '[' + level + ']'
         if 'module' in kwargs:
-            prefix += Fore.CYAN + Style.BRIGHT + '[' + kwargs['module'] + ']'
+            prefix += Fore.CYAN + Style.BRIGHT + ' [' + kwargs['module'] + ']'
         prefix += ' ' + Style.RESET_ALL
         sys.stderr.write(prefix + ' '.join(map(str, args)) + '\n')
 
     def module(self, name):
         return self.SubLogger(self, name)
+
+    def debug(self, *args, **kwargs):
+        self.printer(*args, **kwargs, level='DEBUG')
 
     def info(self, *args, **kwargs):
         self.printer(*args, **kwargs, level='INFO')
@@ -40,6 +46,7 @@ class Logger:
     def __init__(self, name):
         self.name = name
         self.level_color = {
+            'DEBUG': Fore.WHITE + Style.BRIGHT,
             'INFO': Fore.GREEN + Style.BRIGHT,
             'WARN': Fore.YELLOW + Style.BRIGHT,
             'ERROR': Fore.RED + Style.BRIGHT,

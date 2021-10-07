@@ -6,9 +6,9 @@
   '提交记录!': '/problem/' + problem.id + '/submission',
   '统计': '/problem/' + problem.id + '/statistics',
 } %}
-{% from '_macro/submission.html' import submissions_macro %}
+{% from '_macro/submission.html' import render_submissions %}
 {% extends "layout.html" %}
 
 {% block container %}
-  {{ submissions_macro(submissions) }}
+  {{ render_submissions(submissions) }}
 {% endblock %}

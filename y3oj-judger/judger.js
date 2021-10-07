@@ -215,7 +215,7 @@ async function run(task) {
 	}
 
 	compressResult(result);
-	// console.log(result);
+	console.log('[judge]', task, result);
 	return result;
 }
 

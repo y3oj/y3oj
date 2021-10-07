@@ -1,5 +1,5 @@
-from y3oj import db
-from y3oj.models import Submission
+from y3oj import db, judger
+from y3oj.models import Submission, UserMixin, Problem
 
 
 def get_submission(id):
@@ -7,11 +7,17 @@ def get_submission(id):
     return res[0] if len(res) else None
 
 
-def judge_submission(id):
-    print('judge', id)
+def judge_submission(submission: Submission):
+    if submission is None:
+        return
+    judger.submit(submission)
 
 
-def submit_code(user, problem, code):
+def rejudge_submission(id):
+    judge_submission(get_submission(id))
+
+
+def submit_code(user: UserMixin, problem: Problem, code):
     code = code.replace('\r\n', '\n').replace('\r', '\n')
     submission = Submission(user=int(user.key),
                             problem=str(problem.id),
@@ -19,7 +25,4 @@ def submit_code(user, problem, code):
     print('[submit-code]', user, problem, submission)
     db.session.add(submission)
     db.session.commit()
-
-
-def rejudge_submission(id):
-    judge_submission(id)
+    judge_submission(submission)

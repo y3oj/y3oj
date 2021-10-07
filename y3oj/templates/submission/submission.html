@@ -1,22 +1,42 @@
 {% set title = '提交记录 #' + str(submission.id) %}
-{% from '_macro/submission.html' import submissions_macro %}
+{% from '_macro/submission.html' import submission_status, render_submissions %}
 {% extends "layout.html" %}
 
 {% block container %}
-  {{ submissions_macro([submission]) }}
+  {{ render_submissions([submission]) }}
 
   {% if current_user == submission.user or current_user.has_manage_authority %}
-    <div class="mdui-card mdui-m-t-2">
+    <div class="mdui-card mdui-m-t-3">
       <div class="mdui-card-content mdui-typo">
         <pre>{{ submission.code }}</pre>
       </div>
     </div>
   {% endif %}
 
-  {% if (current_user == submission.user or current_user.has_manage_authority) and submission.details.length %}
-    <div class="mdui-card mdui-m-t-2">
+  {% if (current_user == submission.user or current_user.has_manage_authority) and len(submission.details) %}
+    <div class="mdui-card mdui-m-t-3 y3oj-submission-details">
       <div class="mdui-card-content mdui-typo">
+        <div class="mdui-panel" mdui-panel>
+          {% for detail in submission.details %}
+            {% set has_content = not not (detail.message) %}
+            <div class="mdui-panel-item">
+              <div class="mdui-panel-item-header">
+                <div class="mdui-panel-item-title">{{ '# ' + str(detail.id) }}</div>
+                <div class="mdui-panel-item-summary">{{ submission_status(detail.status) }}</div>
+                {% if has_content %}
+                  <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                {% endif %}
+              </div>
+              {% if has_content %}
+                <div class="mdui-panel-item-body mdui-typo">
+                  {% if detail.message %}
+                    <pre>{{ detail.message }}</pre>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
       </div>
-    </div>
-  {% endif %}
-{% endblock %}
+    {% endif %}
+  {% endblock %}

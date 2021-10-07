@@ -1,7 +1,7 @@
 {% set title = '提交记录列表' %}
-{% import '_macro/submission.html' as submission_macros %}
+{% import '_macro/submission.html' as render_submissions %}
 {% extends 'layout.html' %}
 
 {% block container %}
-  {{ submission_macros.submissions_macro(submissions) }}
+  {{ render_submissions.render_submissions(submissions) }}
 {% endblock %}

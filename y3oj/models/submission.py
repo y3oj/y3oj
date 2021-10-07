@@ -1,13 +1,13 @@
 import json
 
 from y3oj import db, config as app_config
+from y3oj.utils import Container
 from y3oj.modules.problem import get_problem
 from y3oj.modules.user import get_user_by_key
 
 
 class SubmissionMixin(object):
-    def __init__(self, id, user, problem, code, status, time, memory,
-                 details):
+    def __init__(self, id, user, problem, code, status, time, memory, details):
         self.id = id
         self.user = get_user_by_key(user)
         self.problem = get_problem(problem)
@@ -16,7 +16,18 @@ class SubmissionMixin(object):
         self.time = time
         self.memory = memory
         self.details = details
-        print('[submission-mixin]', self.user, self.problem)
+        for i in range(len(self.details)):
+            detail = self.details[i]
+            detail['id'] = i + 1
+            if 'time' not in detail:
+                detail['time'] = self.time
+            if detail['time'] == -1:
+                detail['memory'] = -1
+            if 'memory' not in detail:
+                detail['memory'] = self.memory
+            if 'status' not in detail:
+                detail['status'] = self.status
+            self.details[i] = Container(detail)
 
 
 class Submission(db.Model):

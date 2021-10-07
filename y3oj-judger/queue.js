@@ -45,9 +45,9 @@ async function judge() {
 		let res;
 
 		try {
-			res = { code: 0, data: await judger.run(task) };
+			res = { type: 'judge-result', id: task.id, code: 0, data: await judger.run(task) };
 		} catch (error) {
-			res = { code: 1, error };
+			res = { type: 'judge-result', id: task.id, code: 1, error };
 		}
 
 		task.callback(res);

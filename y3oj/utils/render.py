@@ -1,4 +1,5 @@
 import re
+import json
 import flask
 from urllib.parse import urlparse, urljoin
 
@@ -50,4 +51,10 @@ def render_template(path, **data):
         return '/assets' + uri
 
     render = flask.render_template
-    return render(path, str=str, assets=assets, config=config, **data)
+    return render(path,
+                  str=str,
+                  len=len,
+                  json=json,
+                  assets=assets,
+                  config=config,
+                  **data)

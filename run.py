@@ -1,4 +1,6 @@
-from y3oj import app, db, config
+import asyncio
+
+from y3oj import app, db, judger, config
 from y3oj.modules import problem
 
 if __name__ == '__main__':
