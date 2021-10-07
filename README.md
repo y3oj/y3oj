@@ -9,7 +9,7 @@
 <p align="center">
   (maybe the first) simple, light-weight and highly maintainable online judge system for secondary education.
   <br>
-  一个简单、轻量化、易于部署的、为中学信息技术学科课业教学设计的 Online Judge 系统。
+  一个简单、轻量化、易于维护的、为中学信息技术学科课业教学设计的 Online Judge 系统。
 </p>
 
 <br>
@@ -54,9 +54,9 @@ npm run judge-start
 
 ```bash
 wget -c https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/archlinux-bootstrap-2021.10.01-x86_64.tar.gz -O sandbox-rootfs.tar.gz
-mkdir -p /path/to/sandbox-rootfs  # `/path/to/sandbox-rootfs/root.x86_64` should be `config.judger.sandbox_rootfs`
-sudo tar -zxvf sandbox-rootfs.tar -C /path/to/sandbox-rootfs  # remember `sudo`
-cd /path/to/sandbox-rootfs
+mkdir -p ./sandbox-rootfs
+sudo tar -zxvf sandbox-rootfs.tar -C ./sandbox-rootfs  # remember `sudo`
+cd ./sandbox-rootfs
 mount ./root.x86_64/ ./root.x86_64/ --bind
 mkdir -p /sandbox/working
 groupadd --gid 725 y3oj && useradd --uid 725 --gid y3oj --shell /bin/bash --create-home y3oj
