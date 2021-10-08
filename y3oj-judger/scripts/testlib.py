@@ -3,7 +3,7 @@ import random
 import subprocess
 from os import path
 
-pipe_encoding = 'gbk'
+pipe_encoding = 'utf-8'
 
 
 class BaseResult(Exception):
@@ -63,7 +63,7 @@ class InputPipe(object):
         self._send(text)
 
     def sendline(self, text, end='\n'):
-        self._send(text + end)
+        self._send(str(text) + end)
 
     def __init__(self, pipe):
         assert pipe.writable()
@@ -72,9 +72,6 @@ class InputPipe(object):
 
 
 class OutputPipe(object):
-    class OutputPipeError(Exception):
-        pass
-
     def _reset_cache(self):
         self.cache = ''
         self.pointer = 0
@@ -82,12 +79,13 @@ class OutputPipe(object):
     def _recv(self):
         self.cache = self.pipe.read1().decode(pipe_encoding)
         self.pointer = 0
+        # print('[recv]', str(list(self.cache)))
 
     def recv(self):
         if self.pointer == len(self.cache):
             self._recv()
             if self.cache == '':
-                raise self.OutputPipeError('No characters more.')
+                raise WrongAnswer('[testlib-pipe] No characters more.')
         self.pointer += 1
         return self.cache[self.pointer - 1]
 
@@ -99,6 +97,8 @@ class OutputPipe(object):
                 res += c
             else:
                 break
+        if res.endswith('\r'):
+            res = res[:-1]
         return res
 
     def recvchar(self):
@@ -116,6 +116,12 @@ class OutputPipe(object):
             else:
                 break
         return res
+
+    def recvthis(self, target):
+        for s in target:
+            c = self.recv()
+            if c != s:
+                raise WrongAnswer(f'[testlib-pipe] Except {s}, recived {c}.')
 
     def __init__(self, pipe):
         assert pipe.readable()
@@ -147,7 +153,7 @@ class Task:
             raise KeyError()
 
     def __init__(self, task_id, testlib_config):
-        self.id = task_id
+        self.id = int(task_id)
         self.testlib = testlib_config
         self.stdin = None
         self.stdout = None
@@ -157,26 +163,32 @@ config = Config()
 judgers = []
 
 
-def register_judger(judger, tasks=[]):
+def register(judger, tasks=[], type='default'):
+    assert type == 'default' or type == 'before' or type == 'after'
     for task in tasks:
         while len(judgers) <= task:
-            judgers.append(None)
-        judgers[task] = judger
+            judgers.append({})
+        judgers[task][type] = judger
 
 
 def run_task(judger, task_id):
     res = None
     task = Task(task_id=task_id, testlib_config=config)
-    ps = subprocess.Popen(
-        ['python', config.sandbox_path, config.solution_path],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE)
-    task.stdin = InputPipe(ps.stdin)
-    task.stdout = OutputPipe(ps.stdout)
     try:
-        judger(task)
+        if 'before' in judger:
+            judger['before'](task)
+        ps = subprocess.Popen(
+            ['python', config.sandbox_path, config.solution_path],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=None)
+        task.stdin = InputPipe(ps.stdin)
+        task.stdout = OutputPipe(ps.stdout)
+        if 'default' in judger:
+            judger['default'](task)
         ps.wait()
+        if 'after' in judger:
+            judger['after'](task)
         res = dict(status='SystemError',
                    message='[testlib] judge.py didn\'t have response.')
     except BaseResult as response:

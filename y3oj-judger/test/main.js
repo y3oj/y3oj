@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
@@ -6,7 +6,12 @@ const judger = require('../judger');
 
 
 async function main() {
-	const all_status = [
+	const problem_list = [
+		'a-plus-b',
+		'intro-bh',
+	];
+
+	const status_list = [
 		'Accepted',
 		'WrongAnswer',
 		'SystemError',
@@ -14,15 +19,20 @@ async function main() {
 		'MemoryLimitExceeded',
 	];
 
-	for (const status of all_status) {
-		const result = await judger.run({
-			id: 0,
-			user: 'memset0',
-			problem: 'a_plus_b',
-			code: (await fs.readFile(path.join(__dirname, 'samples', status + '.py'))).toString(),
-		});
-		console.log('[y3oj-judger-test]', status, '=>', result.status);
-		assert.equal(status, result.status);
+	for (const problem of problem_list) {
+		for (const status of status_list) {
+			const filepath = path.join(__dirname, 'problems', problem, 'code', status + '.py');
+			if (!fs.existsSync(filepath)) { continue; }
+
+			const result = await judger.run({
+				id: 0,
+				user: 'memset0',
+				problem: problem,
+				code: fs.readFileSync(filepath).toString(),
+			});
+			console.log('[y3oj-judger-test]', status, '=>', result.status);
+			assert.equal(status, result.status);
+		}
 	}
 }
 

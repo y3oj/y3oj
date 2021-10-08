@@ -1,4 +1,4 @@
 [MASTER]
 disable=
     C,
-    broad-except
+    broad-except,unspecified-encoding,global-statement

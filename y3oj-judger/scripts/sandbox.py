@@ -40,8 +40,6 @@ def register_audithook():
                 (TypeError, 'Type of `event` should be `str`.'),
                 'dangerous_syscall':
                 (EnvironmentError, 'Dangerous syscall is forbidden.'),
-                'file_io_forbidden':
-                (IOError, 'File I/O outside workdir is forbidden.'),
                 'opened_file_exceeded':
                 (IOError, 'Too many opened file handles.'),
             }
@@ -66,17 +64,9 @@ def register_audithook():
         ]:
             raiseError('dangerous_syscall')
         if event == 'open':
-            realpath = path.abspath(arg[0])
-            workdir = path.abspath(path.dirname(__file__))
-            if '__pycache__' in realpath or \
-                realpath.endswith('.py') or \
-                realpath.endswith('.pyc') or \
-                path.dirname(realpath).startswith(workdir):
-                file_opened_count += 1
-                if file_opened_count >= 1000:
-                    raiseError('opened_file_exceeded')
-                return
-            raiseError('file_io_forbidden')
+            file_opened_count += 1
+            if file_opened_count >= 1000:
+                raiseError('opened_file_exceeded')
 
     addaudithook(block_mischief)
     del (block_mischief)

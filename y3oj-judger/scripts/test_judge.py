@@ -29,5 +29,5 @@ def judge(task):
 testlib.config.problem_name = 'a_plus_b'
 testlib.config.solution_path = path.abspath(
     path.join(path.dirname(__file__), 'test_sol.py'))
-testlib.register_judger(judge, range(3))
+testlib.register(judge, range(3))
 testlib.run()

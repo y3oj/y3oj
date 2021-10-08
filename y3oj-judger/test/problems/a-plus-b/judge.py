@@ -1,6 +1,6 @@
 import testlib
 from sys import stderr
-from testlib import Random, Accetped, WrongAnswer
+from testlib import Random, Accepted, WrongAnswer
 
 
 def judge(task):
@@ -11,11 +11,11 @@ def judge(task):
     c = task.recvint()
 
     if a + b == c:
-        raise Accetped
+        raise Accepted
     else:
         raise WrongAnswer(f'{a} plus {b} shout be {a + b}, but got {c}.')
 
 
-testlib.config.problem_name = 'a_plus_b'
-testlib.register_judger(judge, range(10))
+testlib.config.problem_name = 'a-plus-b'
+testlib.register(judge, range(10))
 testlib.run()
