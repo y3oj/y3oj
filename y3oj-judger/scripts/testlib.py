@@ -41,15 +41,10 @@ class Random:
         random.setstate(current)
 
 
-class InputPipeError(Exception):
-    pass
-
-
-class OutputPipeError(Exception):
-    pass
-
-
 class InputPipe(object):
+    class InputPipeError(Exception):
+        pass
+
     def _send(self, string):
         self.pipe.write(string.encode(pipe_encoding))
         self.pipe.flush()
@@ -67,33 +62,46 @@ class InputPipe(object):
 
 
 class OutputPipe(object):
+    class OutputPipeError(Exception):
+        pass
+    
     def _recv(self):
         self.cache += self.pipe.read1().decode(pipe_encoding)
 
     def _reset_cache(self):
         self.cache = ''
         self.pointer = 0
+    
+    def recv_char(self):
+        if self.pointer == len(self.cache):
+            self._reset_cache()
+            self._recv()
+            raise self.OutputPipeError('No characters more.')
+        self.pointer += 1
+        return self.cache[self.pointer - 1]
 
     def recv(self):
-        self._recv()
-        res = self.cache[self.pointer:]
-        self._reset_cache()
+        return self.recv_char()
+
+    def recvline(self):
+        res = ''
+        while True:
+            c = self.recv()
+            if c != '\n':
+                res += c
+            else:
+                break
         return res
 
     def recv_int(self):
-        self._recv()
-        if self.pointer == len(self.cache):
-            raise OutputPipeError('No integers more.')
         res = 0
-        while self.pointer < len(self.cache):
-            c = self.cache[self.pointer]
+        while True:
+            c = self.recv()
             if 48 <= ord(c) and ord(c) <= 57:
                 res = res * 10 + int(c)
                 self.pointer += 1
             else:
                 break
-        if self.pointer == len(self.cache):
-            self._reset_cache()
         return res
 
     def __init__(self, pipe):
