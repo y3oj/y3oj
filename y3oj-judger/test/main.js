@@ -14,6 +14,7 @@ async function main() {
 	const status_list = [
 		'Accepted',
 		'WrongAnswer',
+		'RuntimeError',
 		'SystemError',
 		'TimeLimitExceeded',
 		'MemoryLimitExceeded',

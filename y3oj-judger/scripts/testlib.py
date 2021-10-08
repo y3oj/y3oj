@@ -18,6 +18,14 @@ class WrongAnswer(BaseResult):
     pass
 
 
+class RuntimeError(BaseResult):
+    pass
+
+
+class SystemError(BaseResult):
+    pass
+
+
 class Random:
     def _randint(self, a, b):
         return random.randint(a, b)
@@ -181,16 +189,35 @@ def run_task(judger, task_id):
             ['python', config.sandbox_path, config.solution_path],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=None)
+            stderr=subprocess.PIPE)
         task.stdin = InputPipe(ps.stdin)
         task.stdout = OutputPipe(ps.stdout)
+        temperror = None
         if 'default' in judger:
-            judger['default'](task)
-        ps.wait()
+            try:
+                judger['default'](task)
+            except BaseResult as error:
+                temperror = error
+        returncode = ps.wait()
+        if returncode != 0:
+            errlogs = ps.stderr.read1().decode(pipe_encoding).split('\n')
+            lastline = None
+            for i in range(len(errlogs) - 1, -1, -1):
+                if errlogs[i] != '':
+                    lastline = errlogs[i]
+                    break
+            if lastline.endswith('\r'):
+                lastline = lastline[:-1]
+            if lastline is None:
+                raise RuntimeError()
+            else:
+                raise RuntimeError(lastline)
+        else:
+            if temperror is not None:
+                raise temperror
         if 'after' in judger:
             judger['after'](task)
-        res = dict(status='SystemError',
-                   message='[testlib] judge.py didn\'t have response.')
+        raise SystemError('[testlib] judge.py didn\'t give a response.')
     except BaseResult as response:
         res = dict(status=type(response).__name__, message=str(response))
     return res
