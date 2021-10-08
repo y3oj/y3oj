@@ -1,0 +1,4 @@
+[MASTER]
+disable=
+    C,
+    broad-except
