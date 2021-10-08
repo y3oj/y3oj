@@ -1,29 +1,19 @@
 import testlib
-from os import path
 from sys import stderr
-from testlib import Random
+from testlib import Random, Accetped, WrongAnswer
 
 
 def judge(task):
-    def logger(*args):
-        stderr.write(' '.join(map(str, ['[judge #]'.format(task.id), *args])) +
-                     '\n')
-
-    logger('start')
-    logger(task)
     gen = Random(str(task.id) + task.testlib.problem_name)
     a = gen.randint(1, 10000)
     b = gen.randint(1, 10000)
-    logger('send', a, b)
-    task.send_line('{} {}'.format(a, b))
-    c = task.recv_int()
-    logger('recv', c)
+    task.sendline('{} {}'.format(a, b))
+    c = task.recvint()
 
     if a + b == c:
-        return dict(status='Accepted')
+        raise Accetped
     else:
-        return dict(status='WrongAnswer',
-                    message='{} plus {} should be {}.'.format(a, b, c))
+        raise WrongAnswer(f'{a} plus {b} shout be {a + b}, but got {c}.')
 
 
 testlib.config.problem_name = 'a_plus_b'

@@ -16,7 +16,7 @@ def judge(task):
     b = gen.randint(1, 100)
     logger('send', a, b)
     task.send('{} {}'.format(a, b))
-    c = task.recv_int()
+    c = task.recvint()
     logger('recv', c)
 
     if a + b == c:

@@ -21,7 +21,7 @@ async function main() {
 			problem: 'a_plus_b',
 			code: (await fs.readFile(path.join(__dirname, 'samples', status + '.py'))).toString(),
 		});
-		console.log('[y3oj-judger-test]', status, '=>', result);
+		console.log('[y3oj-judger-test]', status, '=>', result.status);
 		assert.equal(status, result.status);
 	}
 }

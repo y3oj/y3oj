@@ -3,9 +3,19 @@ import random
 import subprocess
 from os import path
 
-ac = 'Accepted'
-wa = 'WrongAnswer'
 pipe_encoding = 'gbk'
+
+
+class BaseResult(Exception):
+    pass
+
+
+class Accepted(BaseResult):
+    pass
+
+
+class WrongAnswer(BaseResult):
+    pass
 
 
 class Random:
@@ -52,7 +62,7 @@ class InputPipe(object):
     def send(self, text):
         self._send(text)
 
-    def send_line(self, text, end='\n'):
+    def sendline(self, text, end='\n'):
         self._send(text + end)
 
     def __init__(self, pipe):
@@ -64,24 +74,22 @@ class InputPipe(object):
 class OutputPipe(object):
     class OutputPipeError(Exception):
         pass
-    
-    def _recv(self):
-        self.cache += self.pipe.read1().decode(pipe_encoding)
 
     def _reset_cache(self):
         self.cache = ''
         self.pointer = 0
-    
-    def recv_char(self):
-        if self.pointer == len(self.cache):
-            self._reset_cache()
-            self._recv()
-            raise self.OutputPipeError('No characters more.')
-        self.pointer += 1
-        return self.cache[self.pointer - 1]
+
+    def _recv(self):
+        self.cache = self.pipe.read1().decode(pipe_encoding)
+        self.pointer = 0
 
     def recv(self):
-        return self.recv_char()
+        if self.pointer == len(self.cache):
+            self._recv()
+            if self.cache == '':
+                raise self.OutputPipeError('No characters more.')
+        self.pointer += 1
+        return self.cache[self.pointer - 1]
 
     def recvline(self):
         res = ''
@@ -93,13 +101,18 @@ class OutputPipe(object):
                 break
         return res
 
-    def recv_int(self):
+    def recvchar(self):
+        while True:
+            c = self.recv()
+            if c != ' ' and c != '\n' and c != '\t' and c != '\r':
+                return c
+
+    def recvint(self):
         res = 0
         while True:
             c = self.recv()
             if 48 <= ord(c) and ord(c) <= 57:
                 res = res * 10 + int(c)
-                self.pointer += 1
             else:
                 break
         return res
@@ -158,11 +171,16 @@ def run_task(judger, task_id):
         ['python', config.sandbox_path, config.solution_path],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
-        stderr=None)
+        stderr=subprocess.PIPE)
     task.stdin = InputPipe(ps.stdin)
     task.stdout = OutputPipe(ps.stdout)
-    res = judger(task)
-    ps.wait()
+    try:
+        judger(task)
+        ps.wait()
+        res = dict(status='SystemError',
+                   message='[testlib] judge.py didn\'t have response.')
+    except BaseResult as response:
+        res = dict(status=type(response).__name__, message=str(response))
     return res
 
 
