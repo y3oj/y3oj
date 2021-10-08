@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+# pylint: disable=exec-used
 
 #############################################
 #                                           #
@@ -30,7 +31,6 @@ def get_path(basepath):
 
 
 def register_audithook():
-    from os import path
     from sys import addaudithook
 
     def block_mischief(event, arg):
