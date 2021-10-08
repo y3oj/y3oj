@@ -18,7 +18,7 @@ def list_problem():
 
 
 @app.route('/problem/<id>')
-@problem_checker~
+@problem_checker
 def get_problem(id):
     return render_template('problem/problem.html', problem=g.problem)
 
