@@ -40,8 +40,8 @@ class Judger:
         self.active = False
 
         async def asyncio_entry():
-            self.logger.debug('called')
             self.ws = await websockets.connect(f'ws://{self.host}:{self.port}')
+            self.logger.debug('websocket-client: connected.')
             self.active = True
             while True:
                 response = await self.ws.recv()
@@ -60,4 +60,3 @@ class Judger:
 
 
 judger = Judger(host=config.judger.remote_host, port=config.judger.port)
-judger.logger.debug('auto loaded')

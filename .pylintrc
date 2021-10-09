@@ -1,4 +1,5 @@
 [MASTER]
 disable=
     C,R,
-    bare-except,broad-except,unspecified-encoding,global-statement
+    bare-except,broad-except,unspecified-encoding,global-statement,redefined-builtin,
+    import-error,

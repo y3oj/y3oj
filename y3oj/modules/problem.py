@@ -7,7 +7,7 @@ from y3oj.utils import dirname, listDir, readFile, render_markdown_blocks
 from y3oj.utils.render import render_markdown_blocks
 
 
-def get_problem(id):
+def get_problem(id: str):
     res = db.session.query(Problem).filter_by(id=id).all()
     return res[0] if len(res) else None
 
@@ -27,10 +27,10 @@ def load_problems():
         del args['key']
         del args['title']
         element.config = args
-        # content
+        # statement
         if path.exists(path.join(folder, 'statement.md')):
             plaintext = readFile(path.join(folder, 'statement.md'))
-            element.content = render_markdown_blocks(plaintext)
+            element.statement = render_markdown_blocks(plaintext)
         db.session.add(element)
 
     db.session.commit()

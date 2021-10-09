@@ -2,6 +2,8 @@ from functools import wraps
 from flask_login import current_user
 from flask import abort, redirect, url_for
 
+from y3oj.models import SUBMIT_AUTHORITY, MANAGE_AUTHORITY, ADMIN_AUTHORITY, ROOT_AUTHORITY
+
 
 def authority_required(f, min_authority):
     @wraps(f)
@@ -16,16 +18,16 @@ def authority_required(f, min_authority):
 
 
 def submit_authority_required(f):
-    return authority_required(f, 2)
+    return authority_required(f, SUBMIT_AUTHORITY)
 
 
 def manage_authority_required(f):
-    return authority_required(f, 3)
+    return authority_required(f, MANAGE_AUTHORITY)
 
 
 def admin_authority_required(f):
-    return authority_required(f, 4)
+    return authority_required(f, ADMIN_AUTHORITY)
 
 
 def root_authority_required(f):
-    return authority_required(f, 5)
+    return authority_required(f, ROOT_AUTHORITY)

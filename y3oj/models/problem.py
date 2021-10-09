@@ -4,11 +4,14 @@ from y3oj import db, config as app_config
 
 
 class Problem(db.Model):
+    __tablename__ = 'problem'
+
     id = db.Column(db.String(30), unique=True)
     key = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Unicode(60))
-    _config = db.Column(db.Unicode(app_config.database.max_json_length))
-    _content = db.Column(db.Unicode(app_config.database.max_json_length))
+    _config = db.Column(db.Unicode(app_config.database.limit.json))
+    _statement = db.Column(db.Unicode(app_config.database.limit.json))
+    _solution = db.Column(db.Unicode(app_config.database.limit.json))
 
     @property
     def config(self):
@@ -23,18 +26,18 @@ class Problem(db.Model):
         self._config = json.dumps(data)
 
     @property
-    def content(self):
-        return json.loads(self._content)
+    def statement(self):
+        return json.loads(self._statement)
 
-    @content.setter
-    def content(self, data):
-        self._content = json.dumps(data)
+    @statement.setter
+    def statement(self, data):
+        self._statement = json.dumps(data)
 
-    def __init__(self, id, key, title, content=[], config={}):
+    def __init__(self, id, key, title, statement=[], config={}):
         self.id = id
         self.key = key
         self.title = title
-        self.content = content
+        self.statement = statement
         self.config = config
 
     def __repr__(self):

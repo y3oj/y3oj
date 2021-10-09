@@ -3,6 +3,11 @@ import json
 from y3oj import db, config as app_config
 from flask_login import UserMixin as UserMixinBase, AnonymousUserMixin as AnonymousUserMixinBase
 
+SUBMIT_AUTHORITY = 2
+MANAGE_AUTHORITY = 3
+ADMIN_AUTHORITY = 4
+ROOT_AUTHORITY = 5
+
 
 class UserMixin(UserMixinBase):
     @property
@@ -11,38 +16,38 @@ class UserMixin(UserMixinBase):
 
     @property
     def has_submit_authority(self):
-        return self.authority >= 2
+        return self.authority >= SUBMIT_AUTHORITY
 
     @property
     def has_manage_authority(self):
-        return self.authority >= 3
+        return self.authority >= MANAGE_AUTHORITY
 
     @property
     def has_admin_authority(self):
-        return self.authority >= 4
+        return self.authority >= ADMIN_AUTHORITY
 
     @property
     def has_root_authority(self):
-        return self.authority >= 5
+        return self.authority >= ROOT_AUTHORITY
 
     def get_model(self):
         return User(id=self.id,
                     key=self.key,
                     nickname=self.nickname,
                     password=self.password,
-                    settings=self.settings,
-                    authority=self.authority)
+                    authority=self.authority,
+                    settings=self.settings)
 
     def __eq__(self, other):
         return self.key == other.key
 
-    def __init__(self, id, key, nickname, password, settings, authority):
+    def __init__(self, id, key, nickname, password, authority, settings):
         self.id = id
         self.key = key
         self.nickname = nickname
         self.password = password
-        self.settings = settings
         self.authority = authority
+        self.settings = settings
 
 
 class AnonymousUserMixin(AnonymousUserMixinBase):
@@ -50,13 +55,15 @@ class AnonymousUserMixin(AnonymousUserMixinBase):
 
 
 class User(db.Model):
+    __tablename__ = 'user'
     __hash__ = object.__hash__
+
     id = db.Column(db.String(30), unique=True)
     key = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.Unicode(60), unique=True)
     password = db.Column(db.String(32))  # md5 salt hashed
-    _settings = db.Column(db.Unicode(app_config.database.max_json_length))
     authority = db.Column(db.Integer)
+    _settings = db.Column(db.Unicode(app_config.database.limit.json))
 
     @property
     def settings(self):
@@ -71,16 +78,16 @@ class User(db.Model):
                          key=self.key,
                          nickname=self.nickname,
                          password=self.password,
-                         settings=self.settings,
-                         authority=self.authority)
+                         authority=self.authority,
+                         settings=self.settings)
 
-    def __init__(self, id, key, nickname, password, settings, authority):
+    def __init__(self, id, key, nickname, password, authority, settings):
         self.id = id
         self.key = key
         self.nickname = nickname
         self.password = password
-        self.settings = settings
         self.authority = authority
+        self.settings = settings
 
     def __repr__(self):
         return '<User %s>' % self.id

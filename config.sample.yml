@@ -6,9 +6,12 @@ name: OJ
 
 database:
   uri: default:///sqlite
-  max_json_length: 2000
-  max_code_length: 10000
-  max_details_length: 10000
+  limit:
+    json: 10000
+    code: 10000
+    link: 200
+    details: 10000
+    user_description: 1000
 
 problem:
   defaults:
