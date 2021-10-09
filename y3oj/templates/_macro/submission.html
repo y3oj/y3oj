@@ -1,13 +1,13 @@
 {% macro submission_status(status) %}
   {% set status_name = status.split(': ')[0] %}
   {% if status_name == 'Accepted' %}
-    <span class="y3oj-submission-status mdui-text-color-green"><i class="mdui-icon material-icons">check</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-green"><i class="mdui-icon material-icons">done</i> {{ status }}</span>
   {% elif status_name == 'WrongAnswer' %}
     <span class="y3oj-submission-status mdui-text-color-red"><i class="mdui-icon material-icons">clear</i> {{ status }}</span>
   {% elif status_name == 'RuntimeError' %}
-    <span class="y3oj-submission-status mdui-text-color-purple"><i class="mdui-icon material-icons">announcement</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-purple"><i class="mdui-icon material-icons">clear_all</i> {{ status }}</span>
   {% elif status_name == 'TimeLimitExceeded' %}
-    <span class="y3oj-submission-status mdui-text-color-deep-orange"><i class="mdui-icon material-icons">access_time</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-orange"><i class="mdui-icon material-icons">access_time</i> {{ status }}</span>
   {% elif status_name == 'MemoryLimitExceeded' %}
     <span class="y3oj-submission-status mdui-text-color-teal"><i class="mdui-icon material-icons">memory</i> {{ status }}</span>
   {% elif status_name == 'SystemError' %}
