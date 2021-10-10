@@ -5,4 +5,5 @@ if __name__ == '__main__':
     db.create_all()
     problem.load_problems()
 
+    app.debug = True
     app.run(host=config.host, port=config.port)

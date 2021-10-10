@@ -14,7 +14,7 @@ database:
 
 user:
   limit:
-    summary: 30
+    summary: 40
     description: 1000
 
 problem:
