@@ -2,9 +2,9 @@
 {% extends "layout.html" %}
 
 {% block container %}
-  <div class="mdui-card">
+  <div class="mdui-card y3oj-login-form-outter-card">
     <div class="mdui-card-content">
-      <form method="POST">
+      <form method="POST" class="y3oj-form y3oj-login-form">
         {{ form.csrf_token }}
 
         <div class="mdui-textfield mdui-textfield-floating-label">
@@ -17,7 +17,9 @@
           {{ form.password(class='mdui-textfield-input') }}
         </div>
 
-        {{ form.submit(class='mdui-btn mdui-btn-raised mdui-color-theme-accent') }}
+        <div class="y3oj-form-buttons">
+          {{ form.submit(class='mdui-btn mdui-btn-raised mdui-color-theme-accent') }}
+        </div>
       </form>
     </div>
   </div>

@@ -4,20 +4,22 @@
   '题目': '/problem/' + problem.id,
   '提交!': '/problem/' + problem.id + '/submit',
   '提交记录': '/problem/' + problem.id + '/submission',
-  '统计': '/problem/' + problem.id + '/statistics',
 } %}
 {% extends "layout.html" %}
 
 {% block container %}
   <div class="mdui-card">
     <div class="mdui-card-content">
-      <form method="POST">
+      <form method="POST" class="y3oj-form">
         {{ form.csrf_token }}
         <div class="mdui-textfield">
           {{ form.code.label(class='mdui-textfield-label') }}
-          {{ form.code(class='mdui-textfield-input') }}
+          {{ form.code(class='mdui-textfield-input',style='min-height: 16em; font-family: monospace')}}
         </div>
-        {{ form.submit(class='mdui-btn mdui-btn-raised mdui-color-theme-accent') }}
+        
+        <div class="y3oj-form-buttons">
+          {{ form.submit(class='mdui-btn mdui-btn-raised mdui-color-theme-accent') }}
+        </div>
       </form>
     </div>
   </div>

@@ -23,7 +23,7 @@
 <tr>
   <td data-id="{{ submission.id }}">{{ submission.id }}</td>
   <td data-problem="{{ submission.problem.id }}"><a href="/problem/{{ submission.problem.id }}">{{ submission.problem.title }}</a></td>
-  <td data-user="{{ submission.user.key }}"><a target="_blank" href="/user/{{ submission.user.id }}">{{ submission.user.id }}</a></td>
+  <td data-user="{{ submission.user.key }}"><a href="/user/{{ submission.user.id }}">{{ submission.user.id }}</a></td>
   <td><a href="/submission/{{ submission.id }}">{{ submission_status(submission.status) }}</a></td>
   <td>{{ submission.create_time }}</td>
   <td>{{ submission.time }} ms</td>
