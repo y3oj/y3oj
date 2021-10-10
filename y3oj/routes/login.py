@@ -10,37 +10,37 @@ from y3oj.utils import render_template, is_safe_url
 from y3oj.modules.user import get_user
 
 
-class LoginForm(FlaskForm):
-    username = TextField('用户名')
-    password = PasswordField('密码')
-    submit = SubmitField('提交')
-
-
 @app.route('/login', methods=['GET', 'POST'])
-def login():
+def route_login():
+    class LoginForm(FlaskForm):
+        username = TextField('用户名')
+        password = PasswordField('密码')
+        submit = SubmitField('提交')
+
     form = LoginForm()
-    print('current_user', current_user)
 
     if form.validate_on_submit():
         username = request.form['username']
         password = request.form['password']
 
-        user = get_user(username).get_mixin()
+        user = get_user(username)
         if password != user.password:
-            return render_template('login.html', form=form, error='用户名与密码不匹配')
+            return render_template('login.html',
+                                   form=form,
+                                   snackbar_error='用户名与密码不匹配')
 
         login_user(user)
         flash('Logged in successfully.')
         next = request.args.get('next')
         if not is_safe_url(request.host_url, next):
             return abort(400, 'Permission denied.')
-        return redirect(next or url_for('index'))
+        return redirect(next or url_for('route_index'))
 
     return render_template('login.html', form=form)
 
 
 @app.route('/logout')
 @login_required
-def logout():
+def route_logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('route_login'))

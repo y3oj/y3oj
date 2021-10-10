@@ -9,7 +9,7 @@ def authority_required(f, min_authority):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if current_user.is_anonymous:
-            return redirect(url_for('login'))
+            return redirect(url_for('route_login'))
         if current_user.authority < min_authority:
             return abort(400, 'Permission denied.')
         return f(*args, **kwargs)

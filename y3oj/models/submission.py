@@ -32,6 +32,9 @@ class SubmissionMixin(object):
                 detail['status'] = self.status
             self.details[i] = Container(detail)
 
+    def __repr__(self):
+        return '<SubmissionMixin %s>' % self.id
+
 
 class Submission(db.Model):
     __tablename__ = 'submission'

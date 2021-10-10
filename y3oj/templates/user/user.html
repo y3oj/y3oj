@@ -1,0 +1,8 @@
+{% set title = user.id %}
+{% set subtitle = '用户' %}
+{% extends "layout.html" %}
+
+{% block container %}
+	{{ user.settings.summary }}
+	{{ str(user.settings) }}
+{% endblock %}

@@ -22,13 +22,3 @@
     </div>
   </div>
 {% endblock %}
-
-{% block script %}
-  {% if error %}
-    <script>
-      mdui.snackbar({
-        message: '登录失败：' + '{{ error }}'
-      });
-    </script>
-  {% endif %}
-{% endblock %}

@@ -1,0 +1,10 @@
+<script src="{{ assets('/lib/mdui/js/mdui.min.js') }}"></script>
+{% block script %}
+{% endblock %}
+{% if snackbar_error %}
+	<script>
+		mdui.snackbar({
+			message: '登录失败：' + '{{ snackbar_error }}'
+		});
+	</script>
+{% endif %}

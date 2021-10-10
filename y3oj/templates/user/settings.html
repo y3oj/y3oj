@@ -1,0 +1,36 @@
+{% set title = "用户设置" %}
+{% extends "layout.html" %}
+
+{% block container %}
+  <div class="mdui-card">
+    <div class="mdui-card-content">
+      <form method="POST">
+        {{ form.csrf_token }}
+
+        <div class="mdui-textfield mdui-textfield-floating-label">
+          {{ form.summary.label(class='mdui-textfield-label') }}
+          {{ form.summary(class='mdui-textfield-input') }}
+        </div>
+
+        <div class="mdui-textfield mdui-textfield-floating-label">
+          {{ form.old_password.label(class='mdui-textfield-label') }}
+          {{ form.old_password(class='mdui-textfield-input') }}
+        </div>
+
+				如果需要更改密码，请填写下面两项。
+
+        <div class="mdui-textfield mdui-textfield-floating-label">
+          {{ form.new_password.label(class='mdui-textfield-label') }}
+          {{ form.new_password(class='mdui-textfield-input') }}
+        </div>
+
+        <div class="mdui-textfield mdui-textfield-floating-label">
+          {{ form.new_password_check.label(class='mdui-textfield-label') }}
+          {{ form.new_password_check(class='mdui-textfield-input') }}
+        </div>
+
+        {{ form.submit(class='mdui-btn mdui-btn-raised mdui-color-theme-accent') }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -9,6 +9,4 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    global db
-    res = db.session.query(User).filter_by(id=user_id).all()
-    return res[0].get_mixin() if len(res) else None
+    return db.session.query(User).filter_by(id=user_id).first()

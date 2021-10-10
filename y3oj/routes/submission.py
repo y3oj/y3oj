@@ -9,7 +9,7 @@ from y3oj.routes.decorater import submission_checker, manage_authority_required
 
 
 @app.route('/submission')
-def list_submission():
+def route_submission_index():
     submissions = db.session \
         .query(Submission) \
         .order_by(Submission.id.desc()) \
@@ -20,7 +20,7 @@ def list_submission():
 
 @app.route('/submission/<id>')
 @submission_checker
-def get_submission(id):
+def route_submission(id):
     return render_template('submission/submission.html',
                            submission=g.submission.get_mixin())
 
@@ -29,7 +29,7 @@ def get_submission(id):
 @manage_authority_required
 @login_required
 @submission_checker
-def rejudge_submission_api(id):
+def api_rejudge_submission(id):
     try:
         rejudge_submission(id)
         return jsonify({'code': 0})

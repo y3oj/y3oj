@@ -39,7 +39,7 @@
         </li>
       </ul>
     {% else %}
-      <button onclick="location.replace('/login')" class="mdui-btn">登录</button>
+      <button onclick="location.replace('{{ url_for('route_login') }}')" class="mdui-btn">登录</button>
     {% endif %}
   </div>
 
