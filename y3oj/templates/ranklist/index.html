@@ -1,0 +1,27 @@
+{% set title = '用户排名' %}
+{% extends 'layout.html' %}
+
+{% block container %}
+  <div class="mdui-table-fluid y3oj-ranklist-table" id="ranklist">
+    <table class="mdui-table">
+      <thead>
+        <tr>
+          <th class="mdui-table-col-numeric">#</th>
+          <th>ID</th>
+          <th>简介</th>
+          {# <th class="mdui-table-col-numeric">通过</th> #}
+          {# <th class="mdui-table-col-numeric">提交</th> #}
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in userlist %}
+          <tr>
+            <td>{{ userlist.index(user) + 1 }}</td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.settings.summary }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
