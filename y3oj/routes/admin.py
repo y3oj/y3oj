@@ -3,6 +3,7 @@ from flask_login import login_required
 from y3oj import app, db
 from y3oj.utils import render_template
 from y3oj.models import User, Problem, Submission
+from y3oj.models.user import MANAGE_AUTHORITY, ADMIN_AUTHORITY, ROOT_AUTHORITY
 from y3oj.routes.decorater import manage_authority_required
 
 admin_routes = {
@@ -12,7 +13,7 @@ admin_routes = {
         icon='storage',
         icon_color='teal',
         links={
-            'rejudge-submission': '重测提交记录',
+            'rejudge': dict(name='重测提交记录', authority=MANAGE_AUTHORITY),
         },
     ),
 }
