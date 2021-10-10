@@ -3,6 +3,29 @@
 {% extends "layout.html" %}
 
 {% block container %}
-	{{ user.settings.summary }}
-	{{ str(user.settings) }}
+  <div class="mdui-col-sm-0 mdui-col-md-1 mdui-col-lg-2"></div>
+  <div class="mdui-col-sm-12 mdui-col-md-10 mdui-col-lg-8">
+    <div class="mdui-card">
+      <div class="mdui-card-media">
+        {% if user.settings.background_image %}
+          <img src="{{ user.settings.background_image or 'https://memset0.cn/background.png' }}"/>
+          <div class="mdui-card-media-covered">
+            <div class="mdui-card-primary">
+              <div class="mdui-card-primary-title">{{ user.id }}</div>
+              <div class="mdui-card-primary-subtitle">{{ user.settings.summary }}</div>
+            </div>
+          </div>
+        {% else %}
+          <div class="mdui-card-primary">
+            <div class="mdui-card-primary-title">{{ user.id }}</div>
+            <div class="mdui-card-primary-subtitle">{{ user.settings.summary }}</div>
+          </div>
+        {% endif %}
+      </div>
+      <div class="mdui-card-content mdui-typo">
+        {{ utils.render_markdown(user.settings.description or '这位用户很懒，还没有填写个人简介呢。') | safe }}
+      </div>
+    </div>
+  </div>
+  <div class="mdui-col-sm-0 mdui-col-md-1 mdui-col-lg-2"></div>
 {% endblock %}

@@ -32,7 +32,10 @@
       <button class="mdui-btn" mdui-menu="{target: '#example-attr'}">{{ current_user.id }}</button>
       <ul class="mdui-menu" id="example-attr">
         <li class="mdui-menu-item">
-          <a href="/user/{{ current_user.id }}" class="mdui-ripple">个人主页</a>
+          <a href="/user/{{ current_user.id }}" class="mdui-ripple">我的主页</a>
+        </li>
+        <li class="mdui-menu-item">
+          <a href="/user/{{ current_user.id }}/settings" class="mdui-ripple">用户设置</a>
         </li>
         <li class="mdui-menu-item">
           <a href="/logout" class="mdui-ripple">注销</a>

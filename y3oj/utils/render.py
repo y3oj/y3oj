@@ -54,7 +54,7 @@ def render_template(path, **data):
     return render(path,
                   str=str,
                   len=len,
-                  json=json,
+                  utils=dict(render_markdown=render_markdown),
                   assets=assets,
                   config=config,
                   **data)

@@ -11,7 +11,11 @@ database:
     code: 10000
     link: 200
     details: 10000
-    user_description: 1000
+
+user:
+  limit:
+    summary: 30
+    description: 1000
 
 problem:
   defaults:
