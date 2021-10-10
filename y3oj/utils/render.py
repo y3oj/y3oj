@@ -218,17 +218,19 @@ def render_markdown_blocks(source, anti_xss=True):
     return blocks
 
 
-def render_template(path, **data):
+def render_template(template_path, **data):
     from y3oj import config
 
     def assets(uri):
         return '/assets' + uri
 
     render = flask.render_template
-    return render(path,
-                  str=str,
-                  len=len,
-                  utils=dict(render_markdown=render_markdown),
-                  assets=assets,
-                  config=config,
-                  **data)
+    return render(
+        template_path,
+        str=str,
+        len=len,
+        assets=assets,
+        config=config,
+        utils=dict(render_markdown=render_markdown),
+        **data,
+    )

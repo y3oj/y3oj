@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block container %}
+  <div class="mdui-row y3oj-admin">
+    <div class="mdui-col-xs-12 mdui-col-sm-4 mdui-col-lg-3">
+      <div class="mdui-container-fluid">
+        {% include 'admin/_partial/sidebar.html' %}
+      </div>
+    </div>
+
+    <div class="mdui-col-xs-12 mdui-col-sm-8 mdui-col-lg-9">
+      <div class="mdui-container-fluid">
+        {% block admin_container %}{% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+<div class="mdui-card y3oj-admin-sidebar" id="admin-sidebar">
+  <div class="mdui-list mdui-list-dense" mdui-collapse="{accordion: true}">
+    <li class="mdui-list-item mdui-ripple {{ 'mdui-list-item-active' if request.path == '/admin' }}">
+      <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue-grey">home</i>
+      <a href="/admin" class="mdui-list-item-content">主面板</a>
+    </li>
+    {% for category, data in routes.items() %}
+      {% set is_current_category = request.path.split('/')[1] == category %}
+      <div class="mdui-collapse-item {{ 'mdui-collapse-item-open' if is_current_category }}">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-{{ data.icon_color }}">{{ data.icon }}</i>
+          <div class="mdui-list-item-content">{{ data.name }}</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <div class="mdui-collapse-item-body mdui-list">
+          {% for attr, name in data.links.items() %}
+            {% set is_current_category = request.path.split('/')[2] == attr %}
+            <a href="/admin/{{ category }}/{{ attr }}" class="mdui-list-item mdui-ripple {{ 'mdui-list-item-active' if is_current_attr }}">{{ name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

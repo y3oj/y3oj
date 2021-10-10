@@ -20,10 +20,12 @@
       <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">equalizer</i>
       <div class="mdui-list-item-content">排行</div>
     </a>
-    <a href="/admin" class="mdui-list-item mdui-ripple">
-      <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">dashboard</i>
-      <div class="mdui-list-item-content">管理</div>
-    </a>
+    {% if current_user.has_manage_authority %}
+      <a href="/admin" class="mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">dashboard</i>
+        <div class="mdui-list-item-content">管理</div>
+      </a>
+    {% endif %}
     {# <a href="/docs" class="mdui-list-item mdui-ripple">
       <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blud-grey">style</i>
       <div class="mdui-list-item-content">文档</div>

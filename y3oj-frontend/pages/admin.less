@@ -1,0 +1,32 @@
+@import '../global';
+
+.y3oj-admin {
+	&>div {
+		@media screen and (max-width:@screen-sm-min) {
+			margin-bottom: 32px;
+		}
+	}
+
+	&-panel {
+		text-align: center;
+
+		& &-item {
+			margin: 32px 0;
+			color: #202020;
+			text-decoration: none;
+
+			i {
+				display: block;
+				font-size: 60px;
+				color: #7a7a7a;
+			}
+
+			h4 {
+				font-size: 20px;
+				letter-spacing: 1.2px;
+				font-weight: normal;
+				margin: 16px 0 20px;
+			}
+		}
+	}
+}

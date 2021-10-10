@@ -1,0 +1,24 @@
+{% set title = "管理" %}
+{% extends "admin/layout.html" %}
+
+{% block admin_container %}
+  <div class="mdui-card">
+    <div class="mdui-row-xs-2 mdui-row-md-3 y3oj-admin-panel">
+      <a href="/problem" class="mdui-col y3oj-admin-panel-item">
+				<i class="mdui-icon material-icons">book</i>
+        <h4>题目</h4>
+        {{ problem_count }} 道
+      </a>
+      <a href="/ranklist" class="mdui-col y3oj-admin-panel-item">
+				<i class="mdui-icon material-icons">supervisor_account</i>
+        <h4>用户</h4>
+        {{ user_count }} 位
+      </a>
+      <a href="/submission" class="mdui-col y3oj-admin-panel-item">
+				<i class="mdui-icon material-icons">storage</i>
+        <h4>提交</h4>
+        {{ submission_count }} 条
+      </a>
+    </div>
+  </div>
+{% endblock %}
