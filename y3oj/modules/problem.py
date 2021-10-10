@@ -28,7 +28,8 @@ def load_problems():
         # statement
         if path.exists(path.join(folder, 'statement.md')):
             plaintext = readFile(path.join(folder, 'statement.md'))
-            element.statement = render_markdown_blocks(plaintext)
+            element.statement = render_markdown_blocks(plaintext,
+                                                       anti_xss=False)
         db.session.add(element)
 
     db.session.commit()
