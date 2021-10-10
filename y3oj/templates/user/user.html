@@ -3,24 +3,26 @@
 {% extends "layout.html" %}
 
 {% block container %}
+  <script>
+    window.hideProfileCover = function () {
+      console.log('hideProfileCover');
+      document.getElementById('cover').style.display = 'none';
+      document.getElementById('cover-primary').classList.remove('mdui-card-media-covered')
+    }
+  </script>
   <div class="mdui-col-sm-0 mdui-col-md-1 mdui-col-lg-2"></div>
   <div class="mdui-col-sm-12 mdui-col-md-10 mdui-col-lg-8">
     <div class="mdui-card">
       <div class="mdui-card-media">
         {% if user.settings.background_image %}
-          <img src="{{ user.settings.background_image or 'https://memset0.cn/background.png' }}"/>
-          <div class="mdui-card-media-covered">
-            <div class="mdui-card-primary">
-              <div class="mdui-card-primary-title">{{ user.id }}</div>
-              <div class="mdui-card-primary-subtitle">{{ user.settings.summary }}</div>
-            </div>
-          </div>
-        {% else %}
+          <img id="cover" src="{{ user.settings.background_image or 'https://memset0.cn/background.png' }}" onerror="hideProfileCover()"/>
+        {% endif %}
+        <div id="cover-primary" class="{{ 'mdui-card-media-covered' if user.settings.background_image }}">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">{{ user.id }}</div>
             <div class="mdui-card-primary-subtitle">{{ user.settings.summary }}</div>
           </div>
-        {% endif %}
+        </div>
       </div>
       <div class="mdui-card-content mdui-typo">
         {{ utils.render_markdown(user.settings.description or '这位用户很懒，还没有填写个人简介呢。') | safe }}
