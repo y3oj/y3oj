@@ -22,7 +22,7 @@ admin_routes = {
 @app.route('/admin')
 @manage_authority_required
 @login_required
-def route_admin_index():
+def admin_index():
     user_count = db.session.query(User).count()
     problem_count = db.session.query(Problem).count()
     submission_count = db.session.query(Submission).count()
@@ -32,4 +32,18 @@ def route_admin_index():
         user_count=user_count,
         problem_count=problem_count,
         submission_count=submission_count,
+    )
+
+
+@app.route('/admin/submission/rejudge')
+@manage_authority_required
+@login_required
+def admin_rejudge_submission():
+    return render_template(
+        'admin/postapi.html',
+        routes=admin_routes,
+        title='重测提交记录',
+        api='/api/rejudge-submission',
+        message='重新测评提交记录，建议在题目数据修改或评测服务中断后使用。（功能需要加强）',
+        args=dict(id='提交记录 ID'),
     )

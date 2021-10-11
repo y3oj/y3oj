@@ -2,7 +2,7 @@ from y3oj import db, judger
 from y3oj.models import Submission, User, Problem
 
 
-def get_submission(id: str):
+def get_submission(id):
     return db.session.query(Submission).filter_by(id=id).first()
 
 

@@ -5,7 +5,7 @@
       <a href="/admin" class="mdui-list-item-content">主面板</a>
     </li>
     {% for category, data in routes.items() %}
-      {% set is_current_category = request.path.split('/')[1] == category %}
+      {% set is_current_category = request.path.split('/')[2] == category %}
       <div class="mdui-collapse-item {{ 'mdui-collapse-item-open' if is_current_category }}">
         <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
           <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-{{ data.icon_color }}">{{ data.icon }}</i>
@@ -15,7 +15,7 @@
         <div class="mdui-collapse-item-body mdui-list">
           {% for item, data in data.links.items() %}
             {% if current_user.authority >= data.authority %}
-              {% set is_current_item = request.path.split('/')[2] == item %}
+              {% set is_current_item = request.path.split('/')[3] == item %}
               <a href="/admin/{{ category }}/{{ item }}" class="mdui-list-item mdui-ripple {{ 'mdui-list-item-active' if is_current_item }}">{{ data.name }}</a>
             {% endif %}
           {% endfor %}

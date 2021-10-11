@@ -1,11 +1,9 @@
-from flask import g, jsonify
-from flask_login import login_required
+from flask import g
 
 from y3oj import app, db
 from y3oj.models import Submission
 from y3oj.utils import render_template, to_mixin
-from y3oj.modules.submission import rejudge_submission
-from y3oj.routes.decorater import submission_checker, manage_authority_required
+from y3oj.routes.decorater import submission_checker
 
 
 @app.route('/submission')
@@ -23,15 +21,3 @@ def route_submission_index():
 def route_submission(id):
     return render_template('submission/submission.html',
                            submission=g.submission.get_mixin())
-
-
-@app.route('/api/rejudge-submission/<id>')
-@manage_authority_required
-@login_required
-@submission_checker
-def api_rejudge_submission(id):
-    try:
-        rejudge_submission(id)
-        return jsonify({'code': 0})
-    except BaseException as e:
-        return jsonify({'code': 1, 'error': str(e)})

@@ -1,0 +1,53 @@
+@import '../global';
+
+.postapi {
+
+	&-api,
+	&-submit {
+		display: inline-block;
+		line-height: 28px;
+		border-radius: 2px;
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+
+	&-api {
+		font-family: @font-family-monospace;
+		width: calc(100% - 32px - 64px - 12px);
+		font-size: 15px;
+		padding-left: 16px;
+		padding-right: 16px;
+
+		& &-prefix {
+			color: #455A64;
+		}
+	}
+
+	&-submit {
+		font-size: 14px;
+		font-weight: normal;
+		letter-spacing: 0;
+		width: 64px;
+		min-width: 0;
+		height: auto;
+		margin-left: 8px;
+		padding-left: 8px;
+		padding-right: 8px;
+	}
+
+	&-viewer {
+		margin-top: 20px;
+		height: 600px;
+		overflow-y: scroll;
+
+		&-line {
+			font-family: @font-family-monospace;
+			font-size: 13px;
+			line-height: 20px;
+			letter-spacing: -0.6px;
+			margin: 0;
+			white-space: pre-wrap;
+			word-wrap: break-word;
+		}
+	}
+}

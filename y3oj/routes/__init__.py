@@ -5,3 +5,5 @@ from .admin import *
 from .problem import *
 from .ranklist import *
 from .submission import *
+
+from .api.submission import *
