@@ -49,7 +49,7 @@ class User(UserMixin, db.Model):
         return self.authority >= ROOT_AUTHORITY
 
     def __eq__(self, other):
-        return self.key == other.key
+        return isinstance(other, User) and self.key == other.key
 
     def __init__(self, id, key, nickname, password, authority, settings):
         self.id = id
