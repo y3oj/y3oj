@@ -1,3 +1,6 @@
 mdui:
   version: 1.0.1
   type: zip
+katex:
+  version: 0.13.18
+  type: zip
