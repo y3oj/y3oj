@@ -65,6 +65,8 @@ class InputPipe(object):
         pass
 
     def _send(self, string):
+        if config.debug:
+            print('[INFO] send:', json.dumps(string))
         self.pipe.write(string.encode(pipe_encoding))
         self.pipe.flush()
 
@@ -88,6 +90,8 @@ class OutputPipe(object):
     def _recv(self):
         self.cache = self.pipe.read1().decode(pipe_encoding)
         self.pointer = 0
+        if config.debug:
+            print('[INFO] recv:', json.dumps(self.cache))
         # print('[recv]', str(list(self.cache)))
 
     def recv(self):
