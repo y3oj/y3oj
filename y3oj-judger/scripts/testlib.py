@@ -4,6 +4,7 @@ import subprocess
 from os import path
 
 pipe_encoding = 'utf-8'
+warn_without_sandbox = True
 
 
 class BaseResult(Exception):
@@ -140,6 +141,7 @@ class OutputPipe(object):
 
 class Config:
     def __init__(self):
+        self.debug = False
         self.problem_name = 'noname'
         self.sandbox_path = path.abspath(
             path.join(path.dirname(__file__), 'sandbox.py'))
@@ -179,17 +181,31 @@ def register(judger, tasks=[], type='default'):
         judgers[task][type] = judger
 
 
+def debug_mode(enable=True):
+    config.debug = enable
+
+
 def run_task(judger, task_id):
+    global warn_without_sandbox
     res = None
     task = Task(task_id=task_id, testlib_config=config)
     try:
         if 'before' in judger:
             judger['before'](task)
+        if path.exists(config.sandbox_path) and not config.debug:
+            parameters = ['python', config.sandbox_path, config.solution_path]
+        else:
+            parameters = ['python', config.solution_path]
+            if warn_without_sandbox and not config.debug:
+                print('[WARNING] `sandbox.py` not found. ' + \
+                    'Don\'t use this in production envirment.')
+                warn_without_sandbox = False
         ps = subprocess.Popen(
-            ['python', config.sandbox_path, config.solution_path],
+            parameters,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
+            stderr=subprocess.PIPE,
+        )
         task.stdin = InputPipe(ps.stdin)
         task.stdout = OutputPipe(ps.stdout)
         temperror = None
@@ -224,6 +240,8 @@ def run_task(judger, task_id):
 
 
 def run(tasks=None):
+    if config.debug:
+        print('[INFO] Running in debug mode.')
     if tasks is None:
         tasks = range(0, len(judgers))
     res = []
@@ -232,5 +250,7 @@ def run(tasks=None):
             data = run_task(judgers[task], task_id=task)
             res.append(data)
         except BaseException as e:
+            if config.debug:
+                raise e
             res.append(dict(status='SystemError', message=str(repr(e))))
     print('[SUCCESS]', json.dumps(res))
