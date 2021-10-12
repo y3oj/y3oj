@@ -6,4 +6,5 @@ from .problem import *
 from .ranklist import *
 from .submission import *
 
+from .api.problem import *
 from .api.submission import *

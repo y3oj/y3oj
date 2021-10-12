@@ -11,6 +11,7 @@ def get_problem(id: str):
 
 
 def load_problems():
+    summary = []
     folders = filter(path.isdir, listDir(path.join(dirname, 'data',
                                                    'problem')))
     db.session.query(Problem).delete()
@@ -18,18 +19,21 @@ def load_problems():
     for folder in folders:
         args = yaml.load(readFile(path.join(folder, 'config.yml')),
                          Loader=yaml.SafeLoader)
-        element = Problem(id=path.basename(folder),
+        prob = Problem(id=path.basename(folder),
                           key=int(args['key']),
                           title=args['title'])
         # config
         del args['key']
         del args['title']
-        element.config = args
+        prob.config = args
         # statement
         if path.exists(path.join(folder, 'statement.md')):
             plaintext = readFile(path.join(folder, 'statement.md'))
-            element.statement = render_markdown_blocks(plaintext,
+            prob.statement = render_markdown_blocks(plaintext,
                                                        anti_xss=False)
-        db.session.add(element)
+        summary.append(
+            dict(id=prob.id, key=prob.key, title=prob.title))
+        db.session.add(prob)
 
     db.session.commit()
+    return summary

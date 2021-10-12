@@ -8,7 +8,7 @@
       {% set is_current_category = request.path.split('/')[2] == category %}
       <div class="mdui-collapse-item {{ 'mdui-collapse-item-open' if is_current_category }}">
         <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
-          <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-{{ data.icon_color }}">{{ data.icon }}</i>
+          <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-{{ data.color }}">{{ data.icon }}</i>
           <div class="mdui-list-item-content">{{ data.name }}</div>
           <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
         </div>
