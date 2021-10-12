@@ -20,8 +20,8 @@ def load_problems():
         args = yaml.load(readFile(path.join(folder, 'config.yml')),
                          Loader=yaml.SafeLoader)
         prob = Problem(id=path.basename(folder),
-                          key=int(args['key']),
-                          title=args['title'])
+                       key=int(args['key']),
+                       title=args['title'])
         # config
         del args['key']
         del args['title']
@@ -29,10 +29,8 @@ def load_problems():
         # statement
         if path.exists(path.join(folder, 'statement.md')):
             plaintext = readFile(path.join(folder, 'statement.md'))
-            prob.statement = render_markdown_blocks(plaintext,
-                                                       anti_xss=False)
-        summary.append(
-            dict(id=prob.id, key=prob.key, title=prob.title))
+            prob.statement = render_markdown_blocks(plaintext, anti_xss=False)
+        summary.append(dict(id=prob.id, key=prob.key, title=prob.title))
         db.session.add(prob)
 
     db.session.commit()

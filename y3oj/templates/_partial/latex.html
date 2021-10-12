@@ -1,4 +1,25 @@
 <link rel="stylesheet" href="{{ assets('/lib/katex/katex.min.css') }}">
 <script src="{{ assets('/lib/katex/katex.min.js') }}"></script>
 <script src="{{ assets('/lib/katex/contrib/auto-render.min.js') }}"></script>
-<script>renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}]})</script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {
+        left: "$$",
+        right: "$$",
+        display: true
+      }, {
+        left: "$",
+        right: "$",
+        display: false
+      }
+    ],
+    ignoredTags: [
+      "script",
+      "noscript",
+      "style",
+      "textarea",
+      "option"
+    ]
+  })
+</script>
