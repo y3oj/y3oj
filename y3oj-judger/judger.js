@@ -101,7 +101,7 @@ async function runInSandbox(parameters, options) {
 			mountProc: true,
 			redirectBeforeChroot: true,
 			process: 30,
-			user: sandbox.getUidAndGidInSandbox(dir.chroot, "y3oj"),
+			user: sandbox.getUidAndGidInSandbox(dir.chroot, "root"),
 			cgroup: "asdf",
 		};
 		// console.log(sandbox_options);

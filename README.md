@@ -60,7 +60,6 @@ cd ./sandbox-rootfs
 mount ./root.x86_64/ ./root.x86_64/ --bind
 sudo ./root.x86_64/usr/bin/arch-chroot ./root.x86_64/
 mkdir -p /sandbox/working
-groupadd --gid 725 y3oj && useradd --uid 725 --gid y3oj --shell /bin/bash --create-home y3oj
 echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 pacman -Syy
 pacman-key --init && pacman-key --populate archlinux
