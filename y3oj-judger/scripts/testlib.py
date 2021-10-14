@@ -31,6 +31,12 @@ class Random:
     def _randint(self, a, b):
         return random.randint(a, b)
 
+    def _shuffle(self, a):
+        return random.shuffle(a)
+
+    def _sample(self, a, k):
+        return random.sample(a, k)
+
     def _randrange(self, a, b, c=None):
         if c is None:
             return random.randrange(a, b)
@@ -122,12 +128,12 @@ class OutputPipe(object):
 
     def recvint(self):
         res = 0
-        while True:
+        c = self.recv()
+        while ord(c) < 48 or ord(c) > 57:
             c = self.recv()
-            if 48 <= ord(c) and ord(c) <= 57:
-                res = res * 10 + int(c)
-            else:
-                break
+        while 48 <= ord(c) and ord(c) <= 57:
+            res = res * 10 + int(c)
+            c = self.recv()
         return res
 
     def recvthis(self, target):
@@ -258,3 +264,6 @@ def run(tasks=None):
                 raise e
             res.append(dict(status='SystemError', message=str(repr(e))))
     print('[SUCCESS]', json.dumps(res))
+    if config.debug:
+        for status in res:
+            print('[STATUS]', status)
