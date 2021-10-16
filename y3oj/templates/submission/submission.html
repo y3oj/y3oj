@@ -8,7 +8,7 @@
   {% if current_user == submission.user or current_user.has_manage_authority %}
     <div class="mdui-card mdui-m-t-3">
       <div class="mdui-card-content mdui-typo">
-        <pre>{{ submission.code }}</pre>
+        {{ utils.highlight(submission.code) | safe }}
       </div>
     </div>
   {% endif %}

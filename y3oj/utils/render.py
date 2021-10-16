@@ -1,8 +1,10 @@
 import re
-import json
 import flask
-from urllib.parse import urlparse, urljoin
 from html.parser import HTMLParser
+from urllib.parse import urlparse, urljoin
+from pygments import highlight as pygments_highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
 
 
 class XssHtmlParser(HTMLParser):
@@ -177,6 +179,10 @@ def is_safe_url(host, target):
         ref_url.netloc == test_url.netloc
 
 
+def highlight(code):
+    return pygments_highlight(code, PythonLexer(), HtmlFormatter())
+
+
 def render_markdown(source, anti_xss=True):
     import markdown2
     if isinstance(source, list):
@@ -231,6 +237,9 @@ def render_template(template_path, **data):
         len=len,
         assets=assets,
         config=config,
-        utils=dict(render_markdown=render_markdown),
+        utils=dict(
+            highlight=highlight,
+            render_markdown=render_markdown,
+        ),
         **data,
     )
