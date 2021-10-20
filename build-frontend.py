@@ -1,5 +1,8 @@
+import os
 import yaml
 import time
+import stat
+import shutil
 import requests
 from argparse import ArgumentParser
 from os import path, system as exec
@@ -20,6 +23,35 @@ def logger(*args):
 
 def disabledLogger(*args):
     pass
+
+
+def copytree(src, dst, symlinks=False, ignore=None, forced=False):
+    if not path.exists(dst):
+        os.makedirs(dst)
+        shutil.copystat(src, dst)
+    lst = os.listdir(src)
+    if ignore:
+        excl = ignore(src, lst)
+        lst = [x for x in lst if x not in excl]
+    for item in lst:
+        s = path.join(src, item)
+        d = path.join(dst, item)
+        if symlinks and path.islink(s):
+            if path.lexists(d):
+                os.remove(d)
+            os.symlink(os.readlink(s), d)
+            try:
+                st = os.lstat(s)
+                mode = stat.S_IMODE(st.st_mode)
+                os.lchmod(d, mode)
+            except:
+                pass  # lchmod not available
+        elif path.isdir(s):
+            copytree(s, d, symlinks, ignore)
+        elif not forced and path.exists(d):
+            pass
+        else:
+            shutil.copy2(s, d)
 
 
 def checkRequirement():
@@ -53,6 +85,10 @@ def build(source_dir, target_dir, forced=False, logger=logger):
     temp_dir = path.join(dirname, 'tmp', 'build-frontend')
     makedirs(temp_dir)
     makedirs(target_dir)
+
+    logger('copying assets tree...')
+    copytree(path.join(source_dir, 'assets'), target_dir, forced=forced)
+    logger('assets tree copyed.')
 
     # install packages
     packages = yaml.load(readFile(path.join(source_dir, 'package.yml')),
