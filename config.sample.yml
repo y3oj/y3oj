@@ -26,6 +26,9 @@ problem:
 frontend:
   thirdparty_host: https://cdn.jsdelivr.net/gh/y3oj/static-files-host
   # thirdparty_host: https://raw.githubusercontent.com/y3oj/static-files-host/main
+ 
+template:
+  logo: /demo/logo.png
 
 judger:
   port: 5834

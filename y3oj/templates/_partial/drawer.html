@@ -1,4 +1,8 @@
-<div class="mdui-drawer mdui-shadow-4" id="drawer">
+<div class="mdui-drawer mdui-shadow-4 drawer" id="drawer">
+  {% if config.template.logo %}
+    <img src="{{ assets(config.template.logo) }}" class="drawer-logo" />
+    <div class="mdui-divider"></div>
+  {% endif %}
   <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px">
     <a href="/" class="mdui-list-item mdui-ripple">
       <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">home</i>

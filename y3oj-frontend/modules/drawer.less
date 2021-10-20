@@ -1,0 +1,13 @@
+@drawer-width: 240px;
+@drawer-logo-padding: 32px;
+
+.drawer {
+	width: @drawer-width !important;
+	max-width: none !important;
+
+	&-logo {
+		width: calc(@drawer-width - @drawer-logo-padding * 2);
+		height: calc(@drawer-width - @drawer-logo-padding * 2);
+		padding: @drawer-logo-padding;
+	}
+}
