@@ -3,7 +3,7 @@
 
 {% block container %}
   <div class="mdui-row">
-    <div class="mdui-center mdui-col-xs-12 mdui-col-sm-8" id="index-image">
+    <div class="mdui-center mdui-col-xs-12 mdui-col-sm-8 mdui-col-lg-9" id="index-image">
       <div class="mdui-card">
         <div class="mdui-card-media">
           <img src="{{ assets('/background.png') }}"/>
@@ -15,21 +15,33 @@
         </div>
       </div>
     </div>
-    <div class="mdui-center mdui-col-xs-12 mdui-col-sm-4" id="index-about">
-      <div class="mdui-card">
-        <div class="mdui-card-header">
-          <img class="mdui-card-header-avatar" src="{{ assets('/demo/avatar.png') }}"/>
-          <div class="mdui-card-header-title">memset0 (Main Developer)</div>
-          <div class="mdui-card-header-subtitle">良时不再，斯乐难常</div>
+    <div class="mdui-center mdui-col-xs-12 mdui-col-sm-4 mdui-col-lg-3" id="index-about">
+      {% if config.index.announcement %}
+        <div class="mdui-card index-card">
+          <div class="mdui-card-primary">
+            <div class="mdui-card-primary-title">公告</div>
+          </div>
+          <div class="mdui-card-content mdui-typo index-announcement">
+            {{ utils.render_markdown(config.index.announcement) | safe }}
+          </div>
         </div>
-        <div class="mdui-card-content">
-          <p>一个简单、轻量化、易于部署的、为中学信息技术学科课业教学设计的 Online Judge 系统。</p>
+      {% endif %}
+      {% if config.index.useful_links %}
+        <div class="mdui-card index-card">
+          <div class="mdui-card-primary">
+            <div class="mdui-card-primary-title">友情链接</div>
+          </div>
+          <div class="mdui-card-content mdui-typo index-useful-links">
+            <ul>
+              {% for text, href in config.index.useful_links.items() %}
+                <li>
+                  <a href="{{ href }}" mdui-tooltip="{content: '{{ href }}', position: 'right'}">{{ text }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
-        <div class="mdui-card-actions">
-          <a class="mdui-btn mdui-ripple" target="_blank" href="https://memset0.cn/">博客</a>
-          <a class="mdui-btn mdui-ripple" target="_blank" href="https://github.com/memset0/">Github</a>
-        </div>
-      </div>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

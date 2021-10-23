@@ -39,3 +39,6 @@ class Container(object):
 
     def __str__(self):
         return self.__dict__.__str__()
+
+    def items(self):
+        return self.__dict__.items()

@@ -12,6 +12,14 @@ database:
     link: 200
     details: 10000
 
+index:
+  announcement:
+  useful_links:
+    memset0's blog: https://memset0.cn
+    y³OJ Project: https://github.com/y3oj/y3oj
+    MDUI: https://mdui.org
+    SYZOJ: https://github.com/syzoj
+
 user:
   limit:
     summary: 40
