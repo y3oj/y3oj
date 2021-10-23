@@ -24,10 +24,15 @@ def route_login():
         password = request.form['password']
 
         user = get_user(username)
+        if user is None:
+            return render_template('login.html',
+                                   form=form,
+                                   snackbar_message='登录失败：用户不存在')
+
         if password != user.password:
             return render_template('login.html',
                                    form=form,
-                                   snackbar_error='用户名与密码不匹配')
+                                   snackbar_message='登录失败：用户名与密码不匹配')
 
         login_user(user)
         flash('Logged in successfully.')

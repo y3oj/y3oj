@@ -1,9 +1,9 @@
 <script src="{{ assets('/lib/mdui/js/mdui.min.js') }}"></script>
 {% include '_partial/latex.html' %}
-{% if snackbar_error %}
+{% if snackbar_message %}
   <script>
     mdui.snackbar({
-      message: '登录失败：' + '{{ snackbar_error }}'
+      message: '{{ snackbar_message }}'
     });
   </script>
 {% endif %}

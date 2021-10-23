@@ -44,18 +44,18 @@ def route_user_settings(id):
             return render_template(
                 'user/settings.html',
                 form=form,
-                snackbar_error=f'「一句话简介」超出长度限制（{config.user.limit.summary}）')
+                snackbar_message=f'「一句话简介」超出长度限制（{config.user.limit.summary}）')
 
         if len(request.form['description']) > config.user.limit.description:
             return render_template(
                 'user/settings.html',
                 form=form,
-                snackbar_error=f'「关于我」超出长度限制（{config.user.limit.description}）')
+                snackbar_message=f'「关于我」超出长度限制（{config.user.limit.description}）')
 
         if len(request.form['background_image']) > config.database.limit.link:
             return render_template('user/settings.html',
                                    form=form,
-                                   snackbar_error=f'「背景图片链接」不合法')
+                                   snackbar_message=f'「背景图片链接」不合法')
 
         settings['summary'] = request.form['summary']
         settings['description'] = request.form['description']
@@ -71,12 +71,12 @@ def route_user_settings(id):
             if oldpass != g.user.password:
                 return render_template('user/settings.html',
                                        form=form,
-                                       snackbar_error='密码错误')
+                                       snackbar_message='密码错误')
 
             if newpass != newpass_check:
                 return render_template('user/settings.html',
                                        form=form,
-                                       snackbar_error='两次输入的密码不一致')
+                                       snackbar_message='两次输入的密码不一致')
 
             g.user.password = newpass
 
