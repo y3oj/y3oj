@@ -2,7 +2,7 @@
 {% extends 'layout.html' %}
 
 {% block container %}
-  <div class="mdui-table-fluid y3oj-ranklist-table" id="ranklist">
+  <div class="mdui-table-fluid clickable-table ranklist-table" id="ranklist">
     <table class="mdui-table">
       <thead>
         <tr>
@@ -17,7 +17,9 @@
         {% for user in userlist %}
           <tr>
             <td>{{ userlist.index(user) + 1 }}</td>
-            <td>{{ user.id }}</td>
+            <td>
+              <a href="/user/{{ user.id }}">{{ user.id }}</a>
+            </td>
             <td>{{ user.settings.summary }}</td>
           </tr>
         {% endfor %}
