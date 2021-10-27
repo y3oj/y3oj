@@ -9,7 +9,7 @@ function load(basename) {
 };
 
 function merge(obj_a, obj_b) {
-	if (obj_a.constructor !== Object || obj_b.constructor !== Object) {
+	if (obj_a === null || obj_a.constructor !== Object || obj_b.constructor !== Object) {
 		return JSON.parse(JSON.stringify(obj_b));
 	}
 	let obj = JSON.parse(JSON.stringify(obj_a));

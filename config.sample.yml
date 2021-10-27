@@ -12,6 +12,9 @@ database:
     link: 200
     details: 10000
 
+per_page:
+  submission: 15
+
 index:
   announcement:
   useful_links:

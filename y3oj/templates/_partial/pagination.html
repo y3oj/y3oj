@@ -1,0 +1,39 @@
+<div class="pagination">
+  <div class="mdui-btn-group mdui-shadow-2 pagination-content">
+    {% if pagination.page == 1 %}
+      <button type="button" class="mdui-btn pagination-prev">
+        <i class="mdui-icon material-icons">chevron_left</i>
+      </button>
+    {% else %}
+      <a type="button" href="?page={{ pagination.page - 1 }}" class="mdui-btn pagination-link">
+        <i class="mdui-icon material-icons">chevron_left</i>
+      </a>
+    {% endif %}
+
+    {% for page in pagination.iter_pages(left_current=4, right_current=4) %}
+      {% if page %}
+        {% if page != pagination.page %}
+          <a type="button" href="?page={{ page }}" class="mdui-btn pagination-link">
+            {{ page }}
+          </a>
+        {% else %}
+          <button type="button" class="mdui-btn mdui-btn-active pagination-link pagination-active">
+            {{ page }}
+          </button>
+        {% endif %}
+      {% else %}
+        <button type="button" class="mdui-btn pagination-ellipsis">...</button>
+      {% endif %}
+    {%- endfor %}
+
+    {% if pagination.page == pagination.pages %}
+      <button type="button" class="mdui-btn pagination-prev">
+        <i class="mdui-icon material-icons">chevron_right</i>
+      </button>
+    {% else %}
+      <a type="button" href="?page={{ pagination.page + 1 }}" class="mdui-btn pagination-link">
+        <i class="mdui-icon material-icons">chevron_right</i>
+      </a>
+    {% endif %}
+  </div>
+</div>
