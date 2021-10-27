@@ -13,6 +13,7 @@ database:
     details: 10000
 
 per_page:
+  problem: 30
   submission: 15
 
 index:

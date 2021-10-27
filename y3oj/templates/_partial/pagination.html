@@ -1,7 +1,7 @@
 <div class="pagination">
   <div class="mdui-btn-group mdui-shadow-2 pagination-content">
     {% if pagination.page == 1 %}
-      <button type="button" class="mdui-btn pagination-prev">
+      <button type="button" class="mdui-btn pagination-prev" disabled>
         <i class="mdui-icon material-icons">chevron_left</i>
       </button>
     {% else %}
@@ -22,12 +22,12 @@
           </button>
         {% endif %}
       {% else %}
-        <button type="button" class="mdui-btn pagination-ellipsis">...</button>
+        <button type="button" class="mdui-btn pagination-ellipsis" disabled>...</button>
       {% endif %}
     {%- endfor %}
 
     {% if pagination.page == pagination.pages %}
-      <button type="button" class="mdui-btn pagination-prev">
+      <button type="button" class="mdui-btn pagination-prev" disabled>
         <i class="mdui-icon material-icons">chevron_right</i>
       </button>
     {% else %}

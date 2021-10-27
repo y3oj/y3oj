@@ -3,7 +3,7 @@ from wtforms import TextAreaField, SubmitField
 from flask_wtf import FlaskForm
 from flask_login import current_user, login_required
 
-from y3oj import app, db
+from y3oj import app, db, config
 from y3oj.utils import render_template, to_mixin
 from y3oj.models import Problem, Submission
 from y3oj.modules.submission import submit_code
@@ -12,8 +12,14 @@ from y3oj.routes.decorater import problem_checker, submit_authority_required
 
 @app.route('/problem')
 def route_problem_index():
-    problems = db.session.query(Problem)
-    return render_template('problem/index.html', problems=problems)
+    pagination = db.session \
+        .query(Problem) \
+        .paginate( \
+            page=int(request.args.get("page", 1)), \
+            per_page=int(config.per_page.problem))
+    return render_template('problem/index.html',
+                           pagination=pagination,
+                           problems=pagination.items)
 
 
 @app.route('/problem/<id>')
@@ -43,11 +49,14 @@ def route_problem_submit(id):
 @app.route('/problem/<id>/submission')
 @problem_checker
 def route_problem_submission(id):
-    submissions = db.session \
+    pagination = db.session \
         .query(Submission) \
         .filter_by(problem=id) \
         .order_by(Submission.id.desc()) \
-        .all()
+        .paginate( \
+            page=int(request.args.get("page", 1)), \
+            per_page=int(config.per_page.submission))
     return render_template('problem/submission.html',
                            problem=g.problem,
-                           submissions=map(to_mixin, submissions))
+                           pagination=pagination,
+                           submissions=map(to_mixin, pagination.items))
