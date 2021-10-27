@@ -11,7 +11,7 @@ from y3oj.routes.decorater import root_authority_required
 @login_required
 def api_action_exec_sql():
     command = request.form['command']
-    
+
     def execute():
         resultProxy = db.session.execute(command)
         if resultProxy.returns_rows:
