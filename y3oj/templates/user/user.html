@@ -24,10 +24,36 @@
           </div>
         </div>
       </div>
-      <div class="mdui-card-content mdui-typo">
+      <div class="mdui-card-content mdui-typo" id="profile">
         {{ utils.render_markdown(user.settings.description or '这位用户很懒，还没有填写个人简介呢。') | safe }}
       </div>
     </div>
   </div>
   <div class="mdui-col-sm-0 mdui-col-md-1 mdui-col-lg-2"></div>
+{% endblock %}
+
+{% block scripts %}
+  {% if config.security.limited_profile_links %}
+    <div class="mdui-dialog" id="dialog">
+      <div class="mdui-dialog-title">安全警告</div>
+      <div class="mdui-dialog-content">
+      <p>由于安全政策限制，请手动复制下方链接到浏览器中打开。</p>
+      <code id="dialog-link"></code>
+      </div>
+      <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
+      </div>
+    </div>
+    <script>
+      const $ = mdui.$;
+      const inst = new mdui.Dialog('#dialog', {history: false});
+      $('#profile a').each(function () {
+        this.onclick = function () {
+          $('#dialog-link').html(this.href);
+          inst.open();
+          return false; // disable this link
+        }
+      });
+    </script>
+  {% endif %}
 {% endblock %}

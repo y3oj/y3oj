@@ -34,9 +34,13 @@ problem:
 frontend:
   thirdparty_host: https://cdn.jsdelivr.net/gh/y3oj/static-files-host
   # thirdparty_host: https://raw.githubusercontent.com/y3oj/static-files-host/main
- 
+
 template:
   logo: /demo/logo.png
+
+security:
+  # 限制个人页面信息跳转，会弹出对话框要求手动复制链接。
+  limited_profile_links: false
 
 judger:
   port: 5834
