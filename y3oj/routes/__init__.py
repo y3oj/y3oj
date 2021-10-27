@@ -7,4 +7,5 @@ from .ranklist import *
 from .submission import *
 
 from .api.problem import *
+from .api.database import *
 from .api.submission import *

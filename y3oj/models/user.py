@@ -3,10 +3,10 @@ import json
 from y3oj import db, config as app_config
 from flask_login import UserMixin
 
-SUBMIT_AUTHORITY = 2
-MANAGE_AUTHORITY = 3
-ADMIN_AUTHORITY = 4
-ROOT_AUTHORITY = 5
+SUBMIT_AUTHORITY = 1
+MANAGE_AUTHORITY = 2
+ADMIN_AUTHORITY = 3
+ROOT_AUTHORITY = 4
 
 
 class User(UserMixin, db.Model):
