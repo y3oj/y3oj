@@ -47,7 +47,7 @@ def copytree(src, dst, symlinks=False, ignore=None, forced=False):
             except:
                 pass  # lchmod not available
         elif path.isdir(s):
-            copytree(s, d, symlinks, ignore)
+            copytree(s, d, symlinks, ignore, forced)
         elif not forced and path.exists(d):
             pass
         else:
@@ -61,14 +61,19 @@ def checkRequirement():
     def checkLess():
         return exec('lessc --version') == 0
 
+    def checkUglifyJS():
+        return exec('uglifyjs --version') == 0
+
     def checkCDN():
         res = requests.get(thirdparty_host + '/TEST')
         return res.text == 'y3oj/static-files-host\n'
 
     tasks = {
         'less': checkLess,
+        'uglifyjs': checkUglifyJS,
         'cdn': checkCDN,
     }
+
     for requirement, checker in tasks.items():
         logger(f'checking requirement {requirement}...')
         res = checker()
@@ -103,11 +108,27 @@ def build(source_dir, target_dir, forced=False, logger=logger):
                        temp_dir, **desc)
         logger(f'installed package {name}.')
 
+    # install javascripts
+    logger(f'[javascripts] copying...')
+    copytree(path.join(source_dir, 'js'),
+             path.join(target_dir, 'js'),
+             forced=True)
+    for root, _, files in os.walk(path.join(target_dir, 'js'), topdown=False):
+        for name in files:
+            fullpath = path.join(root, name)
+            basename, extname = path.splitext(name)
+            if extname == '.js' and not basename.endswith('.min'):
+                assert 0 == exec('uglifyjs ' + fullpath + ' -o ' +
+                                 path.join(root, basename + '.min.js') +
+                                 ' -c -m')
+                print(os.path.join(root, name))
+    logger(f'[javascripts] finished')
+
     # install less
-    logger(f'building less...')
-    assert exec('lessc ' + path.join(source_dir, 'style.less') + ' ' +
-                path.join(target_dir, 'style.min.css')) == 0
-    logger(f'less files built.')
+    logger(f'[less] building...')
+    assert 0 == exec('lessc ' + path.join(source_dir, 'style.less') + ' ' +
+                     path.join(target_dir, 'style.min.css'))
+    logger(f'[less] finished')
 
 
 def watch(source_dir, target_dir, forced=False, logger=logger):
