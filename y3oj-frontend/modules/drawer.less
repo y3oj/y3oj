@@ -1,3 +1,5 @@
+@import '../global';
+
 @drawer-width: 200px;
 @drawer-logo-padding: 32px;
 
@@ -13,17 +15,21 @@
 }
 
 .mdui-drawer-body-left {
-	padding-left: @drawer-width  !important;
+	@media (min-width: @screen-md-min) {
+		padding-left: @drawer-width  !important;
 
-	.mdui-appbar-fixed {
-		left: @drawer-width  !important;
+		.mdui-appbar-fixed {
+			left: @drawer-width  !important;
+		}
 	}
 }
 
 .mdui-drawer-body-right {
-	padding-right: @drawer-width  !important;
+	@media (min-width: @screen-md-min) {
+		padding-right: @drawer-width  !important;
 
-	.mdui-appbar-fixed {
-		right: @drawer-width  !important;
+		.mdui-appbar-fixed {
+			right: @drawer-width  !important;
+		}
 	}
 }
