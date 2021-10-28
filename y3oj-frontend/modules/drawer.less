@@ -1,13 +1,29 @@
-@drawer-width: 240px;
+@drawer-width: 200px;
 @drawer-logo-padding: 32px;
 
 .drawer {
-	width: @drawer-width !important;
+	width: @drawer-width  !important;
 	max-width: none !important;
 
 	&-logo {
 		width: calc(@drawer-width - @drawer-logo-padding * 2);
 		height: calc(@drawer-width - @drawer-logo-padding * 2);
 		padding: @drawer-logo-padding;
+	}
+}
+
+.mdui-drawer-body-left {
+	padding-left: @drawer-width  !important;
+
+	.mdui-appbar-fixed {
+		left: @drawer-width  !important;
+	}
+}
+
+.mdui-drawer-body-right {
+	padding-right: @drawer-width  !important;
+
+	.mdui-appbar-fixed {
+		right: @drawer-width  !important;
 	}
 }
