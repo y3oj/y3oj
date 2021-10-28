@@ -1,4 +1,4 @@
-{% set title = "用户设置" %}
+{% set title = '用户设置' if user == current_user else user.id + ' 的用户设置' %}
 {% extends "layout.html" %}
 
 {% block container %}

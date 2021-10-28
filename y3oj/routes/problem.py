@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from y3oj import app, db, config
 from y3oj.utils import render_template, to_mixin
 from y3oj.models import Problem
-from y3oj.modules.submission import submit_code, query_problem_submissions
+from y3oj.modules.submission import submit_code, query_problem_submissions_by_id
 from y3oj.routes.decorater import problem_checker, submit_authority_required
 
 
@@ -49,7 +49,7 @@ def route_problem_submit(id):
 @app.route('/problem/<id>/submission')
 @problem_checker
 def route_problem_submission(id):
-    pagination = query_problem_submissions(id).paginate(
+    pagination = query_problem_submissions_by_id(id).paginate(
         page=int(request.args.get("page", 1)),
         per_page=int(config.per_page.submission))
     return render_template('problem/submission.html',

@@ -6,15 +6,27 @@ def get_submission(id):
     return db.session.query(Submission).filter_by(id=id).first()
 
 
-def query_problem_submissions(problem):  # problem should be Problem.id
+def query_problem_submissions_by_id(problem):  # Problem.id
     return db.session.query(Submission) \
             .filter_by(problem=problem) \
             .order_by(Submission.id.desc())
 
 
-def query_user_submissions(user):  # user should be User.key
+def query_problem_submissions(problem):
+    return db.session.query(Submission) \
+            .filter_by(problem=problem.id) \
+            .order_by(Submission.id.desc())
+
+
+def query_user_submissions_by_key(user):  # User.key
     return db.session.query(Submission) \
             .filter_by(user=user) \
+            .order_by(Submission.id.desc())
+
+
+def query_user_submissions(user):
+    return db.session.query(Submission) \
+            .filter_by(user=user.key) \
             .order_by(Submission.id.desc())
 
 

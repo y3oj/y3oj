@@ -1,0 +1,8 @@
+{% set title = '我的提交' if user == current_user else user.id + ' 的提交' %}
+{% import '_macro/submission.html' as render_submissions %}
+{% extends 'layout.html' %}
+
+{% block container %}
+  {{ render_submissions.render_submissions(submissions) }}
+  {% include '_partial/pagination.html' %}
+{% endblock %}

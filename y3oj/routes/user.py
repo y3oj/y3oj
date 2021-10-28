@@ -6,7 +6,9 @@ from flask_wtf import FlaskForm
 from flask_login import current_user, login_required
 
 from y3oj import app, db, config
-from y3oj.utils import render_template
+from y3oj.utils import render_template, to_mixin
+from y3oj.modules.user import get_user
+from y3oj.modules.submission import query_user_submissions
 from y3oj.routes.decorater import user_checker
 
 
@@ -14,6 +16,22 @@ from y3oj.routes.decorater import user_checker
 @user_checker
 def route_user(id):
     return render_template('user/user.html', user=g.user)
+
+
+@app.route('/user/<id>/submission')
+@user_checker
+@login_required
+def route_user_submission(id):
+    if g.user != current_user and not current_user.has_root_authority:
+        abort(400)
+
+    pagination = query_user_submissions(g.user).paginate(
+        page=int(request.args.get("page", 1)),
+        per_page=int(config.per_page.submission))
+    return render_template('user/submission.html',
+                           user=g.user,
+                           pagination=pagination,
+                           submissions=map(to_mixin, pagination.items))
 
 
 @app.route('/user/<id>/settings', methods=['GET', 'POST'])
@@ -43,17 +61,21 @@ def route_user_settings(id):
         if len(request.form['summary']) > config.user.limit.summary:
             return render_template(
                 'user/settings.html',
+                user=g.user,
                 form=form,
                 snackbar_message=f'「一句话简介」超出长度限制（{config.user.limit.summary}）')
 
         if len(request.form['description']) > config.user.limit.description:
             return render_template(
                 'user/settings.html',
+                user=g.user,
                 form=form,
-                snackbar_message=f'「关于我」超出长度限制（{config.user.limit.description}）')
+                snackbar_message=f'「关于我」超出长度限制（{config.user.limit.description}）'
+            )
 
         if len(request.form['background_image']) > config.database.limit.link:
             return render_template('user/settings.html',
+                                   user=g.user,
                                    form=form,
                                    snackbar_message=f'「背景图片链接」不合法')
 
@@ -71,11 +93,13 @@ def route_user_settings(id):
             if oldpass != g.user.password:
                 return render_template('user/settings.html',
                                        form=form,
+                                       user=g.user,
                                        snackbar_message='密码错误')
 
             if newpass != newpass_check:
                 return render_template('user/settings.html',
                                        form=form,
+                                       user=g.user,
                                        snackbar_message='两次输入的密码不一致')
 
             g.user.password = newpass
@@ -83,4 +107,4 @@ def route_user_settings(id):
         g.user.settings = settings
         db.session.add(g.user)
 
-    return render_template('user/settings.html', form=form)
+    return render_template('user/settings.html', form=form, user=g.user)
