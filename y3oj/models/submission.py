@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 from y3oj import db, config as app_config
-from y3oj.utils import Container
+from y3oj.utils import Container, strftime
 from y3oj.modules.problem import get_problem
 from y3oj.modules.user import get_user_by_key
 
@@ -17,7 +17,7 @@ class SubmissionMixin(object):
         self.status = status
         self.time = time
         self.memory = memory
-        self.create_time =create_time.strftime(r'%Y-%m-%d %H:%M:%S')
+        self.create_time = strftime(create_time)
         self.details = details
         for i in range(len(self.details)):
             detail = self.details[i]
@@ -46,7 +46,7 @@ class Submission(db.Model):
     status = db.Column(db.String(30))
     time = db.Column(db.Integer)
     memory = db.Column(db.Integer)
-    create_time = db.Column(db.DateTime, default=datetime.utcnow)
+    create_time = db.Column(db.DateTime, default=datetime.utcnow())
     _details = db.Column(db.Unicode(app_config.database.limit.details))
 
     # __mapper_args__ = {'order_by': id.desc()}  # deprecated
