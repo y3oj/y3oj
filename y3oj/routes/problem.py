@@ -1,4 +1,5 @@
-from flask import g, request, redirect, url_for
+import os
+from flask import g, request, redirect, url_for, send_from_directory
 from wtforms import TextAreaField, SubmitField
 from flask_wtf import FlaskForm
 from flask_login import current_user, login_required
@@ -56,3 +57,10 @@ def route_problem_submission(id):
                            problem=g.problem,
                            pagination=pagination,
                            submissions=map(to_mixin, pagination.items))
+
+
+@app.route('/problem/<id>/assets/<path:path>')
+@problem_checker
+def route_problem_assets(id, path):
+    return send_from_directory(
+        os.path.join('..', 'data', 'problem', id, 'assets'), path)

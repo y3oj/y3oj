@@ -25,7 +25,7 @@ def problem_checker(f, attr='id'):
         g.problem = get_problem(id)
         if g.problem is None:
             abort(404)
-        return f(id)
+        return f(**kwargs)
 
     return decorated_function
 
@@ -37,6 +37,6 @@ def submission_checker(f, attr='id'):
         g.submission = get_submission(id)
         if g.submission is None:
             abort(404)
-        return f(id)
+        return f(**kwargs)
 
     return decorated_function
