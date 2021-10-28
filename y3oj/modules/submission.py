@@ -6,6 +6,18 @@ def get_submission(id):
     return db.session.query(Submission).filter_by(id=id).first()
 
 
+def query_problem_submissions(problem):  # problem should be Problem.id
+    return db.session.query(Submission) \
+            .filter_by(problem=problem) \
+            .order_by(Submission.id.desc())
+
+
+def query_user_submissions(user):  # user should be User.key
+    return db.session.query(Submission) \
+            .filter_by(user=user) \
+            .order_by(Submission.id.desc())
+
+
 def judge_submission(submission: Submission):
     if submission is None:
         return

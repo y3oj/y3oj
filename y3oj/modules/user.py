@@ -8,4 +8,3 @@ def get_user(id: str):
 
 def get_user_by_key(key: int):
     return db.session.query(User).filter_by(key=key).first()
-    

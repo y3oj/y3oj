@@ -26,7 +26,7 @@
       {% endif %}
     {%- endfor %}
 
-    {% if pagination.page == pagination.pages %}
+    {% if pagination.page == pagination.pages and pagination.pages != 0 %}
       <button type="button" class="mdui-btn pagination-prev" disabled>
         <i class="mdui-icon material-icons">chevron_right</i>
       </button>
