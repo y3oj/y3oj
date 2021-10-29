@@ -19,17 +19,18 @@ def route_docs_index():
 @app.route('/docs/<path:path>')
 def route_docs(path):
     local_path = path_join(docs_root, path + '.md')
+    basename, extname = os.path.splitext(os.path.basename(local_path))
     if path.startswith('.'):
         return abort(400)
     if not os.path.exists(local_path):
         return abort(404)
 
-    return render_template(
-        'docs/article.html',
-        **render_markdown(readFile(local_path), frontmatter=True))
+    return render_template('docs/article.html',
+                           title=basename,
+                           **render_markdown(readFile(local_path),
+                                             frontmatter=True))
 
 
 @app.route('/docs/assets/<path:path>')
 def route_docs_assets(path):
-    print(path)
     return send_from_directory(os.path.join('docs', 'assets'), path)

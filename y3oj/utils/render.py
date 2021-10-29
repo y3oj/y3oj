@@ -198,8 +198,6 @@ def render_markdown(source, anti_xss=True, frontmatter=False):
                 pass
         if result is None:
             result = dict(content=render_markdown(source, anti_xss=anti_xss))
-        if 'title' not in result:
-            result['title'] = 'Untitled'
         return result
 
     if isinstance(source, list):
