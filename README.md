@@ -1,5 +1,5 @@
 
-<img align="right" width="160" src="https://avatars.githubusercontent.com/u/91679741?s=200&v=4">
+<img align="right" width="200" src="https://avatars.githubusercontent.com/u/91679741?s=200&v=4">
 
 # y³OJ
 
@@ -90,4 +90,4 @@ pip install flask numpy matplotlib pandas flask_wtf requests pyyaml flask_login 
 
 ### Docs
 
-请访问 [`./y3oj-docs`]('https://github.com/y3oj/y3oj/tree/main/y3oj-docs')。
+请访问 [y3oj-docs](https://github.com/y3oj/y3oj/tree/main/y3oj-docs)。
