@@ -46,7 +46,7 @@ class Submission(db.Model):
     status = db.Column(db.String(30))
     time = db.Column(db.Integer)
     memory = db.Column(db.Integer)
-    create_time = db.Column(db.DateTime, default=datetime.utcnow())
+    create_time = db.Column(db.DateTime, default=datetime.utcnow)
     _details = db.Column(db.Unicode(app_config.database.limit.details))
 
     # __mapper_args__ = {'order_by': id.desc()}  # deprecated
