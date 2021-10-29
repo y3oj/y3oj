@@ -1,12 +1,19 @@
 import os
 from os import path
-from y3oj.utils.file import readFile
-from flask import abort
+from flask import abort, send_from_directory
 
 from y3oj import app
-from y3oj.utils import dirname, render_markdown, path_join, render_template
+from y3oj.utils import dirname, readFile, render_markdown, path_join, render_template
 
 docs_root = path_join(dirname, './y3oj/docs')
+
+
+@app.route('/docs')
+def route_docs_index():
+    return render_template(
+        'docs/article.html',
+        **render_markdown(readFile(path_join(docs_root, 'README.md')),
+                          frontmatter=True))
 
 
 @app.route('/docs/<path:path>')
@@ -17,7 +24,12 @@ def route_docs(path):
     if not os.path.exists(local_path):
         return abort(404)
 
-    print('render', render_markdown(readFile(local_path), frontmatter=True))
     return render_template(
         'docs/article.html',
         **render_markdown(readFile(local_path), frontmatter=True))
+
+
+@app.route('/docs/assets/<path:path>')
+def route_docs_assets(path):
+    print(path)
+    return send_from_directory(os.path.join('docs', 'assets'), path)
