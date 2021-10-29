@@ -5,7 +5,7 @@ from flask import abort, send_from_directory
 from y3oj import app
 from y3oj.utils import dirname, readFile, render_markdown, path_join, render_template
 
-docs_root = path_join(dirname, './y3oj/docs')
+docs_root = path_join(dirname, 'y3oj-docs')
 
 
 @app.route('/docs')
@@ -33,4 +33,4 @@ def route_docs(path):
 
 @app.route('/docs/assets/<path:path>')
 def route_docs_assets(path):
-    return send_from_directory(os.path.join('docs', 'assets'), path)
+    return send_from_directory(os.path.join(docs_root, 'assets'), path)
