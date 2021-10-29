@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 
 {% block container %}
-  <div class="mdui-row y3oj-admin">
-    <div class="mdui-col-xs-12 mdui-col-sm-9">
+  <div class="container-with-sidebar">
+    <div class="container">
       <div class="mdui-container-fluid">
         {% block docs_container %}{% endblock %}
       </div>
     </div>
-    <div class="mdui-col-xs-12 mdui-col-sm-3">
+    <div class="sidebar">
       <div class="mdui-container-fluid">
         {% include 'docs/_partial/sidebar.html' %}
       </div>
