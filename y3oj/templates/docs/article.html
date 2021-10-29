@@ -1,0 +1,27 @@
+{% set subtitle = '文档' %}
+{% extends "layout.html" %}
+
+{% block container %}
+  <div class="mdui-col-xs-12 mdui-col-sm-9">
+      <div class="mdui-card docs">
+        <div class="mdui-card-primary">
+          <div class="mdui-card-primary-title">{{ title }}</div>
+        </div>
+        <div class="mdui-card-content mdui-typo">{{ content | safe }}</div>
+      </div>
+  </div>
+  <div class="mdui-col-xs-12 mdui-col-sm-3">
+    <div class="mdui-card">
+      <div class="mdui-card-content">
+        <div class="mdui-row-xs-2 mdui-text-center">
+          <div class="mdui-col mdui-p-a-0">
+            <h3 class="y3oj-minipanel-title">时间限制</h3>
+          </div>
+          <div class="mdui-col mdui-p-a-0">
+            <h3 class="y3oj-minipanel-title">空间限制</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

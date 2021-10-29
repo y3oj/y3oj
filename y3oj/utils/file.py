@@ -5,6 +5,10 @@ dirname = path.abspath(
     path.join(path.dirname(path.abspath(__file__)), '..', '..'))
 
 
+def path_join(*args):
+    return os.path.abspath(os.path.join(*args))
+
+
 def makedirs(dir):
     if path.exists(dir):
         return
@@ -34,9 +38,11 @@ def writeBinaryFile(dir, content):
     with open(dir, 'wb+') as file:
         return file.write(content)
 
+
 def listDir(dir):
     dir = path.abspath(dir)
     return map(lambda basename: path.join(dir, basename), os.listdir(dir))
+
 
 def download(url, dir, **args):
     from requests import get

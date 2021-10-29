@@ -1,5 +1,7 @@
 import re
+import yaml
 import flask
+import markdown2
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urljoin
 from pygments import highlight as pygments_highlight
@@ -183,8 +185,23 @@ def highlight(code):
     return pygments_highlight(code, PythonLexer(), HtmlFormatter())
 
 
-def render_markdown(source, anti_xss=True):
-    import markdown2
+def render_markdown(source, anti_xss=True, frontmatter=False):
+    if frontmatter:
+        temp = re.split(r'\-{3,}\n', source, maxsplit=2)
+        result = None
+        if len(temp) == 3 and temp[0] == '':
+            try:
+                arguments = yaml.load(temp[1], Loader=yaml.SafeLoader)
+                content = render_markdown(temp[2], anti_xss=anti_xss)
+                result = dict(**arguments, content=content)
+            except:
+                pass
+        if result is None:
+            result = dict(content=render_markdown(source, anti_xss=anti_xss))
+        if 'title' not in result:
+            result['title'] = 'Untitled'
+        return result
+
     if isinstance(source, list):
         return map(render_markdown, source)
     elif not isinstance(source, str):
@@ -206,7 +223,6 @@ def render_markdown(source, anti_xss=True):
 
 
 def render_markdown_blocks(source, anti_xss=True):
-    from y3oj.utils import Container
     marked = render_markdown(source, anti_xss)
     blocks = []
     for line in re.split(r'<h1.*?>', marked):

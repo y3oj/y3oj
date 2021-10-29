@@ -1,4 +1,5 @@
 from .user import *
+from .docs import *
 from .index import *
 from .login import *
 from .admin import *
