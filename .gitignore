@@ -5,6 +5,7 @@
 /sandbox-rootfs.tar
 /sandbox-rootfs.tar.gz
 /y3oj/static
+/y3oj-logo
 /y3oj-judger/simple-sandbox
 /y3oj-docker/requirements.txt
 /y3oj-docker/tmp*

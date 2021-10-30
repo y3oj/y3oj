@@ -12,7 +12,9 @@ class Judger:
         self.logger.debug('recv:', json.dumps(msg))
         if msg['type'] == 'judge-result':
             data = msg['data']
-            submission = db.session.query(Submission).filter_by(id=msg['id']).first()
+            submission = db.session.query(Submission) \
+                                   .filter_by(id=msg['id']) \
+                                   .first()
             submission.status = data['status']
             submission.time = data['time'] if 'time' in data else 0
             submission.memory = data['memory'] if 'memory' in data else 0
@@ -40,6 +42,8 @@ class Judger:
         self.active = False
 
         async def asyncio_entry():
+            self.logger.debug('websocket-client: connecting to ' +
+                              f'ws://{self.host}:{self.port}')
             self.ws = await websockets.connect(f'ws://{self.host}:{self.port}')
             self.logger.debug('websocket-client: connected.')
             self.active = True
