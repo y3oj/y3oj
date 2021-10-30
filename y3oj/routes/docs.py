@@ -13,6 +13,7 @@ def route_docs_index():
     return render_template(
         'docs/article.html',
         **render_markdown(readFile(path_join(docs_root, 'README.md')),
+                          anti_xss=False,
                           frontmatter=True))
 
 
@@ -28,6 +29,7 @@ def route_docs(path):
     return render_template('docs/article.html',
                            title=basename,
                            **render_markdown(readFile(local_path),
+                                             anti_xss=False,
                                              frontmatter=True))
 
 
