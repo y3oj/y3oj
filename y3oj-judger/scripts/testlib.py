@@ -224,8 +224,15 @@ def run_task(judger, task_id):
                 judger['default'](task)
             except BaseResult as error:
                 temperror = error
-        returncode = ps.wait()
-        if returncode != 0:
+        returncode = None
+        if temperror is None:
+            returncode = ps.wait()
+        else:
+            try:
+                returncode = ps.wait(timeout=0.05)
+            except subprocess.TimeoutExpired:
+                pass
+        if returncode is not None and returncode != 0:
             errlogs = ps.stderr.read1().decode(pipe_encoding).split('\n')
             lastline = None
             for i in range(len(errlogs) - 1, -1, -1):
