@@ -3,6 +3,8 @@
 
 # y³OJ
 
+![](https://tokei.rs/b1/github/y3oj/y3oj)
+
 a simple, light-weight and highly maintainable online judge system for secondary education
   
 一个简单、轻量化、易于维护的、为中学信息技术学科课业教学设计的 Online Judge 系统。
