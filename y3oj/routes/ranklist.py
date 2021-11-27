@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 from y3oj import app, db
 from y3oj.utils import render_template
 from y3oj.models import User

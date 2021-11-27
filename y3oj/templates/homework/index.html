@@ -1,0 +1,23 @@
+{% set title = '作业列表' %}
+{% extends 'layout.html' %}
+
+{% block container %}
+  <div class="mdui-row" id="homework">
+    {% for homework in homeworks %}
+      <a class="mdui-card mdui-ripple mdui-col-xs-12 mdui-col-sm-6 mdui-col-lg-4 homework-item" href="/homework/{{ homework.id }}/{{ homework.usergroup.id }}">
+        <div class="mdui-card-content">
+          <div class="homework-clips">
+            <div class="mdui-chip">
+              <span class="mdui-chip-icon">
+                <i class="mdui-icon material-icons">group</i>
+              </span>
+              <span class="mdui-chip-title">{{ homework.usergroup.name }}</span>
+            </div>
+          </div>
+          <div class="homework-title">{{ homework.name }}</div>
+          {{ homework.description }}
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}

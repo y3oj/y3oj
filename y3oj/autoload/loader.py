@@ -55,12 +55,13 @@ class Loader:
             data = yaml.load(readFile(filedir), Loader=yaml.SafeLoader)
             id = basename(filedir)
             current = {}
-            for usergroup_id in data['usergroup']:
-                if usergroup_id not in app.usergroup:
+            for usergroup in data['usergroup']:
+                if usergroup not in app.usergroup:
                     raise HomeworkInitError('作业中的用户组不存在')
-                usergroup = app.usergroup[usergroup_id]
-                current[usergroup_id] = Homework(id, data['name'], usergroup,
-                                                 data['problem'])
+                usergroup = app.usergroup[usergroup]
+                current[usergroup] = Homework(id, data['name'],
+                                              data['description'], usergroup,
+                                              data['problem'])
             homework[id] = current
         app.homework = homework
 

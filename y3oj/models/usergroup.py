@@ -1,3 +1,4 @@
+from y3oj.models import User
 from y3oj.modules.user import get_user, get_user_by_key
 
 
@@ -6,6 +7,9 @@ class UserGroupInitError(Exception):
 
 
 class UserGroup(object):
+    def includes(self, user: User):
+        return user in self.user_list
+
     def __init__(self, id: str, name: str, user_list):
         self.id = id
         self.name = name

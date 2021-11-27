@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 from flask_wtf import FlaskForm
 from flask_login import current_user, login_required, login_user, logout_user
 from wtforms import TextField, PasswordField, SubmitField

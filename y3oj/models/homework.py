@@ -1,5 +1,5 @@
 from y3oj import db
-from y3oj.models import UserGroup, Submission
+from y3oj.models import User, Problem, UserGroup, Submission
 from y3oj.modules.problem import get_problem
 
 
@@ -8,6 +8,12 @@ class HomeworkInitError(Exception):
 
 
 class Homework(object):
+    def includes(self, problem: Problem):
+        return problem in self.problem_list
+
+    def includes_user(self, user: User):
+        return user in self.usergroup.user_list
+
     def get_statistics(self):
         submissions = db.session.query(Submission).all()
         statistic = [[None for _ in range(len(self))]
@@ -24,9 +30,11 @@ class Homework(object):
             statistic[user_index][problem_index] = submission.get_mixin()
         return statistic
 
-    def __init__(self, id: str, name: str, usergroup: UserGroup, problem_list):
+    def __init__(self, id: str, name: str, description: str,
+                 usergroup: UserGroup, problem_list: list):
         self.id = id
         self.name = name
+        self.description = description
         self.usergroup = usergroup
 
         self.id_list = []
