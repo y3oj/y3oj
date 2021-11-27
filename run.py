@@ -1,8 +1,7 @@
-from y3oj import app, db, config
-from y3oj.modules import problem
+from y3oj import app, db, loader, config
 
 if __name__ == '__main__':
     db.create_all()
-    problem.load_problems()
+    loader.all()
 
     app.run(host=config.host, port=config.port)

@@ -3,7 +3,7 @@ from y3oj.models import UserGroup, Submission
 from y3oj.modules.problem import get_problem
 
 
-class HomeworkInitializeException(Exception):
+class HomeworkInitError(Exception):
     pass
 
 
@@ -24,14 +24,17 @@ class Homework(object):
             statistic[user_index][problem_index] = submission.get_mixin()
         return statistic
 
-    def __init__(self, usergroup: UserGroup, problem_list):
+    def __init__(self, id: str, name: str, usergroup: UserGroup, problem_list):
+        self.id = id
+        self.name = name
         self.usergroup = usergroup
+
         self.id_list = []
         self.problem_list = []
         for problem_id in problem_list:
             problem = get_problem(problem_id)
             if problem is None:
-                raise HomeworkInitializeException(f'题目 {problem_id} 不存在')
+                raise HomeworkInitError(f'题目 {problem_id} 不存在')
             self.id_list.append(problem.id)
             self.problem_list.append(problem)
 

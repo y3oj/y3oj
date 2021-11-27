@@ -1,12 +1,15 @@
 from y3oj.modules.user import get_user, get_user_by_key
 
 
-class UserGroupInitializeException(Exception):
+class UserGroupInitError(Exception):
     pass
 
 
 class UserGroup(object):
-    def __init__(self, user_list):
+    def __init__(self, id: str, name: str, user_list):
+        self.id = id
+        self.name = name
+
         self.id_list = []
         self.key_list = []
         self.user_list = []
@@ -16,7 +19,7 @@ class UserGroup(object):
             else:
                 user = get_user(user_str)
             if user is None:
-                raise UserGroupInitializeException(f'用户 {user_str} 不存在')
+                raise UserGroupInitError(f'用户 {user_str} 不存在')
             self.id_list.append(user.id)
             self.key_list.append(user.key)
             self.user_list.append(user)

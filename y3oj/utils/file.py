@@ -54,3 +54,7 @@ def unzip(source_file, target_dir):
     from zipfile import ZipFile
     with ZipFile(source_file, 'r') as zipped_file:
         zipped_file.extractall(target_dir)
+
+
+def basename(dir):
+    return path.splitext(path.basename(dir))[0]
