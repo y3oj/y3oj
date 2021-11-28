@@ -1,0 +1,65 @@
+{% set title = '' %}
+{% set subtitle = '作业' %}
+{% from '_macro/submission.html' import submission_status %}
+{% extends "layout.html" %}
+
+{% block container %}
+  <div class="homework-container">
+    <div class="mdui-card homework-card">
+      <div class="mdui-card-content">
+        <div class="homework-clips">
+          <div class="mdui-chip">
+            <span class="mdui-chip-icon">
+              <i class="mdui-icon material-icons">group</i>
+            </span>
+            <span class="mdui-chip-title">{{ homework.usergroup.name }}</span>
+          </div>
+        </div>
+        <div class="homework-title">{{ homework.name }}</div>
+        {{ homework.description }}
+      </div>
+    </div>
+    <div class="mdui-table-fluid homework-card homework-statistics" id="homework-statistics">
+      <table class="mdui-table clickable-table">
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>用户</th>
+            {% if current_user.has_manage_authority %}
+              <th>真实姓名</th>
+            {% endif %}
+            {% for problem in homework.problem_list %}
+              <th>
+                <a mdui-tooltip="{content: '{{ problem.title }}', position: 'top'}" href="/problem/{{ problem.id }}">
+                  {{ chr(64 + loop.index) }}
+                </a>
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in homework.usergroup.user_list %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ user.id }}</td>
+              {% if current_user.has_manage_authority %}
+                <td>{{ user.realname }}</td>
+              {% endif %}
+              {% set outer_loop_index = loop.index %}
+              {% for problem in homework.problem_list %}
+                <th>
+                  {% set submission = statistics[outer_loop_index - 1][loop.index - 1] %}
+                  {% if submission is not none %}
+                    <a href="/submission/{{ submission.id }}">
+                      {{ submission_status(submission.status) }}
+                    </a>
+                  {% endif %}
+                </th>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

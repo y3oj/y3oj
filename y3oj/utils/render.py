@@ -249,6 +249,8 @@ def render_template(template_path, **data):
         template_path,
         str=str,
         len=len,
+        chr=chr,
+        ord=ord,
         assets=assets,
         config=config,
         utils=dict(
