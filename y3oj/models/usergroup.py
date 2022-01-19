@@ -18,10 +18,7 @@ class UserGroup(object):
         self.key_list = []
         self.user_list = []
         for user_str in user_list:
-            if user_str.isdigit():
-                user = get_user_by_key(user_str)
-            else:
-                user = get_user(user_str)
+            user = get_user(user_str)
             if user is None:
                 raise UserGroupInitError(f'用户 {user_str} 不存在')
             self.id_list.append(user.id)
