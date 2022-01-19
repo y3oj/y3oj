@@ -1,4 +1,5 @@
 import json
+from sqlalchemy import func
 
 from y3oj import db, config as app_config
 from flask_login import UserMixin
@@ -15,7 +16,7 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.String(30), unique=True)
     key = db.Column(db.Integer, primary_key=True)
-    nickname = db.Column(db.Unicode(60), unique=True)
+    nickname = db.Column(db.Unicode(60))
     password = db.Column(db.String(32))  # md5 salt hashed
     realname = db.Column(db.Unicode(10))
     authority = db.Column(db.Integer)
@@ -60,8 +61,14 @@ class User(UserMixin, db.Model):
     def __eq__(self, other):
         return isinstance(other, User) and self.key == other.key
 
-    def __init__(self, id, key, nickname, password, realname, authority,
-                 settings):
+    def __init__(self,
+                 id,
+                 key,
+                 nickname,
+                 password,
+                 realname,
+                 authority=SUBMIT_AUTHORITY,
+                 settings={}):
         self.id = id
         self.key = key
         self.nickname = nickname
@@ -72,3 +79,6 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %s>' % self.id
+
+def new_user_key():
+    return db.session.query(User.key, func.max(User.key)).first()[0] + 1

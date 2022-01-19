@@ -8,6 +8,7 @@ from .ranklist import *
 from .homework import *
 from .submission import *
 
+from .api.user import *
 from .api.problem import *
 from .api.database import *
 from .api.submission import *

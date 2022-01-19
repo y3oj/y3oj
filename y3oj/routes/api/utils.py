@@ -5,9 +5,9 @@ from y3oj import logger
 
 execfunc_logger = logger.module('execfunc')
 
-def execfunc(callable):
+def execfunc(callable, *args, **kwargs):
     try:
-        res = callable()
+        res = callable(*args, **kwargs)
         if res is None:
             return jsonify({'code': 0})
         else:
