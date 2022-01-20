@@ -38,17 +38,17 @@
           </tr>
         </thead>
         <tbody>
-          {% for user in homework.usergroup.user_list %}
+          {% for user_index in sorted_user_index %}
             <tr>
+              {% set user = homework.usergroup.user_list[user_index] %}
               <td>{{ loop.index }}</td>
               <td>{{ user.id }}</td>
               {% if current_user.has_manage_authority %}
                 <td>{{ user.realname }}</td>
               {% endif %}
-              {% set outer_loop_index = loop.index %}
               {% for problem in homework.problem_list %}
                 <th>
-                  {% set submission = statistics[outer_loop_index - 1][loop.index - 1] %}
+                  {% set submission = statistics[user_index][loop.index - 1] %}
                   {% if submission is not none %}
                     <a href="/submission/{{ submission.id }}">
                       {{ submission_status(submission.status) }}
