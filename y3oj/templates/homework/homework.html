@@ -28,6 +28,7 @@
             {% if current_user.has_manage_authority %}
               <th>真实姓名</th>
             {% endif %}
+            <th>通过题数</th>
             {% for problem in homework.problem_list %}
               <th>
                 <a mdui-tooltip="{content: '{{ problem.title }}', position: 'top'}" href="/problem/{{ problem.id }}">
@@ -46,6 +47,7 @@
               {% if current_user.has_manage_authority %}
                 <td>{{ user.realname }}</td>
               {% endif %}
+              <td>{{ accepted_number[user_index] }}</td>
               {% for problem in homework.problem_list %}
                 <th>
                   {% set submission = statistics[user_index][loop.index - 1] %}
