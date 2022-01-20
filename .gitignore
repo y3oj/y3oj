@@ -1,5 +1,6 @@
 /tmp
 /data
+/data-old
 /config.yml
 /thirdparty-host
 /sandbox-rootfs.tar
