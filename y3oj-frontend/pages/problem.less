@@ -4,7 +4,7 @@
 #problems {
 	.clickable-table();
 
-	.y3oj-problem-table-id {
+	.problem-table-id {
 		width: 90px;
 
 		@media (min-width: @screen-sm-min) {
@@ -13,9 +13,9 @@
 	}
 }
 
-.y3oj-problem {
+.problem {
 	&-content {
-		margin-bottom: 30px;
+		margin-bottom: 32px;
 
 		.mdui-card-primary {
 			padding: 16px 16px 0px 16px;
@@ -27,4 +27,56 @@
 			}
 		}
 	}
+}
+
+.problem-print-body {
+	background: white !important;
+
+	.mdui-card {
+		box-shadow: none !important;
+
+		.mdui-card-primary,
+		.mdui-card-content {
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+		}
+	}
+
+	.mdui-typo {
+		pre {
+			white-space: pre-wrap;
+			word-wrap: break-word;
+
+			font-size: 13px !important;
+			line-height: 21px !important;
+
+			&>code {
+				line-height: inherit !important;
+			}
+		}
+	}
+
+	.problem-content {
+		margin-bottom: 4px;
+	}
+
+	.problem-print-title {
+		text-align: center;
+		font-size: 24px;
+		line-height: 32px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		font-weight: bold;
+	}
+
+	.problem-print-subtitle {
+		text-align: center;
+		font-size: 16px;
+		line-height: 24px;
+
+		span {
+			display: block;
+		}
+	}
+
 }

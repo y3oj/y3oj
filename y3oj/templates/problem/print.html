@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>{{ problem.title }}</title>
+    {% include '_partial/header.html' %}
+  </head>
+  <body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-theme-layout-auto problem-print-body">
+
+    <div class="mdui-container">
+
+      <div class="mdui-card problem-content">
+        <div class="mdui-card-content">
+          <div class="problem-print-title">
+            {{ problem.title }}（{{ problem.id }}）
+          </div>
+          <div class="problem-print-subtitle">
+            <span>
+              时间限制：
+              {{ str(problem.config.time_limit) + ' ms' }}
+            </span>
+            <span>
+              空间限制：
+              {{ str(problem.config.memory_limit) + ' MiB' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {% for card in problem.statement %}
+        <div class="mdui-card problem-content">
+          <div class="mdui-card-primary">
+            <div class="mdui-card-primary-title">{{ card.title }}</div>
+          </div>
+          <div class="mdui-card-content mdui-typo">{{ card.content | safe }}</div>
+        </div>
+      {% endfor %}
+
+    </div>
+
+    {% include '_partial/footer.html' %}
+  </body>
+</html>

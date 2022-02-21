@@ -28,6 +28,11 @@ def route_problem_index():
 def route_problem(id):
     return render_template('problem/problem.html', problem=g.problem)
 
+@app.route('/problem/<id>/print')
+@problem_checker
+def route_problem_print(id):
+    return render_template('problem/print.html', problem=g.problem)
+
 
 @app.route('/problem/<id>/submit', methods=['GET', 'POST'])
 @submit_authority_required

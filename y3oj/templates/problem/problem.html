@@ -10,7 +10,7 @@
 {% block container %}
   <div class="mdui-col-xs-12 mdui-col-sm-9">
     {% for card in problem.statement %}
-      <div class="mdui-card y3oj-problem-content">
+      <div class="mdui-card problem-content">
         <div class="mdui-card-primary">
           <div class="mdui-card-primary-title">{{ card.title }}</div>
         </div>
@@ -19,7 +19,7 @@
     {% endfor %}
   </div>
   <div class="mdui-col-xs-12 mdui-col-sm-3">
-    <div class="mdui-card y3oj-problem-details">
+    <div class="mdui-card problem-details">
       <div class="mdui-card-content">
         <div class="mdui-row-xs-2 mdui-text-center">
           <div class="mdui-col mdui-p-a-0">
