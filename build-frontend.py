@@ -174,15 +174,18 @@ if __name__ == '__main__':
         description='The frontend builder for y3oj project.')
     parser.add_argument('-f', '--force', nargs='?', const=True)
     parser.add_argument('--watch', nargs='?', const=True)
+    parser.add_argument('--nocheck', nargs='?', const=True)
     args_source = parser.parse_args().__dict__
     args = Container({
         'force': ('force' in args_source and args_source['force']) or False,
         'watch': ('watch' in args_source and args_source['watch']) or False,
+        'nocheck': ('nocheck' in args_source and args_source['nocheck']) or False,
     })
     logger('args', args)
 
     dirname = path.dirname(path.abspath(__file__))
-    checkRequirement()
+    if not args['nocheck']:
+        checkRequirement()
 
     source_dir = path.join(dirname, 'y3oj-frontend')
     target_dir = path.join(dirname, 'y3oj', 'static')
