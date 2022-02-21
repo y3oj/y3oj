@@ -210,6 +210,7 @@ def render_markdown(source, anti_xss=True, frontmatter=False):
                                   'header-ids', 'nofollow', 'strike', 'tables',
                                   'task_list'
                               ])
+    html = html.replace('<table>', '<table class="mdui-table">')
     if anti_xss:
         parser = XssHtmlParser()
         parser.feed(html)
