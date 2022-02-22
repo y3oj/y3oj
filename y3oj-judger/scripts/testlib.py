@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import json
 import random
 import subprocess
@@ -28,6 +30,7 @@ class SystemError(BaseResult):
 
 
 class Random:
+
     def _randint(self, a, b):
         return random.randint(a, b)
 
@@ -67,6 +70,7 @@ class Random:
 
 
 class InputPipe(object):
+
     class InputPipeError(Exception):
         pass
 
@@ -89,6 +93,8 @@ class InputPipe(object):
 
 
 class OutputPipe(object):
+    EOF = -1
+
     def _reset_cache(self):
         self.cache = ''
         self.pointer = 0
@@ -97,15 +103,19 @@ class OutputPipe(object):
         self.cache = self.pipe.read1().decode(pipe_encoding)
         self.pointer = 0
         if config.debug:
-            print('[INFO] recv:', json.dumps(self.cache))
-        # print('[recv]', str(list(self.cache)))
+            print('[INFO] _recv:', json.dumps(self.cache))
 
-    def recv(self):
+    def recv(self, allow_EOF=True):
         if self.pointer == len(self.cache):
             self._recv()
             if self.cache == '':
-                raise WrongAnswer('[testlib-pipe] No characters more.')
+                if allow_EOF:
+                    return OutputPipe.EOF
+                else:
+                    raise WrongAnswer('[testlib-pipe] Read EOF from output stream.')
         self.pointer += 1
+        if config.debug:
+            print('[INFO] recv:', [self.cache[self.pointer - 1]])
         return self.cache[self.pointer - 1]
 
     def recvline(self):
@@ -139,6 +149,8 @@ class OutputPipe(object):
     def recvthis(self, target):
         for s in target:
             c = self.recv()
+            if c == '\r' and s == '\n':
+                c = self.recv()
             if c != s:
                 raise WrongAnswer(f'[testlib-pipe] Except {s}, recived {c}.')
 
@@ -150,16 +162,16 @@ class OutputPipe(object):
 
 
 class Config:
+
     def __init__(self):
         self.debug = False
         self.problem_name = 'noname'
-        self.sandbox_path = path.abspath(
-            path.join(path.dirname(__file__), 'sandbox.py'))
-        self.solution_path = path.abspath(
-            path.join(path.dirname(__file__), 'sol.py'))
+        self.sandbox_path = path.abspath(path.join(path.dirname(__file__), 'sandbox.py'))
+        self.solution_path = path.abspath(path.join(path.dirname(__file__), 'sol.py'))
 
 
 class Task:
+
     def __getattr__(self, name):
         if name.startswith('_') and not name.endswith('_'):
             raise KeyError('private attr')
@@ -183,21 +195,34 @@ config = Config()
 judgers = []
 
 
-def register(judger, tasks=[], type='default'):
+def register(judger, tasks=None, type='default'):
     assert type == 'default' or type == 'before' or type == 'after'
+    if tasks == None:
+        tasks = []
     for task in tasks:
         while len(judgers) <= task:
             judgers.append({})
         judgers[task][type] = judger
 
 
-def debug_mode(enable=True):
+def set_debug_mode(enable=True):
     config.debug = enable
+
+
+def enable_debug_mode():
+    set_debug_mode(enable=True)
+
+
+def set_pipe_encoding(encoding):
+    global pipe_encoding
+    pipe_encoding = encoding
 
 
 def run_task(judger, task_id):
     global warn_without_sandbox
     res = None
+    if config.debug:
+        print('[INFO] Task #' + str(task_id))
     task = Task(task_id=task_id, testlib_config=config)
     try:
         if 'before' in judger:
@@ -207,8 +232,7 @@ def run_task(judger, task_id):
         else:
             parameters = ['python', config.solution_path]
             if warn_without_sandbox and not config.debug:
-                print('[WARNING] `sandbox.py` not found. ' + \
-                    'Don\'t use this in production envirment.')
+                print('[WARNING] `sandbox.py` not found. Don\'t use this in a production deployment.')
                 warn_without_sandbox = False
         ps = subprocess.Popen(
             parameters,
