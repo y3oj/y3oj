@@ -31,6 +31,15 @@ function randomString(len) {
 	return result;
 }
 
+async function checkFileExists(dir) {
+	try {
+		await fs.promises.access(dir);
+		return true;
+	} catch (error) {
+		return false;
+	}
+}
+
 async function readLibFile(relative_path) {
 	return (await fs.readFile(path.join(base_dir.scripts, relative_path))).toString();
 }
@@ -156,13 +165,13 @@ async function run(task) {
 	dir.problem = path.join(dir.data, problem);
 	dir.working = path.join(dir.tmp, String(id));
 
-	const readFile = async (relative_path) => (await fs.readFile(path.join(dir.problem, relative_path))).toString();
+	const readFile = async (relative_path) => await fs.readFile(path.join(dir.problem, relative_path));
 	const writeFile = async (relative_path, content) => await fs.writeFile(path.join(dir.working, relative_path), content);
 	const makeDirs = async (relative_path) => await fs.mkdir(path.join(dir.working, relative_path), { recursive: true });
 
 	const config = {
 		...base_config,
-		...YAML.parse(await readFile('config.yml')),
+		...YAML.parse((await readFile('config.yml')).toString()),
 	};
 
 	await makeDirs('.');
@@ -202,11 +211,17 @@ async function run(task) {
 		}
 
 		if (config.judge == 'testlib-multi') {
-			await Promise.all([
+			const promises = [
 				writeFile('working/judge.py', await readFile('judge.py')),
 				writeFile('working/testlib.py', testlib_source),
 				writeFile('working/sandbox.py', sandbox_source),
-			]);
+			];
+			if (checkFileExists(path.join(dir.problem, 'additional'))) {
+				const sourceDir = path.absolute(path.join(dir.problem, 'additional'));
+				const targetDir = path.absolute(path.join(dir.working, 'working'));
+				promises.push(spawn('cp', ['-r', sourceDir + '/*', targetDir]))
+			}
+			await Promise.all(promises);
 			result = await runInSandbox(
 				['judge.py'],
 				{ hashkey, config, dir, parser: parseTestlibResponse }
