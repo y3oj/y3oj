@@ -1,6 +1,6 @@
 {
   "name": "y3oj",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "(maybe the first) simple, light-weight and highly maintainable online judge system for secondary education",
   "scripts": {
     "judge-start": "node y3oj-judger/main.js",
