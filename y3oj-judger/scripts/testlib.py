@@ -1,6 +1,8 @@
 # -*- coding: UTF-8 -*-
 
+import sys
 import json
+import errno
 import random
 import subprocess
 from os import path
@@ -77,8 +79,12 @@ class InputPipe(object):
     def _send(self, string):
         if config.debug:
             print('[INFO] send:', json.dumps(string))
-        self.pipe.write(string.encode(pipe_encoding))
-        self.pipe.flush()
+        try:
+            self.pipe.write(string.encode(pipe_encoding))
+            self.pipe.flush()
+        except IOError as err:
+            if err.errno == errno.EPIPE:
+                raise RuntimeError('[testlib] Pipe got EPIPE error, your program might run into a crash.')
 
     def send(self, text):
         self._send(text)
@@ -100,7 +106,7 @@ class OutputPipe(object):
         self.pointer = 0
 
     def _recv(self):
-        self.cache = self.pipe.read1().decode(pipe_encoding)
+        self.cache = self.pipe.read1(8192).decode(pipe_encoding)
         self.pointer = 0
         if config.debug:
             print('[INFO] _recv:', json.dumps(self.cache))
@@ -112,7 +118,7 @@ class OutputPipe(object):
                 if allow_EOF:
                     return OutputPipe.EOF
                 else:
-                    raise WrongAnswer('[testlib-pipe] Read EOF from output stream.')
+                    raise WrongAnswer('[testlib] Read EOF from output stream.')
         self.pointer += 1
         if config.debug:
             print('[INFO] recv:', [self.cache[self.pointer - 1]])
@@ -152,7 +158,7 @@ class OutputPipe(object):
             if c == '\r' and s == '\n':
                 c = self.recv()
             if c != s:
-                raise WrongAnswer(f'[testlib-pipe] Except {s}, recived {c}.')
+                raise WrongAnswer(f'[testlib] Except {s}, recived {c}.')
 
     def __init__(self, pipe):
         assert pipe.readable()
@@ -166,6 +172,7 @@ class Config:
     def __init__(self):
         self.debug = False
         self.problem_name = 'noname'
+        self.python_path = 'python'
         self.sandbox_path = path.abspath(path.join(path.dirname(__file__), 'sandbox.py'))
         self.solution_path = path.abspath(path.join(path.dirname(__file__), 'sol.py'))
 
@@ -228,9 +235,9 @@ def run_task(judger, task_id):
         if 'before' in judger:
             judger['before'](task)
         if path.exists(config.sandbox_path) and not config.debug:
-            parameters = ['python', config.sandbox_path, config.solution_path]
+            parameters = [config.python_path, config.sandbox_path, config.solution_path]
         else:
-            parameters = ['python', config.solution_path]
+            parameters = [config.python_path, config.solution_path]
             if warn_without_sandbox and not config.debug:
                 print('[WARNING] `sandbox.py` not found. Don\'t use this in a production deployment.')
                 warn_without_sandbox = False
@@ -256,8 +263,10 @@ def run_task(judger, task_id):
                 returncode = ps.wait(timeout=0.05)
             except subprocess.TimeoutExpired:
                 pass
+        if config.debug:
+            print('[INFO] return code = ' + str(returncode))
         if returncode is not None and returncode != 0:
-            errlogs = ps.stderr.read1().decode(pipe_encoding).split('\n')
+            errlogs = ps.stderr.read1(8192).decode(pipe_encoding).split('\n')
             lastline = None
             for i in range(len(errlogs) - 1, -1, -1):
                 if errlogs[i] != '':
