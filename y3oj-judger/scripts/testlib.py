@@ -111,7 +111,7 @@ class OutputPipe(object):
         if config.debug:
             print('[INFO] _recv:', json.dumps(self.cache))
 
-    def recv(self, allow_EOF=True):
+    def recv(self, allow_EOF=False):
         if self.pointer == len(self.cache):
             self._recv()
             if self.cache == '':
