@@ -40,8 +40,31 @@ async function checkFileExists(dir) {
 	}
 }
 
+async function checkFileExists(dir) {
+	try {
+		await fs.access(dir);
+		return true;
+	} catch (error) {
+		return false;
+	}
+}
+
 async function readLibFile(relative_path) {
 	return (await fs.readFile(path.join(base_dir.scripts, relative_path))).toString();
+}
+
+async function copyFolder(source_path, target_path) {
+	console.log('[INFO]', 'copyFolder', source_path, target_path);
+	if (!(await checkFileExists(target_path))) {
+		await fs.mkdir(target_path);
+	}
+	for (const file of (await fs.readdir(source_path, { withFileTypes: true }))) {
+		if (file.isFile()) {
+			await fs.copyFile(path.join(source_path, file.name), path.join(target_path, file.name));
+		} else {
+			copyFolder(path.join(source_path, file.name), path.join(target_path, file.name));
+		}
+	}
 }
 
 function compressResult(result) {
@@ -211,17 +234,14 @@ async function run(task) {
 		}
 
 		if (config.judge == 'testlib-multi') {
-			const promises = [
+			await Promise.all([
 				writeFile('working/judge.py', await readFile('judge.py')),
 				writeFile('working/testlib.py', testlib_source),
 				writeFile('working/sandbox.py', sandbox_source),
-			];
-			if (checkFileExists(path.join(dir.problem, 'additional'))) {
-				const sourceDir = path.absolute(path.join(dir.problem, 'additional'));
-				const targetDir = path.absolute(path.join(dir.working, 'working'));
-				promises.push(spawn('cp', ['-r', sourceDir + '/*', targetDir]))
+			]);
+			if (await checkFileExists(path.join(dir.problem, 'additional'))) {
+				await copyFolder(path.join(dir.problem, 'additional'), path.join(dir.working, 'working'));
 			}
-			await Promise.all(promises);
 			result = await runInSandbox(
 				['judge.py'],
 				{ hashkey, config, dir, parser: parseTestlibResponse }
