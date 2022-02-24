@@ -1,4 +1,5 @@
 import json
+from typing import Dict
 from sqlalchemy import func
 
 from y3oj import db, config as app_config
@@ -61,7 +62,7 @@ class User(UserMixin, db.Model):
     def __eq__(self, other):
         return isinstance(other, User) and self.key == other.key
 
-    def __init__(self, id, key, nickname, password, realname, authority=SUBMIT_AUTHORITY, settings={}):
+    def __init__(self, id: str, key: int, nickname: str, password: str, realname: str, authority: int = SUBMIT_AUTHORITY, settings: Dict = dict()):
         self.id = id
         self.key = key
         self.nickname = nickname

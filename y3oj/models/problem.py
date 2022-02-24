@@ -1,4 +1,5 @@
 import json
+from typing import List, Dict
 
 from y3oj import db, config as app_config
 
@@ -33,7 +34,7 @@ class Problem(db.Model):
     def statement(self, data):
         self._statement = json.dumps(data)
 
-    def __init__(self, id, key, title, statement=[], config={}):
+    def __init__(self, id: int, key: str, title: str, statement: List = list(), config: Dict = dict()):
         self.id = id
         self.key = key
         self.title = title

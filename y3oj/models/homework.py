@@ -1,4 +1,5 @@
 import functools
+from typing import List
 
 from y3oj import db
 from y3oj.models import User, Problem, UserGroup, Submission
@@ -11,13 +12,13 @@ class HomeworkInitError(Exception):
 
 class Homework(object):
 
-    def includes(self, problem: Problem):
+    def includes(self, problem: Problem) -> bool:
         return problem in self.problem_list
 
-    def includes_user(self, user: User):
+    def includes_user(self, user: User) -> bool:
         return user in self.usergroup.user_list
 
-    def get_statistics(self):
+    def get_statistics(self) -> List:
         submissions = db.session.query(Submission).all()
         statistics = [{'user': user, 'accepted': 0, 'score': 0, 'submission': [None] * len(self.problem_list)} for user in self.usergroup.user_list]
         for submission in submissions:
@@ -49,7 +50,7 @@ class Homework(object):
 
         return statistics
 
-    def __init__(self, id: str, name: str, description: str, usergroup: UserGroup, problem_list: list):
+    def __init__(self, id: str, name: str, description: str, usergroup: UserGroup, problem_list: List):
         self.id = id
         self.name = name
         self.description = description

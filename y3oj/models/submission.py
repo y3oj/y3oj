@@ -1,4 +1,5 @@
 import json
+from typing import List
 from datetime import datetime
 
 from y3oj import db, config as app_config
@@ -9,7 +10,7 @@ from y3oj.modules.user import get_user_by_key
 
 class SubmissionMixin(object):
 
-    def __init__(self, id, user, problem, code, status, time, memory, create_time, details):
+    def __init__(self, id: int, user: str, problem: str, code: str, status: str, time: int, memory: int, create_time: int, details: List):
         self.id = id
         self.user = get_user_by_key(user)
         self.problem = get_problem(problem)
@@ -20,7 +21,7 @@ class SubmissionMixin(object):
         self.create_time = strftime(create_time)
         self.details = details
         self.passed_count = 0
-        
+
         for i in range(len(self.details)):
             detail = self.details[i]
             detail['id'] = i + 1
@@ -33,7 +34,7 @@ class SubmissionMixin(object):
             if 'status' not in detail:
                 detail['status'] = self.status
             self.details[i] = Container(detail)
-            
+
             if detail['status'] == 'Accepted':
                 self.passed_count += 1
 
@@ -65,9 +66,19 @@ class Submission(db.Model):
         self._details = json.dumps(data)
 
     def get_mixin(self):
-        return SubmissionMixin(id=self.id, user=self.user, problem=self.problem, code=self.code, status=self.status, time=self.time, memory=self.memory, create_time=self.create_time, details=self.details)
+        return SubmissionMixin(
+            id=self.id,
+            user=self.user,
+            problem=self.problem,
+            code=self.code,
+            status=self.status,
+            time=self.time,
+            memory=self.memory,
+            create_time=self.create_time,
+            details=self.details,
+        )
 
-    def __init__(self, user, problem, code, status='Waiting...', time=0, memory=0, details=[]):
+    def __init__(self, user: str, problem: str, code: str, status: str = 'Waiting...', time: int = 0, memory: int = 0, details: List = list()):
         self.user = user
         self.problem = problem
         self.code = code

@@ -8,7 +8,7 @@ class UserGroupInitError(Exception):
 
 class UserGroup(object):
 
-    def includes(self, user: User):
+    def includes(self, user: User) -> bool:
         return user in self.user_list
 
     def __init__(self, id: str, name: str, user_list):
