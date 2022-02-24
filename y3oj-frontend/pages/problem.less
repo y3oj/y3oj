@@ -13,54 +13,68 @@
 	}
 }
 
-.problem {
-	&-content {
-		margin-bottom: 32px;
 
-		.mdui-card-primary {
-			padding: 16px 16px 0px 16px;
+.problem-content {
+	margin-bottom: 32px;
 
-			.mdui-card-primary-title {
-				font-size: 20px;
-				line-height: 32px;
-				font-weight: bold;
-			}
+	.mdui-card-primary {
+		padding: 16px 16px 0px 16px;
+
+		.mdui-card-primary-title {
+			font-size: 20px;
+			line-height: 32px;
+			font-weight: bold;
 		}
 	}
 }
 
-.problem-print-body {
-	background: white !important;
 
-	.mdui-card {
-		box-shadow: none !important;
+.problem-details {
+	.mdui-list .mdui-list-item-content {
+		position: relative;
+		margin-left: 12px !important;
 
-		.mdui-card-primary,
-		.mdui-card-content {
-			padding-left: 0 !important;
-			padding-right: 0 !important;
+		.problem-details-content-pinned {
+			position: absolute;
+			right: 4px;
 		}
 	}
+}
 
-	.mdui-typo {
-		pre {
-			white-space: pre-wrap;
-			word-wrap: break-word;
+.problem-print {
+	&-body {
+		background: white !important;
 
-			font-size: 13px !important;
-			line-height: 21px !important;
+		.mdui-card {
+			box-shadow: none !important;
 
-			&>code {
-				line-height: inherit !important;
+			.mdui-card-primary,
+			.mdui-card-content {
+				padding-left: 0 !important;
+				padding-right: 0 !important;
 			}
 		}
+
+		.mdui-typo {
+			pre {
+				white-space: pre-wrap;
+				word-wrap: break-word;
+
+				font-size: 13px !important;
+				line-height: 21px !important;
+
+				&>code {
+					line-height: inherit !important;
+				}
+			}
+		}
+
+		.problem-content {
+			margin-bottom: 4px;
+		}
 	}
 
-	.problem-content {
-		margin-bottom: 4px;
-	}
-
-	.problem-print-title {
+	&-title {
 		text-align: center;
 		font-size: 24px;
 		line-height: 32px;
@@ -69,7 +83,7 @@
 		font-weight: bold;
 	}
 
-	.problem-print-subtitle {
+	&-subtitle {
 		text-align: center;
 		font-size: 16px;
 		line-height: 24px;
@@ -78,5 +92,4 @@
 			display: block;
 		}
 	}
-
 }
