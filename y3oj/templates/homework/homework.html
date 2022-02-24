@@ -19,6 +19,7 @@
         {{ homework.description }}
       </div>
     </div>
+
     <div class="mdui-table-fluid homework-card homework-statistics" id="homework-statistics">
       <table class="mdui-table clickable-table">
         <thead>
@@ -28,6 +29,7 @@
             {% if current_user.has_manage_authority %}
               <th>真实姓名</th>
             {% endif %}
+            <th>分数</th>
             <th>通过题数</th>
             {% for problem in homework.problem_list %}
               <th>
@@ -38,22 +40,25 @@
             {% endfor %}
           </tr>
         </thead>
+
         <tbody>
-          {% for user_index in sorted_user_index %}
+          {% for statistic in statistics %}
             <tr>
-              {% set user = homework.usergroup.user_list[user_index] %}
-              <td>{{ loop.index }}</td>
-              <td>{{ user.id }}</td>
+              <td>{{ statistic.rank }}</td>
+              <td>
+                <a href="/user/{{ statistic.user.id }}">{{ statistic.user.id }}</a>
+              </td>
               {% if current_user.has_manage_authority %}
-                <td>{{ user.realname }}</td>
+                <td>{{ statistic.user.realname }}</td>
               {% endif %}
-              <td>{{ accepted_number[user_index] }}</td>
+              <td>{{ round(statistic.score * 100) }}</td>
+              <td>{{ statistic.accepted }}</td>
               {% for problem in homework.problem_list %}
                 <th>
-                  {% set submission = statistics[user_index][loop.index - 1] %}
+                  {% set submission = statistic.submission[loop.index - 1] %}
                   {% if submission is not none %}
                     <a href="/submission/{{ submission.id }}">
-                      {{ submission_status(submission.status) }}
+                      {{ submission_status(submission.status, '%d / %d' % (submission.passed_count, len(submission.details))) }}
                     </a>
                   {% endif %}
                 </th>

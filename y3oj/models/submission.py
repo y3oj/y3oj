@@ -19,6 +19,8 @@ class SubmissionMixin(object):
         self.memory = memory
         self.create_time = strftime(create_time)
         self.details = details
+        self.passed_count = 0
+        
         for i in range(len(self.details)):
             detail = self.details[i]
             detail['id'] = i + 1
@@ -31,6 +33,9 @@ class SubmissionMixin(object):
             if 'status' not in detail:
                 detail['status'] = self.status
             self.details[i] = Container(detail)
+            
+            if detail['status'] == 'Accepted':
+                self.passed_count += 1
 
     def __repr__(self):
         return '<SubmissionMixin %s>' % self.id

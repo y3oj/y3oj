@@ -1,55 +1,85 @@
-{% macro submission_status(status) %}
+{% macro submission_status(status, text='') %}
   {% set status_name = status.split(': ')[0] %}
+  {% set status_text = text or status %}
   {% if status_name == 'Accepted' %}
-    <span class="y3oj-submission-status mdui-text-color-green"><i class="mdui-icon material-icons">done</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-green">
+      <i class="mdui-icon material-icons">done</i>
+      {{ status_text }}
+    </span>
   {% elif status_name == 'WrongAnswer' %}
-    <span class="y3oj-submission-status mdui-text-color-red"><i class="mdui-icon material-icons">clear</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-red">
+      <i class="mdui-icon material-icons">clear</i>
+      {{ status_text }}
+    </span>
   {% elif status_name == 'RuntimeError' %}
-    <span class="y3oj-submission-status mdui-text-color-purple"><i class="mdui-icon material-icons">clear_all</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-purple">
+      <i class="mdui-icon material-icons">clear_all</i>
+      {{ status_text }}
+    </span>
   {% elif status_name == 'TimeLimitExceeded' %}
-    <span class="y3oj-submission-status mdui-text-color-orange"><i class="mdui-icon material-icons">access_time</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-orange">
+      <i class="mdui-icon material-icons">access_time</i>
+      {{ status_text }}
+    </span>
   {% elif status_name == 'MemoryLimitExceeded' %}
-    <span class="y3oj-submission-status mdui-text-color-teal"><i class="mdui-icon material-icons">memory</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-teal">
+      <i class="mdui-icon material-icons">memory</i>
+      {{ status_text }}
+    </span>
   {% elif status_name == 'SystemError' %}
-    <span class="y3oj-submission-status mdui-text-color-blue-grey"><i class="mdui-icon material-icons">clear_all</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-blue-grey">
+      <i class="mdui-icon material-icons">clear_all</i>
+      {{ status_text }}
+    </span>
   {% elif status_name == 'Waiting...' %}
-    <span class="y3oj-submission-status mdui-text-color-grey"><i class="mdui-icon material-icons">hourglass_empty</i> {{ status }}</span>
+    <span class="y3oj-submission-status mdui-text-color-grey">
+      <i class="mdui-icon material-icons">hourglass_empty</i>
+      {{ status_text }}
+    </span>
   {% else %}
     <span>Unknown</span>
   {% endif %}
 {% endmacro %}
 
 {% macro render_submission(submission) %}
-<tr>
-  <td data-id="{{ submission.id }}">{{ submission.id }}</td>
-  <td data-problem="{{ submission.problem.id }}"><a href="/problem/{{ submission.problem.id }}">{{ submission.problem.title }}</a></td>
-  <td data-user="{{ submission.user.key }}"><a href="/user/{{ submission.user.id }}">{{ submission.user.id }}</a></td>
-  <td><a href="/submission/{{ submission.id }}">{{ submission_status(submission.status) }}</a></td>
-  <td>{{ submission.create_time }}</td>
-  <td>{{ submission.time }} ms</td>
-  <td>{{ submission.memory }} MiB</td>
-</tr>
+  <tr>
+    <td data-id="{{ submission.id }}">{{ submission.id }}</td>
+    <td data-problem="{{ submission.problem.id }}">
+      <a href="/problem/{{ submission.problem.id }}">{{ submission.problem.title }}</a>
+    </td>
+    <td data-user="{{ submission.user.key }}">
+      <a href="/user/{{ submission.user.id }}">{{ submission.user.id }}</a>
+    </td>
+    <td>
+      <a href="/submission/{{ submission.id }}">{{ submission_status(submission.status) }}</a>
+    </td>
+    <td>{{ submission.create_time }}</td>
+    <td>{{ submission.time }}
+      ms</td>
+    <td>{{ submission.memory }}
+      MiB</td>
+  </tr>
 {% endmacro %}
 
 {% macro render_submissions(submissions) %}
-<div class="mdui-table-fluid y3oj-submission-table" id="submissions">
-  <table class="mdui-table">
-    <thead>
-      <tr>
-        <th class="mdui-table-col-numeric">#</th>
-        <th>题目</th>
-        <th>用户</th>
-        <th>状态</th>
-        <th>提交时间</th>
-        <th class="mdui-table-col-numeric">时间</th>
-        <th class="mdui-table-col-numeric">内存</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for submission in submissions %}
-        {{ render_submission(submission) }}
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+  <div class="mdui-table-fluid y3oj-submission-table" id="submissions">
+    <table class="mdui-table">
+      <thead>
+        <tr>
+          <th class="mdui-table-col-numeric">#</th>
+          <th>题目</th>
+          <th>用户</th>
+          <th>状态</th>
+          <th>提交时间</th>
+          <th class="mdui-table-col-numeric">时间</th>
+          <th class="mdui-table-col-numeric">内存</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for submission in submissions %}
+          {{ render_submission(submission) }}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endmacro %}

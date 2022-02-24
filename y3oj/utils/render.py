@@ -233,6 +233,7 @@ def render_template(template_path, **data):
         len=len,
         chr=chr,
         ord=ord,
+        round=round,
         assets=assets,
         config=config,
         utils=dict(
