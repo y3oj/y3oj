@@ -37,12 +37,10 @@ def route_homework(homework_id, usergroup_id):
                 accepted_number[i] += 1
 
     def cmp(i, j):
-        print('COMPARE', i, j)
         return accepted_number[j] - accepted_number[i] or user_list[i].key - user_list[j].key
 
     sorted_user_index = [i for i in range(len(user_list))]
     sorted_user_index.sort(key=functools.cmp_to_key(cmp))
-    print('SORTED', accepted_number, sorted_user_index)
 
     return render_template(
         'homework/homework.html',
