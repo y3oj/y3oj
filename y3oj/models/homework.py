@@ -8,6 +8,7 @@ class HomeworkInitError(Exception):
 
 
 class Homework(object):
+
     def includes(self, problem: Problem):
         return problem in self.problem_list
 
@@ -16,22 +17,18 @@ class Homework(object):
 
     def get_statistics(self):
         submissions = db.session.query(Submission).all()
-        statistic = [[None for _ in range(len(self))]
-                     for _ in range(len(self.usergroup))]
+        statistic = [[None for _ in range(len(self))] for _ in range(len(self.usergroup))]
         for submission in submissions:
-            if submission.user not in self.usergroup.key_list or \
-                    submission.problem not in self.id_list:
+            if submission.user not in self.usergroup.key_list or submission.problem not in self.id_list:
                 continue
             user_index = self.usergroup.key_list.index(submission.user)
             problem_index = self.id_list.index(submission.problem)
-            if statistic[user_index][problem_index] and \
-                    submission.status != 'Accepted':
+            if statistic[user_index][problem_index] and submission.status != 'Accepted':
                 continue
             statistic[user_index][problem_index] = submission.get_mixin()
         return statistic
 
-    def __init__(self, id: str, name: str, description: str,
-                 usergroup: UserGroup, problem_list: list):
+    def __init__(self, id: str, name: str, description: str, usergroup: UserGroup, problem_list: list):
         self.id = id
         self.name = name
         self.description = description

@@ -8,19 +8,16 @@ from y3oj.utils import dirname, listDir, readFile, basename, render_markdown_blo
 
 
 class Loader:
+
     @staticmethod
     def problem():
         summary = []
-        folders = filter(path.isdir,
-                         listDir(path.join(dirname, 'data', 'problem')))
+        folders = filter(path.isdir, listDir(path.join(dirname, 'data', 'problem')))
         db.session.query(Problem).delete()
 
         for folder in folders:
-            args = yaml.load(readFile(path.join(folder, 'config.yml')),
-                             Loader=yaml.SafeLoader)
-            prob = Problem(id=path.basename(folder),
-                           key=int(args['key']),
-                           title=args['title'])
+            args = yaml.load(readFile(path.join(folder, 'config.yml')), Loader=yaml.SafeLoader)
+            prob = Problem(id=path.basename(folder), key=int(args['key']), title=args['title'])
             # config
             del args['key']
             del args['title']
@@ -28,8 +25,7 @@ class Loader:
             # statement
             if path.exists(path.join(folder, 'statement.md')):
                 plaintext = readFile(path.join(folder, 'statement.md'))
-                prob.statement = render_markdown_blocks(plaintext,
-                                                        anti_xss=False)
+                prob.statement = render_markdown_blocks(plaintext, anti_xss=False)
             summary.append(dict(id=prob.id, key=prob.key, title=prob.title))
             db.session.add(prob)
 
@@ -48,7 +44,6 @@ class Loader:
 
     @staticmethod
     def homework():
-        assert app.usergroup
         filedirs = listDir(path.join(dirname, 'data', 'homework'))
         homework = {}
         for filedir in filedirs:
@@ -59,9 +54,7 @@ class Loader:
                 if usergroup_id not in app.usergroup:
                     raise HomeworkInitError('作业中的用户组不存在')
                 usergroup = app.usergroup[usergroup_id]
-                current[usergroup_id] = Homework(id, data['name'],
-                                                 data['description'],
-                                                 usergroup, data['problem'])
+                current[usergroup_id] = Homework(id, data['name'], data['description'], usergroup, data['problem'])
             homework[id] = current
         app.homework = homework
 

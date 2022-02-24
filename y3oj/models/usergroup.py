@@ -7,6 +7,7 @@ class UserGroupInitError(Exception):
 
 
 class UserGroup(object):
+
     def includes(self, user: User):
         return user in self.user_list
 

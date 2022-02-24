@@ -8,8 +8,8 @@ from y3oj.modules.user import get_user_by_key
 
 
 class SubmissionMixin(object):
-    def __init__(self, id, user, problem, code, status, time, memory,
-                 create_time, details):
+
+    def __init__(self, id, user, problem, code, status, time, memory, create_time, details):
         self.id = id
         self.user = get_user_by_key(user)
         self.problem = get_problem(problem)
@@ -60,24 +60,9 @@ class Submission(db.Model):
         self._details = json.dumps(data)
 
     def get_mixin(self):
-        return SubmissionMixin(id=self.id,
-                               user=self.user,
-                               problem=self.problem,
-                               code=self.code,
-                               status=self.status,
-                               time=self.time,
-                               memory=self.memory,
-                               create_time=self.create_time,
-                               details=self.details)
+        return SubmissionMixin(id=self.id, user=self.user, problem=self.problem, code=self.code, status=self.status, time=self.time, memory=self.memory, create_time=self.create_time, details=self.details)
 
-    def __init__(self,
-                 user,
-                 problem,
-                 code,
-                 status='Waiting...',
-                 time=0,
-                 memory=0,
-                 details=[]):
+    def __init__(self, user, problem, code, status='Waiting...', time=0, memory=0, details=[]):
         self.user = user
         self.problem = problem
         self.code = code

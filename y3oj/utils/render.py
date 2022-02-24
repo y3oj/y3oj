@@ -13,20 +13,15 @@ class XssHtmlParser(HTMLParser):
     # forked from https://raw.githubusercontent.com/phith0n/python-xss-filter/master/pxfilter.py
 
     allow_tags = [
-        'a', 'img', 'br', 'strong', 'b', 'code', 'pre', 'p', 'div', 'em',
-        'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'ul', 'ol',
-        'tr', 'th', 'td', 'hr', 'li', 'u', 'embed', 's', 'table', 'thead',
-        'tbody', 'caption', 'small', 'q', 'sup', 'sub'
+        'a', 'b', 's', 'p', 'q', 'br', 'img', 'code', 'pre', 'div', 'em', 'span', 'small', 'strong', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', \
+        'blockquote', 'ul', 'ol', 'tr', 'th', 'td', 'hr', 'li', 'u', 'embed', 'table', 'thead', 'tbody', 'caption', 'sup', 'sub' \
     ]
     common_attrs = ["style", "class", "name"]
     nonend_tags = ["img", "hr", "br", "embed"]
     tags_own_attrs = {
         "img": ["src", "width", "height", "alt", "align"],
         "a": ["href", "target", "rel", "title"],
-        "embed": [
-            "src", "width", "height", "type", "allowfullscreen", "loop",
-            "play", "wmode", "menu"
-        ],
+        "embed": ["src", "width", "height", "type", "allowfullscreen", "loop", "play", "wmode", "menu"],
         "table": ["border", "cellpadding", "cellspacing"],
     }
 
@@ -104,15 +99,7 @@ class XssHtmlParser(HTMLParser):
     def node_embed(self, attrs):
         attrs = self._common_attr(attrs)
         attrs = self._get_link(attrs, "src")
-        attrs = self._limit_attr(
-            attrs, {
-                "type": ["application/x-shockwave-flash"],
-                "wmode": ["transparent", "window", "opaque"],
-                "play": ["true", "false"],
-                "loop": ["true", "false"],
-                "menu": ["true", "false"],
-                "allowfullscreen": ["true", "false"]
-            })
+        attrs = self._limit_attr(attrs, {"type": ["application/x-shockwave-flash"], "wmode": ["transparent", "window", "opaque"], "play": ["true", "false"], "loop": ["true", "false"], "menu": ["true", "false"], "allowfullscreen": ["true", "false"]})
         attrs["allowscriptaccess"] = "never"
         attrs["allownetworking"] = "none"
         return attrs
@@ -168,17 +155,16 @@ class XssHtmlParser(HTMLParser):
         return attrs
 
     def _htmlspecialchars(self, html):
-        return html.replace("<", "&lt;")\
-            .replace(">", "&gt;")\
-            .replace('"', "&quot;")\
+        return html.replace("<", "&lt;") \
+            .replace(">", "&gt;") \
+            .replace('"', "&quot;") \
             .replace("'", "&#039;")
 
 
 def is_safe_url(host, target):
     ref_url = urlparse(host)
     test_url = urlparse(urljoin(host, target))
-    return test_url.scheme in ('http', 'https') and \
-        ref_url.netloc == test_url.netloc
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 
 def highlight(code):
@@ -204,12 +190,7 @@ def render_markdown(source, anti_xss=True, frontmatter=False):
         return map(render_markdown, source)
     elif not isinstance(source, str):
         raise TypeError('[y3oj] markdown source should be string')
-    html = markdown2.markdown(source,
-                              extras=[
-                                  'code-friendly', 'fenced-code-blocks',
-                                  'header-ids', 'nofollow', 'strike', 'tables',
-                                  'task_list'
-                              ])
+    html = markdown2.markdown(source, extras=['code-friendly', 'fenced-code-blocks', 'header-ids', 'nofollow', 'strike', 'tables', 'task_list'])
     html = html.replace('<table>', '<table class="mdui-table">')
     if anti_xss:
         parser = XssHtmlParser()

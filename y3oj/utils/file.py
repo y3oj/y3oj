@@ -1,8 +1,7 @@
 import os
 from os import path
 
-dirname = path.abspath(
-    path.join(path.dirname(path.abspath(__file__)), '..', '..'))
+dirname = path.abspath(path.join(path.dirname(path.abspath(__file__)), '..', '..'))
 
 
 def path_join(*args):

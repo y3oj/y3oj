@@ -61,14 +61,7 @@ class User(UserMixin, db.Model):
     def __eq__(self, other):
         return isinstance(other, User) and self.key == other.key
 
-    def __init__(self,
-                 id,
-                 key,
-                 nickname,
-                 password,
-                 realname,
-                 authority=SUBMIT_AUTHORITY,
-                 settings={}):
+    def __init__(self, id, key, nickname, password, realname, authority=SUBMIT_AUTHORITY, settings={}):
         self.id = id
         self.key = key
         self.nickname = nickname
@@ -79,6 +72,7 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %s>' % self.id
+
 
 def new_user_key():
     return db.session.query(User.key, func.max(User.key)).first()[0] + 1

@@ -12,26 +12,26 @@ def get_all_submissions():
 
 def query_problem_submissions_by_id(problem: str):  # Problem.id
     return db.session.query(Submission) \
-            .filter_by(problem=problem) \
-            .order_by(Submission.id.desc())
+             .filter_by(problem=problem) \
+             .order_by(Submission.id.desc())
 
 
 def query_problem_submissions(problem: Problem):
     return db.session.query(Submission) \
-            .filter_by(problem=problem.id) \
-            .order_by(Submission.id.desc())
+             .filter_by(problem=problem.id) \
+             .order_by(Submission.id.desc())
 
 
 def query_user_submissions_by_key(user: int):  # User.key
     return db.session.query(Submission) \
-            .filter_by(user=user) \
-            .order_by(Submission.id.desc())
+             .filter_by(user=user) \
+             .order_by(Submission.id.desc())
 
 
 def query_user_submissions(user: User):
     return db.session.query(Submission) \
-            .filter_by(user=user.key) \
-            .order_by(Submission.id.desc())
+             .filter_by(user=user.key) \
+             .order_by(Submission.id.desc())
 
 
 def judge_submission(submission: Submission):
@@ -46,9 +46,7 @@ def rejudge_submission(id: str):
 
 def submit_code(user: User, problem: Problem, code: str):
     code = code.replace('\r\n', '\n').replace('\r', '\n')
-    submission = Submission(user=int(user.key),
-                            problem=str(problem.id),
-                            code=code)
+    submission = Submission(user=int(user.key), problem=str(problem.id), code=code)
     # print('[submit-code]', user, problem, submission)
     db.session.add(submission)
     db.session.commit()

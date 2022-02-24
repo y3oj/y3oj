@@ -5,6 +5,7 @@ from y3oj import logger
 
 execfunc_logger = logger.module('execfunc')
 
+
 def execfunc(callable, *args, **kwargs):
     try:
         res = callable(*args, **kwargs)

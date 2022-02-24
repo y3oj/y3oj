@@ -7,8 +7,7 @@ from y3oj.models.user import MANAGE_AUTHORITY, ADMIN_AUTHORITY, ROOT_AUTHORITY
 from y3oj.routes.decorater import manage_authority_required, admin_authority_required, root_authority_required
 
 admin_routes = {
-    'problem':
-    dict(
+    'problem': dict(
         name='题目',
         icon='book',
         color='deep-orange',
@@ -16,8 +15,7 @@ admin_routes = {
             'reload-all': dict(name='重载题目', authority=ADMIN_AUTHORITY),
         },
     ),
-    'submission':
-    dict(
+    'submission': dict(
         name='提交记录',
         icon='storage',
         color='teal',
@@ -25,8 +23,7 @@ admin_routes = {
             'rejudge': dict(name='重测提交记录', authority=MANAGE_AUTHORITY),
         },
     ),
-    'system':
-    dict(
+    'system': dict(
         name='系统管理',
         icon='settings',
         color='blue-grey',
