@@ -12,15 +12,19 @@
   </script>
   <div class="mdui-col-sm-0 mdui-col-md-1 mdui-col-lg-2"></div>
   <div class="mdui-col-sm-12 mdui-col-md-10 mdui-col-lg-8">
-    <div class="mdui-card">
+    <div class="mdui-card user-card">
       <div class="mdui-card-media">
         {% if user.settings.background_image %}
           <img id="cover" src="{{ user.settings.background_image or 'https://memset0.cn/background.png' }}" onerror="hideProfileCover()"/>
         {% endif %}
         <div id="cover-primary" class="{{ 'mdui-card-media-covered' if user.settings.background_image }}">
           <div class="mdui-card-primary">
-            <div class="mdui-card-primary-title">{{ user.id }}</div>
-            <div class="mdui-card-primary-subtitle">{{ user.settings.summary }}</div>
+            <div class="mdui-card-primary-title user-card-id">
+              {{ user.id }}
+            </div>
+            <div class="mdui-card-primary-subtitle">
+              {{ user.settings.summary }}
+            </div>
           </div>
         </div>
       </div>

@@ -3,40 +3,64 @@
 {% extends "layout.html" %}
 
 {% block container %}
-  {{ render_submissions([submission]) }}
-
-  {% if current_user == submission.user or current_user.has_manage_authority %}
-    <div class="mdui-card mdui-m-t-3">
-      <div class="mdui-card-content mdui-typo">
-        {{ utils.highlight(submission.code) | safe }}
-      </div>
+  <div id="submission">
+    <div id="submission-card">
+      {{ render_submissions([submission]) }}
     </div>
-  {% endif %}
 
-  {% if (current_user == submission.user or current_user.has_manage_authority) and len(submission.details) %}
-    <div class="mdui-card mdui-m-t-3 y3oj-submission-details">
-      <div class="mdui-card-content mdui-typo">
-        <div class="mdui-panel" mdui-panel>
-          {% for detail in submission.details %}
-            {% set has_content = not not (detail.message) %}
-            <div class="mdui-panel-item">
-              <div class="mdui-panel-item-header">
-                <div class="mdui-panel-item-title">{{ '# ' + str(detail.id) }}</div>
-                <div class="mdui-panel-item-summary">{{ submission_status(detail.status) }}</div>
-                {% if has_content %}
-                  <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
-                {% endif %}
-              </div>
-              {% if has_content %}
-                <div class="mdui-panel-item-body mdui-typo">
-                  {% if detail.message %}
-                    <pre>{{ detail.message }}</pre>
-                  {% endif %}
-                </div>
-              {% endif %}
-            </div>
-          {% endfor %}
+    {% if current_user == submission.user or current_user.has_manage_authority %}
+      <div class="mdui-card mdui-m-t-3">
+        <div class="mdui-card-content mdui-typo">
+          {{ utils.highlight(submission.code) | safe }}
         </div>
       </div>
     {% endif %}
-  {% endblock %}
+
+    <div id="submission-details">
+      {% if (current_user == submission.user or current_user.has_manage_authority) and len(submission.details) %}
+        <div class="mdui-card mdui-m-t-3 y3oj-submission-details">
+          <div class="mdui-card-content mdui-typo">
+            <div class="mdui-panel" mdui-panel>
+              {% for detail in submission.details %}
+                {% set has_content = not not (detail.message) %}
+                <div class="mdui-panel-item">
+                  <div class="mdui-panel-item-header">
+                    <div class="mdui-panel-item-title">{{ '# ' + str(detail.id) }}</div>
+                    <div class="mdui-panel-item-summary">{{ submission_status(detail.status) }}</div>
+                    {% if has_content %}
+                      <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    {% endif %}
+                  </div>
+                  {% if has_content %}
+                    <div class="mdui-panel-item-body mdui-typo">
+                      {% if detail.message %}
+                        <pre>{{ detail.message }}</pre>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    window.$$autorefresh = {
+      elementId: [
+        'submission-card', 'submission-details',
+      ],
+      interval: 1000,
+      checker: () => {
+        const get_status = ($el) => $el.html().replace(/\<i.*?\<\/i\>/, '').trim();
+        const current_status = get_status(mdui.$('#submission-card .submission-status'));
+        return current_status == 'Waiting...';
+      }
+    };
+  </script>
+  <script src="{{ assets('/js/autorefresh.min.js') }}"></script>
+{% endblock %}

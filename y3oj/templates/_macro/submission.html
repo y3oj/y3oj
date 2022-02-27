@@ -2,37 +2,37 @@
   {% set status_name = status.split(': ')[0] %}
   {% set status_text = text or status %}
   {% if status_name == 'Accepted' %}
-    <span class="y3oj-submission-status mdui-text-color-green">
+    <span class="submission-status mdui-text-color-green">
       <i class="mdui-icon material-icons">done</i>
       {{ status_text }}
     </span>
   {% elif status_name == 'WrongAnswer' %}
-    <span class="y3oj-submission-status mdui-text-color-red">
+    <span class="submission-status mdui-text-color-red">
       <i class="mdui-icon material-icons">clear</i>
       {{ status_text }}
     </span>
   {% elif status_name == 'RuntimeError' %}
-    <span class="y3oj-submission-status mdui-text-color-purple">
+    <span class="submission-status mdui-text-color-purple">
       <i class="mdui-icon material-icons">clear_all</i>
       {{ status_text }}
     </span>
   {% elif status_name == 'TimeLimitExceeded' %}
-    <span class="y3oj-submission-status mdui-text-color-orange">
+    <span class="submission-status mdui-text-color-orange">
       <i class="mdui-icon material-icons">access_time</i>
       {{ status_text }}
     </span>
   {% elif status_name == 'MemoryLimitExceeded' %}
-    <span class="y3oj-submission-status mdui-text-color-teal">
+    <span class="submission-status mdui-text-color-teal">
       <i class="mdui-icon material-icons">memory</i>
       {{ status_text }}
     </span>
   {% elif status_name == 'SystemError' %}
-    <span class="y3oj-submission-status mdui-text-color-blue-grey">
+    <span class="submission-status mdui-text-color-blue-grey">
       <i class="mdui-icon material-icons">clear_all</i>
       {{ status_text }}
     </span>
   {% elif status_name == 'Waiting...' %}
-    <span class="y3oj-submission-status mdui-text-color-grey">
+    <span class="submission-status mdui-text-color-grey">
       <i class="mdui-icon material-icons">hourglass_empty</i>
       {{ status_text }}
     </span>

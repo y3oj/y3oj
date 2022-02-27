@@ -6,3 +6,23 @@
   {{ render_submissions.render_submissions(submissions) }}
   {% include '_partial/pagination.html' %}
 {% endblock %}
+
+
+{% block scripts %}
+  <script>
+    window.$$autorefresh = {
+      elementId: 'submissions',
+      interval: 1000,
+      checker: () => {
+        const getStatusText = (el) => mdui.$(el).html().replace(/\<i.*?\<\/i\>/, '').trim();
+        for (const $el of Array.from(mdui.$('#submissions .submission-status'))) {
+          if (getStatusText($el) == 'Waiting...') {
+            return true;
+          }
+        }
+        return false;
+      }
+    };
+  </script>
+  <script src="{{ assets('/js/autorefresh.min.js') }}"></script>
+{% endblock %}
